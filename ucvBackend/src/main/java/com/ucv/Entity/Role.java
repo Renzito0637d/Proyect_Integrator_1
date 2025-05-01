@@ -1,4 +1,4 @@
-package com.ucv.Model;
+package com.ucv.Entity;
 
 public enum Role {
     USER,

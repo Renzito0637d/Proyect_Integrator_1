@@ -6,11 +6,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ucv.Config.JwtService;
-import com.ucv.Model.AuthResponse;
-import com.ucv.Model.AuthenticationRequest;
-import com.ucv.Model.RegisterRequest;
-import com.ucv.Model.Role;
-import com.ucv.Model.User;
+import com.ucv.Controller.Model.AuthResponse;
+import com.ucv.Controller.Model.AuthenticationRequest;
+import com.ucv.Controller.Model.RegisterRequest;
+import com.ucv.Entity.Role;
+import com.ucv.Entity.User;
 import com.ucv.Repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;

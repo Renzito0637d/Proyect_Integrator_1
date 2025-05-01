@@ -1,4 +1,4 @@
-package com.ucv.Model;
+package com.ucv.Entity;
 
 import java.util.Collection;
 import java.util.List;

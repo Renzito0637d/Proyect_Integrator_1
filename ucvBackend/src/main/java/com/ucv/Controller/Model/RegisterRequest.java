@@ -1,4 +1,4 @@
-package com.ucv.Model;
+package com.ucv.Controller.Model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
