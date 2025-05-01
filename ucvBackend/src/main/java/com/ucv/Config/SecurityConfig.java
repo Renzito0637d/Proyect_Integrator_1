@@ -38,7 +38,7 @@ public class SecurityConfig {
 
     private RequestMatcher publicEndpoints() {
         return new OrRequestMatcher(
-            //new AntPathRequestMatcher("/example"),
+            new AntPathRequestMatcher("/api/ucv/publictest")
             //new AntPathRequestMatcher("/example")
         );            
     }
