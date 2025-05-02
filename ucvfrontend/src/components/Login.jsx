@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import './Login.css';
+import logoUCV from 'ucvfrontend/src/assets/ucv.jpg';
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,6 +15,10 @@ const Login = () => {
   };
 
   return (
+    <div className="login-left">
+  <img src={logoucv} alt="ucv" />
+</div>
+
     <div className="login-container">
   <h2>Iniciar Sesión</h2>
   <form onSubmit={handleSubmit}>
