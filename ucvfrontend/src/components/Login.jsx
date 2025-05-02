@@ -14,17 +14,16 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h2>Iniciar Sesión</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            type="email"
-            placeholder="Correo electrónico"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+  <h2>Iniciar Sesión</h2>
+  <form onSubmit={handleSubmit}>
+    <label>Email:</label>
+    <input type="email" ... />
+    <label>Password:</label>
+    <input type="password" ... />
+    <button type="submit">Ingresar</button>
+  </form>
+</div>
+
         <div>
           <input
             type="password"
