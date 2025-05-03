@@ -72,28 +72,29 @@ Para poder ejecutar los proyectos, se necesitan los siguientes requisitos:
 > ## :inbox_tray: Instalación
 >Para ejecutar el proyecto localmente, sigue los siguientes pasos:
 >1. Clona este repositorio:
->       ~~~bash
->       git clone https://github.com/Renzito0637d/Proyect_Integrator_1.git
->       ~
+>     ~~~bash
+>     git clone https://github.com/Renzito0637d/Proyect_Integrator_1.git
+>     ~~~
 >2. Abre el proyecto en tu entorno de desarrollo.
 > 
 >      ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 > ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
 > 
->3.Compila y ejecuta los proyectos.
-> 
->      Backend:
+>   3. Compila y ejecuta los proyectos.
+>   
+>       **Backend**:
+>
 >       ~~~bash
 >       cd Proyect_Integrator_1\ucvBackend
 >       mvn clean install
->       mvn spring-boot:run
->       ~
->       Frontend:
+>       mvn spring-boot:run         
+>       ~~~
+>       **Frontend**:
 >       ~~~bash
 >       cd Proyect_Integrator_1\ucvfrontend
 >       npm install
->       npm start
->       ~
+>       npm start         
+>       ~~~
 
 ## :clipboard: Requisitos Funcionales (RF)
 | ID  | Descripción                                                                                              | Estado            |
