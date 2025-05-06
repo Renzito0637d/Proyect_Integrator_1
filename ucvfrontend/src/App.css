@@ -12,6 +12,13 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.nav-link:hover {
+  text-decoration: underline;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
 
 .App-header {
   background-color: #282c34;
@@ -36,4 +43,3 @@
     transform: rotate(360deg);
   }
 }
-

@@ -1,15 +1,24 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import ucvImage from "../assets/ucv.jpg";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Email:", email);
     console.log("Password:", password);
+
+   
+    if (email === "admin@ucv.edu.pe" && password === "1234") {
+      navigate("/dashboard"); 
+    } else {
+      alert("Correo o contraseña incorrectos");
+    }
   };
 
   return (
