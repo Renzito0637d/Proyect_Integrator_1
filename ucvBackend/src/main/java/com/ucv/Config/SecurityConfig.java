@@ -21,9 +21,14 @@ import lombok.RequiredArgsConstructor;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    // Esta clase es la configuración de seguridad de Spring Boot. Se encarga de definir las reglas de seguridad
+    // para las rutas de la aplicación, así como la configuración del filtro JWT y el proveedor de autenticación.
+
+    // Inyección de dependencias del filtro JWT y el proveedor de autenticación
     private final JwtFilter jwtFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    // Método que configura la cadena de filtros de seguridad
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(csrf -> csrf.disable())
@@ -36,9 +41,10 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
+    // Método que define los endpoints públicos que no requieren autenticación
     private RequestMatcher publicEndpoints() {
         return new OrRequestMatcher(
-            new AntPathRequestMatcher("/api/ucv/publictest")
+            new AntPathRequestMatcher("/api/ucv/**")
             //new AntPathRequestMatcher("/example")
         );            
     }
