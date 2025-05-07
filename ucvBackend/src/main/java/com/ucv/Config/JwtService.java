@@ -17,12 +17,18 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
+    // Esta clase es un servicio que se encarga de generar y validar tokens JWT (JSON Web Tokens).
+    // Utiliza la biblioteca io.jsonwebtoken para manejar la creación y validación de los tokens.
+
+    // La clave secreta utilizada para firmar los tokens. Debe ser mantenida en secreto y no debe ser expuesta.
     private static final String SECRET_KEY= "2e48f8da20ccb954e501ae0c078a76e1b727cd7895f3f514d8da394105117578";
 
+    // Método que genera un token JWT a partir de los detalles del usuario.
     public String generateToken (UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
 
+    // Método que genera un token JWT a partir de los detalles del usuario y otros reclamos adicionales.
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder()
                 .setClaims(extraClaims)
@@ -33,15 +39,18 @@ public class JwtService {
                 .compact();
     }
 
+    // Método que verifica si un token JWT es válido.
     public String getUsername(String token) {
         return getClaim(token,Claims::getSubject);
     }
 
+    // Método que obtiene un reclamo específico del token JWT.
     public <T> T getClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
+    // Método que obtiene todos los reclamos del token JWT.
     private Claims getAllClaims(String token) {
         return Jwts
                 .parserBuilder()
@@ -51,21 +60,26 @@ public class JwtService {
                 .getBody();
     }
 
+    // Método que obtiene la clave secreta utilizada para firmar los tokens JWT.
     private Key getSignKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    // Método que valida un token JWT comparando el nombre de usuario y verificando si el token ha expirado.
     public boolean validateToken(String jwt, UserDetails userDetails) {
         final String username = getUsername(jwt);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(jwt));
     }
 
+    // Método que verifica si el token JWT ha expirado.
     private boolean isTokenExpired(String token) {
         return getExpiration(token).before(new Date());
     }
 
+    // Método que obtiene la fecha de expiración del token JWT.
     private Date getExpiration(String token) {
         return getClaim(token, Claims::getExpiration);
     }
-}
+    
+}// Fin de la clase

@@ -20,9 +20,15 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter{
+
+    // Esta clase es un filtro de seguridad que se encarga de validar el token JWT en cada solicitud HTTP
+    // que llega al servidor. Extiende de OncePerRequestFilter para asegurarse de que se ejecute una vez por solicitud.
+
+    // Inyección de dependencias del servicio de detalles de usuario y el servicio JWT
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
 
+    // Método que se ejecuta en cada solicitud HTTP
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response, 
@@ -51,4 +57,5 @@ public class JwtFilter extends OncePerRequestFilter{
         }
         filterChain.doFilter(request, response);
     }
-}
+    
+}// Fin de la clase
