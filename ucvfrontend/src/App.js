@@ -10,18 +10,25 @@ import Informe from './pages/Informe';
 import Departamento from './pages/Departamento';
 import Personal from './pages/Personal';
 import AsignarPersonal from './pages/AsignarPersonal';
-
+import PrivateRoute from './components/PrivateRoute';
+import Registro from './components/Registro';
 
 // Páginas internas del dashboard (puedes crear archivos reales luego)
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Página de inicio: Login */}
+      <Route path="/registro" element={<Registro />} />
         <Route path="/" element={<Login />} />
 
-        {/* Rutas protegidas del dashboard */}
-        <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <DashboardLayout />
+            </PrivateRoute>
+          }
+        >
           <Route index element={<Dashboard />} />
           <Route path="incidencias" element={<Incidencias />} />
           <Route path="categoria" element={<Categoria />} />
