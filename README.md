@@ -1,6 +1,8 @@
 # WEB APP FOR MANAGING IT INCIDENTS AT CÉSAR VALLEJO UNIVERSITY LIMA NORTE <img src="https://mentor.pe/wp-content/uploads/2023/11/UCV.png" width=22px height=25px>
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=reactlogoColor=%2361DAFB)  ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)  ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)  ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)  ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)  
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)  ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)  ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)  ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)  ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)  
 ---
+
+**Do you want to read it in Spanish?** Clic [here](https://github.com/Renzito0637d/Proyect_Integrator_1/blob/main/README.ES.md)
 
 This project aims to develop a web application for managing IT incidents, tracking them, and providing reports on how each was resolved.
 
