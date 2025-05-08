@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import DashboardLayout from './components/DashboardLayout';
-import './App.css';
+import './styles/App.css';
 import Dashboard from './pages/Dashboard';
 import Incidencias from './pages/Incidencias';
 import Categoria from './pages/Categoria';
@@ -14,7 +14,6 @@ import PrivateRoute from './components/PrivateRoute';
 import Registro from './components/Registro';
 
 // Páginas internas del dashboard (puedes crear archivos reales luego)
-
 function App() {
   return (
     <Router>

@@ -20,19 +20,28 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 
+    // Inyeccion de la clase AuthService
     @Autowired
     private AuthService authService;
 
+    // Método que maneja la solicitud HTTP POST para el registro de un nuevo usuario.
+    // Recibe los datos de registro a través del cuerpo de la solicitud (RegisterRequest) 
+    // y devuelve una respuesta con un objeto AuthResponse que contiene la información de autenticación.
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));
     }
 
+    // Método que maneja la solicitud HTTP POST para autenticar a un usuario.
+    // Recibe las credenciales de autenticación a través del cuerpo de la solicitud (AuthenticationRequest) 
+    // y devuelve una respuesta con un objeto AuthResponse que contiene el token o la información de la sesión.
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse>  authenticate(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(authService.authenticate(request));
     }
 
+    // Método que maneja una solicitud HTTP GET para realizar una prueba pública.
+    // No requiere ningún parámetro y simplemente devuelve un mensaje de texto indicando que es una prueba pública.
     @GetMapping("/publictest")
     public String publicTest() {
         return "Public Test";

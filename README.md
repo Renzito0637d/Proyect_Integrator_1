@@ -1,229 +1,228 @@
-# APP WEB PARA EL MANEJO DE INCIDENCIAS INFORMÁTICAS EN LA UNIVERSIDAD CÉSAR VALLEJO LIMA NORTE <img src="https://mentor.pe/wp-content/uploads/2023/11/UCV.png" width=22px height=25px>
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
-![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
-![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
-![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
-![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+# WEB APP FOR MANAGING IT INCIDENTS FOR CÉSAR VALLEJO UNIVERSITY LIMA NORTE <img src="https://mentor.pe/wp-content/uploads/2023/11/UCV.png" width=22px height=25px>
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)  ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)  ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)  ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)  ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)  
 ---
 
-Este proyecto tiene como objetivo desarrollar una aplicación web para el mantenimiento de los incidencias informaticas, hacer un seguimito de estas para luego dar un informe de como se pudo atender la incidencia.
+**Do you want to read it in Spanish?** Clic [here](https://github.com/Renzito0637d/Proyect_Integrator_1/blob/main/README.ES.md)
 
-## 🛠️ Características del Proyecto
+This project aims to develop a web application for managing IT incidents, tracking them, and providing reports on how each was resolved.
 
-- :computer: *Backend y Frontend estan mismo repositorio*  
-  Proyecto integral con backend en Spring Boot (Java) y frontend en React.
+## 🛠️ Project Features
 
-- :gear: *Arquitectura RESTful con Spring Boot*  
-  Uso de controladores, servicios y repositorios para una estructura limpia y escalable.
+- :computer: *Backend and Frontend in the same repository*  
+  Full-stack project with Spring Boot (Java) backend and React frontend.
 
-- :floppy_disk: *Base de datos relacional*  
-  Gestión de usuarios, incidencias y su historial mediante MySQL.
+- :gear: *RESTful Architecture with Spring Boot*  
+  Use of controllers, services, and repositories for a clean and scalable structure.
 
-- :lock: *Sistema de autenticación*  
-  Inicio de sesión para estudiantes utilizando email y contraseña.
+- :floppy_disk: *Relational database*  
+  User, incident, and history management using MySQL.
 
-- :bug: *Gestión de incidencias informáticas*  
-  Registro de incidencias por parte de los usuarios.  
-  Asignación de técnicos responsables.  
-  Cambios de estado: En espera, En trámite, Finalizado.
+- :lock: *Authentication system*  
+  Login functionality for students using email and password.
 
-- :technologist: *Gestión de personal técnico*  
-  Control y asignación de técnicos del área de soporte y sistemas.
+- :bug: *IT incident management*  
+  Users can report incidents.  
+  Responsible technicians can be assigned.  
+  Status transitions: Pending, In Progress, Resolved.
 
-- :chart_with_upwards_trend: *Seguimiento de estado y trazabilidad*  
-  Historial completo de atención por incidencia.  
-  Visualización de avances en tiempo real.
+- :technologist: *Technical staff management*  
+  Manage and assign support and system area technicians.
 
-- :package: *Estructura modular y mantenible*  
-  Separación por capas: Modelo, Repositorio, Servicio, Controlador (backend).  
-  Organización clara de carpetas para el frontend en React.
+- :chart_with_upwards_trend: *Status tracking and traceability*  
+  Full incident history.  
+  Real-time progress visualization.
 
+- :package: *Modular and maintainable structure*  
+  Layered backend: Model, Repository, Service, Controller.  
+  Clearly organized folder structure for the React frontend.
 
-## :gear: Requisitos del sistema
+## :gear: System Requirements
 
-Para poder ejecutar los proyectos, se necesitan los siguientes requisitos:
+To run the project, you need the following:
+
 - :wrench: Backend:
-    - Java JDK 24 o modificar el [pom.xml](https://github.com/Renzito0637d/Proyect_Integrator_1/blob/main/ucvBackend/pom.xml#L30 "Aqui podras ver en donde modificar la version de tu JAVA") segun tus necesidades
+    - Java JDK 24 or modify the [pom.xml](https://github.com/Renzito0637d/Proyect_Integrator_1/blob/main/ucvBackend/pom.xml#L30 "Modify the Java version here") to suit your version
     - Maven 3.8+
-    - Base de datos MySQL 8+
+    - MySQL Database 8+
     - Spring Boot 3.x
-    - Postman (opcional, para pruebas de API)
-    - IDE recomendadas:
+    - Postman (optional, for API testing)
+    - Recommended IDEs:
         - IntelliJ IDEA
         - Spring Tools Suite
 - :globe_with_meridians: Frontend:
     - Node.js 18+
-    - npm o yarn
-    - Framework React 18+
-    - Editor recomendado:
+    - npm or yarn
+    - React 18+ Framework
+    - Recommended editor:
         - Visual Studio Code
-- :computer: Entorno de Desarrollo:
-    - Sistema operativo:
+- :computer: Development Environment:
+    - Operating System:
         - Windows 10/11
         - Linux
         - macOS
-    - Navegadores web modernos:
+    - Modern web browsers:
         - Chrome
         - Firefox
         - Edge
 
-> [!NOTE] 
-> ## :inbox_tray: Instalación
->Para ejecutar el proyecto localmente, sigue los siguientes pasos:
->1. Clona este repositorio:
+> [!NOTE]  
+> ## :inbox_tray: Installation  
+> To run the project locally, follow these steps:  
+> 1. Clone this repository:
 >     ~~~bash
 >     git clone https://github.com/Renzito0637d/Proyect_Integrator_1.git
 >     ~~~
->2. Abre el proyecto en tu entorno de desarrollo.
-> 
->      ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
-> ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
-> 
->   3. Compila y ejecuta los proyectos.
->   
->       **Backend**:
+> 2. Open the project in your development environment.
 >
->       ~~~bash
->       cd Proyect_Integrator_1\ucvBackend
->       mvn clean install
->       mvn spring-boot:run         
->       ~~~
->       **Frontend**:
->       ~~~bash
->       cd Proyect_Integrator_1\ucvfrontend
->       npm install
->       npm start         
->       ~~~
+>     ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)  
+>     ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
+>
+> 3. Build and run the projects.
+>
+>     **Backend**:
+>     ~~~bash
+>     cd Proyect_Integrator_1\ucvBackend
+>     mvn clean install
+>     mvn spring-boot:run         
+>     ~~~
+>
+>     **Frontend**:
+>     ~~~bash
+>     cd Proyect_Integrator_1\ucvfrontend
+>     npm install
+>     npm start         
+>     ~~~
 
-## :clipboard: Requisitos Funcionales (RF)
-| ID  | Descripción                                                                                              | Estado            |
-|-----|----------------------------------------------------------------------------------------------------------|-------------------|
-| RF1 | El aplicativo permite el acceso a los recursos mediante un login                                         | ✔️      |
-| RF2 | El aplicativo debe permitir la navegabilidad de los formularios mediante un menú                         | :hourglass_flowing_sand:   |
-| RF3 | El aplicativo permite el registro de tipos de incidencias informáticas y realizar el mantenimiento correspondiente | :hourglass_flowing_sand: |
-| RF4 | El aplicativo permite el registro de los empleados de la empresa y realizar el mantenimiento correspondiente | :hourglass_flowing_sand: |
-| RF5 | El aplicativo permite el registro de áreas y realizar el mantenimiento correspondiente                   | :hourglass_flowing_sand:     |
-| RF6 | El aplicativo permite el registro de una incidencia informática y realizar el mantenimiento correspondiente | :hourglass_flowing_sand:     |
-| RF7 | El aplicativo permite asignar a un personal para la solución de la incidencia informática                 | :hourglass_flowing_sand:   |
-| RF8 | El aplicativo permite al empleado registrar los detalles de la solución y observaciones de la incidencia solucionada | :hourglass_flowing_sand:|
-| RF9 | El aplicativo permite realizar el seguimiento de la incidencia visualizando su estado: En proceso, Atendido, Derivado | :hourglass_flowing_sand:        |
-| RF10| El aplicativo permite visualizar la lista de incidencias por rango de fechas                             | :hourglass_flowing_sand:         |
+## :clipboard: Functional Requirements (FR)
 
-*Leyenda:*
-- :heavy_check_mark: Completado
-- :arrows_counterclockwise: En desarrollo
-- :hourglass_flowing_sand: En espera
-## :mag_right: Tecnologías Usadas
+| ID  | Description                                                                                          | Status            |
+|-----|------------------------------------------------------------------------------------------------------|-------------------|
+| FR1 | The app allows access to resources through a login                                                   | ✔️                |
+| FR2 | The app should allow navigation between forms via a menu                                             | :hourglass_flowing_sand: |
+| FR3 | The app allows registration of IT incident types and their corresponding management                  | :hourglass_flowing_sand: |
+| FR4 | The app allows registration of employees and their corresponding management                          | :hourglass_flowing_sand: |
+| FR5 | The app allows registration of departments and their corresponding management                        | :hourglass_flowing_sand: |
+| FR6 | The app allows registration of IT incidents and their corresponding management                       | :hourglass_flowing_sand: |
+| FR7 | The app allows assigning a staff member to resolve an IT incident                                    | :hourglass_flowing_sand: |
+| FR8 | The app allows employees to register solution details and observations on resolved incidents         | :hourglass_flowing_sand: |
+| FR9 | The app allows tracking the status of an incident: In Progress, Resolved, Referred                   | :hourglass_flowing_sand: |
+| FR10| The app allows viewing the list of incidents filtered by date range                                  | :hourglass_flowing_sand: |
+
+*Legend:*
+- :heavy_check_mark: Completed  
+- :arrows_counterclockwise: In development  
+- :hourglass_flowing_sand: Pending  
+
+## :mag_right: Technologies Used
 
 - *Backend*:
     - Spring Boot
-    - Maven
-        - *Dependencias*: 
-            - Spring security
-            - Spring web
+    - Maven  
+        - *Dependencies*:
+            - Spring Security
+            - Spring Web
             - MySQL Driver
             - Lombok
             - All Jwt
 - *Frontend*:
     - React
-    - Bootstrap
-        - *Dependencias*:
+    - Bootstrap  
+        - *Dependencies*:
             - axios
             - react-dom
             - react-scripts
             - web-vitals
 
-- *Base de datos*:
+- *Database*:
     - MySQL
 
-## Diagrama de clases
+## Class Diagram
 
 ```mermaid
 classDiagram
-    class Incidencia {
+    class Incident {
         - Id : int
-        - usuarioRegistrador : String
-        - descripcion : String
-        - departamento : Departamento
+        - registeredByUser : String
+        - description : String
+        - department : Department
         - area : String
-        - fechaRegistrada : LocalDateTime
-        - categoria : Categoria
-        - fechaIncidencia : LocalDate
-        - prioridad : String
-        + crearIncidencia() Incidencia
-        + listarIncidencias() void
+        - registeredDate : LocalDateTime
+        - category : Category
+        - incidentDate : LocalDate
+        - priority : String
+        + createIncident() Incident
+        + listIncidents() void
     }
 
-    class Usuario{
+    class User {
         - Id : int
-        - nombres : String
-        - apellidos : String
-        - correo : String
-        - telefono : String
-        - nombreUsuario : String
-        - contraseña : String
-        - rol: number
-        - cargo : String
-        + agregarUsuarios () Usuario
-        + reselecionarCargo() Usuario
+        - firstName : String
+        - lastName : String
+        - email : String
+        - phone : String
+        - username : String
+        - password : String
+        - role : number
+        - position : String
+        + addUsers() User
+        + reselectPosition() User
     }
 
-    class Departamento{
+    class Department {
         + Id : int
-        + usuarioRegistrador : String
-        + nombre : String
-        + pabellon : String
-        + piso : int
-        + salon : String
-        + fechaRegistrada : LocalDateTime
-        + ambiente : String
-        + agregarDepa() Departamento
-        + actualizarDepa() Departamento
-        + eliminarDepa() Departamento
+        + registeredByUser : String
+        + name : String
+        + building : String
+        + floor : int
+        + room : String
+        + registeredDate : LocalDateTime
+        + environment : String
+        + addDepartment() Department
+        + updateDepartment() Department
+        + deleteDepartment() Department
     }
 
-    class Categoria {
+    class Category {
         + Id : int
-        + tipo : String
-        + nivelPrioridad : String
-        + categoria : String
-        + descripcion : String
-        + fechaRegistrada : LocalDateTime
-        + crearTipo() void
-        + ConfigurarCategoria() void
+        + type : String
+        + priorityLevel : String
+        + category : String
+        + description : String
+        + registeredDate : LocalDateTime
+        + createType() void
+        + configureCategory() void
     }
 
-    class AsignarPersonal {
+    class AssignStaff {
         - Id : int
-        - idIncidencia : Incidencia
-        - fechaRegistrada : LocalDateTime
-        - usuarioAsignador : String
-        - personal : Personal
-        - fechaSolucion : LocalDate
-        - estado : String
-        - descripcion : String
-        + selecionarIncidencia() void
-        + actualizarEstado() void
+        - incidentId : Incident
+        - assignedDate : LocalDateTime
+        - assignedByUser : String
+        - staff : Staff
+        - resolutionDate : LocalDate
+        - status : String
+        - description : String
+        + selectIncident() void
+        + updateStatus() void
     }
 
-    class Informe{
+    class Report {
         - Id : int
-        - idIncidencia : Incidencia
-        - acciones : String
-        - estado : String
-        - fechaResolucion : LocalDate
-        - personal : Personal
-        - descripcion : String
-        + crearInforme() void
-        + modificarInforme() void
+        - incidentId : Incident
+        - actions : String
+        - status : String
+        - resolutionDate : LocalDate
+        - staff : Staff
+        - description : String
+        + createReport() void
+        + updateReport() void
     }
 
-    Categoria "1..*" -->  Incidencia
-    Departamento --> "1..*" Incidencia
-    Usuario --> "1..1" Incidencia
-    Incidencia --> "1..1" AsignarPersonal
-    AsignarPersonal --> "1..1" Informe
-    Usuario --> "1..1" AsignarPersonal
+    Category "1..*" --> Incident
+    Department --> "1..*" Incident
+    User --> "1..1" Incident
+    Incident --> "1..1" AssignStaff
+    AssignStaff --> "1..1" Report
+    User --> "1..1" AssignStaff
 
 ```
