@@ -83,17 +83,25 @@ Para poder ejecutar los proyectos, se necesitan los siguientes requisitos:
 >   3. Compila y ejecuta los proyectos.
 >   
 >       **Backend**:
->
 >       ~~~bash
 >       cd Proyect_Integrator_1\ucvBackend
 >       mvn clean install
 >       mvn spring-boot:run         
 >       ~~~
+>
 >       **Frontend**:
 >       ~~~bash
 >       cd Proyect_Integrator_1\ucvfrontend
 >       npm install
 >       npm start         
+>       ~~~
+>
+>       **Base de datos**:
+>
+>       Ejecutar el [script](https://github.com/Renzito0637d/Proyect_Integrator_1/blob/main/script_db.sql "Script de la base de datos")  en MySQL Workbench
+>       ~~~bash
+>       create DATABASE ucvincidencia;
+>       use ucvincidencia;         
 >       ~~~
 
 ## :clipboard: Requisitos Funcionales (RF)

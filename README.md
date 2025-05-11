@@ -92,6 +92,14 @@ To run the project, you need the following:
 >     npm install
 >     npm start         
 >     ~~~
+>
+>       **Data base**:
+>
+>       Run the [script](https://github.com/Renzito0637d/Proyect_Integrator_1/blob/main/script_db.sql "Database script")  in MySQL Workbench
+>       ~~~bash
+>       create DATABASE ucvincidencia;
+>       use ucvincidencia;         
+>       ~~~
 
 ## :clipboard: Functional Requirements (FR)
 
