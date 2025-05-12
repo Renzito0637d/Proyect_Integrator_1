@@ -95,7 +95,7 @@ To run the project, you need the following:
 >
 >       **Data base**:
 >
->       Run the [script](https://github.com/Renzito0637d/Proyect_Integrator_1/blob/main/script_db.sql "Database script")  in MySQL Workbench
+>       Run the [script](https://github.com/Renzito0637d/Proyect_Integrator_1/blob/main/script_db.sql "Database script")  in MySQL Workbench, **If there is no connection to the database, configure [app properties](https://github.com/Renzito0637d/Proyect_Integrator_1/blob/main/ucvBackend/src/main/resources/application.properties "In this project file you can configure the MySQL database connection") you must configure the DB _url_, _username_ and _password_**.
 >       ~~~bash
 >       create DATABASE ucvincidencia;
 >       use ucvincidencia;         
