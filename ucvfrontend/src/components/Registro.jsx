@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import ucvImage from "../assets/ucv.jpg"; // asegúrate que exista esta imagen
-import "./Registro.css";
+import "../styles/Registro.css";
 
 const Registro = () => {
   const navigate = useNavigate();

@@ -1,4 +1,6 @@
-body, html, #root {
+body,
+html,
+#root {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -24,7 +26,8 @@ body, html, #root {
 /* Contenedor de login */
 .login-container {
   width: 50%;
-  background-color: #e0f2ff; /* Celeste claro */
+  background-color: #e0f2ff;
+  /* Celeste claro */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -88,4 +91,3 @@ body, html, #root {
 .login-container button:hover {
   background-color: #0056b3;
 }
-
