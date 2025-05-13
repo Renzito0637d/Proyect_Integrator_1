@@ -10,7 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // Hook para la navegación react-router-dom
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   // Función para manejar el envío del formulario
   const handleSubmit = async (e) => {
@@ -37,8 +37,8 @@ const Login = () => {
       localStorage.setItem("token", response.data.token); // Guarda el token JWT en localStorage
       // Alerta de éxito
       alert("Login exitoso");
-      
-      navigate("/dashboard"); 
+
+      navigate("/dashboard");
     } catch (error) {
       // Manejo de errores
       if (error.response) {
@@ -64,7 +64,7 @@ const Login = () => {
 
       <div className="login-container">
         <h2 className="login-title">Iniciar Sesión</h2>
-        
+
         <form onSubmit={handleSubmit}>
 
           <div>
@@ -76,7 +76,7 @@ const Login = () => {
               required
             />
           </div>
-          
+
           <div>
             <input
               type="password"
@@ -88,7 +88,7 @@ const Login = () => {
           </div>
 
           <button type="submit">Ingresar</button>
-          
+
         </form>
       </div>
     </div>
