@@ -36,22 +36,22 @@ const DashboardLayout = () => {
             <Link className="nav-link text-white" style={{ fontSize: '1.1rem' }} to="/dashboard">Dashboard</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-white" style={{ fontSize: '1.1rem' }} to="/dashboard/incidencias">Incidencias</Link>
+            <Link className="nav-link text-white" style={{ fontSize: '1.1rem' }} to="/dashboard/incident">Incidencias</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-white" style={{ fontSize: '1.1rem' }} to="/dashboard/categoria">Categoría</Link>
+            <Link className="nav-link text-white" style={{ fontSize: '1.1rem' }} to="/dashboard/category">Categoría</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-white" style={{ fontSize: '1.1rem' }} to="/dashboard/informe">Informe</Link>
+            <Link className="nav-link text-white" style={{ fontSize: '1.1rem' }} to="/dashboard/report">Informe</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-white" style={{ fontSize: '1.1rem' }} to="/dashboard/departamento">Departamento</Link>
+            <Link className="nav-link text-white" style={{ fontSize: '1.1rem' }} to="/dashboard/department">Departamento</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-white" style={{ fontSize: '1.1rem' }} to="/dashboard/personal">Personal</Link>
+            <Link className="nav-link text-white" style={{ fontSize: '1.1rem' }} to="/dashboard/staff">Personal</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link text-white" style={{ fontSize: '1.1rem' }} to="/dashboard/asignar-personal">Asignar personal</Link>
+            <Link className="nav-link text-white" style={{ fontSize: '1.1rem' }} to="/dashboard/assignStaff">Asignar personal</Link>
           </li>
         </ul>
       </div>
