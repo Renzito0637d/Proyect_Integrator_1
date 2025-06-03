@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/DashboardLayout.css'; // Asegúrate de tener este archivo CSS
-import ucvLogo from '../assets/logoucv.png';
-import defaultUser from '../assets/logousuario.png'; // Icono predeterminado (debes agregar este)
+import './DashboardLayout.css'; // Asegúrate de tener este archivo CSS
+import ucvLogo from '../../assets/logoucv.png';
+import defaultUser from '../../assets/logousuario.png'; // Icono predeterminado (debes agregar este)
 
 // Componente de diseño del panel de control
 const DashboardLayout = () => {
