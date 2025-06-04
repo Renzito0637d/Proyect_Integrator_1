@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Incidencias = () => {
+const Incident = () => {
   return <h2>Gestión de Incidencias</h2>;
 };
 
-export default Incidencias;
+export default Incident;
