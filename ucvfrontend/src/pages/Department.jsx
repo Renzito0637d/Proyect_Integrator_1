@@ -1,7 +1,14 @@
 import React from 'react';
+import DeparmentFrom from '../components/Deparment/DeparmentFrom/DeparmentFrom';
+import DeparmentTable from '../components/Deparment/DeparmentTablet/DeparmentTable';
 
 const Departamento = () => {
-  return <h2>Gestión de Departamentos</h2>;
+  return (
+    <>
+      <DeparmentFrom/>
+      <DeparmentTable/>
+    </>
+  );
 };
 
 export default Departamento;
