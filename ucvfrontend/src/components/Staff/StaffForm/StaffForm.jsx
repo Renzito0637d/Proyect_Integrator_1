@@ -6,7 +6,7 @@ function StaffForm() {
         <>
             <fieldset className="p-3 bg-light rounded border">
                 <legend className="fw-bold">Registro de personal</legend>
-                <div className='row col-md-12'>
+                <div className='row col-md-12 mb-2'>
 
                     <div className="col-md-3 d-grid gap-2 mb-2">
                         <div>
@@ -54,11 +54,20 @@ function StaffForm() {
                             <input type="text" className="form-control" placeholder="Ingrese la contraseña del personal" />
                         </div>
                         <div className='d-flex justify-content-end gap-3 mt-4'>
-                            <button type="button" class="btn btn-secondary">Secondary</button>
+                            <button type="button" class="btn btn-secondary">Autogenerar</button>
                         </div>
                     </div>
                 </div>
+                <div>
+                    <div className='d-flex justify-content-start gap-4 flex-wrap'>
+                        <button className="btn btn-danger">Registrar</button>
+                        <button className="btn btn-primary">Consultar</button>
+                        <button className="btn btn-secondary">Actualizar</button>
+                        <button className="btn btn-warning">Eliminar</button>
+                    </div>
+                </div>
             </fieldset>
+            <hr className="border border-danger border-2 opacity-75" />
         </>
     );
 }
