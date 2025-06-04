@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import '../styles/login.css'; // Asegúrate de tener este archivo CSS
-import ucvImage from "../assets/ucv.jpg";
+import './login.css'; // Asegúrate de tener este archivo CSS
+import ucvImage from "../../assets/ucv.jpg";
 
 // Componente de inicio de sesión
 const Login = () => {
