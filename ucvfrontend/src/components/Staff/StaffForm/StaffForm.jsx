@@ -50,8 +50,8 @@ function StaffForm() {
                     </div>
                     <div className="col-md-3 d-grid gap-2 mb-2">
                         <div>
-                            <label className="fw-medium">Contraseña</label>
-                            <input type="text" className="form-control" placeholder="Ingrese la contraseña del personal" />
+                            <label className="fw-medium">Usuario</label>
+                            <input type="text" className="form-control" placeholder="Ingrese el usuario del personal o generelo" />
                         </div>
                         <div className='d-flex justify-content-end gap-3 mt-4'>
                             <button type="button" class="btn btn-secondary">Autogenerar</button>
