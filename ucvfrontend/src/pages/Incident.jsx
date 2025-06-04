@@ -1,7 +1,14 @@
 import React from 'react';
+import IncidentForm from '../components/Incident/IncidentForm/IncidentForm.jsx';
+import IncidentTable from '../components/Incident/IncidentTable/IncidentTable.jsx';
 
 const Incident = () => {
-  return <h2>Gestión de Incidencias</h2>;
+  return(
+    <>
+      <IncidentForm />
+      <IncidentTable/>
+    </>
+  );
 };
 
 export default Incident;
