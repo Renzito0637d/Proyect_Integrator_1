@@ -1,24 +1,22 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login';
-import DashboardLayout from './components/DashboardLayout';
+import Login from './components/Login/Login';
+import DashboardLayout from './components/DashboardLayout/DashboardLayout';
 import './styles/App.css';
 import Dashboard from './pages/Dashboard';
-import Incidencias from './pages/Incidencias';
-import Categoria from './pages/Categoria';
-import Informe from './pages/Informe';
-import Departamento from './pages/Departamento';
-import Personal from './pages/Personal';
-import AsignarPersonal from './pages/AsignarPersonal';
+import Incident from './pages/Incident';
+import Category from './pages/Category';
+import Report from './pages/Report';
+import Department from './pages/Department';
+import Staff from './pages/Staff';
+import AssignStaff from './pages/AssignStaff';
 import PrivateRoute from './components/PrivateRoute';
-import Registro from './components/Registro';
 
 // Páginas internas del dashboard (puedes crear archivos reales luego)
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/registro" element={<Registro />} />
+      <Routes>        
         <Route path="/" element={<Login />} />
 
         <Route
@@ -30,12 +28,12 @@ function App() {
           }
         >
           <Route index element={<Dashboard />} />
-          <Route path="incidencias" element={<Incidencias />} />
-          <Route path="categoria" element={<Categoria />} />
-          <Route path="informe" element={<Informe />} />
-          <Route path="departamento" element={<Departamento />} />
-          <Route path="personal" element={<Personal />} />
-          <Route path="asignar-personal" element={<AsignarPersonal />} />
+          <Route path="incident" element={<Incident />} />
+          <Route path="category" element={<Category />} />
+          <Route path="report" element={<Report />} />
+          <Route path="department" element={<Department />} />
+          <Route path="staff" element={<Staff />} />
+          <Route path="assignStaff" element={<AssignStaff />} />
         </Route>
       </Routes>
     </Router>
