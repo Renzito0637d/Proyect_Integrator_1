@@ -1,7 +1,14 @@
 import React from 'react';
+import StaffForm from '../components/Staff/StaffForm/StaffForm';
+import StaffTable from '../components/Staff/StaffTable/StaffTable';
 
 const Personal = () => {
-  return <h2>Gestión de Personal</h2>;
+  return(
+    <>
+      <StaffForm/>
+      <StaffTable/>
+    </>
+  );
 };
 
 export default Personal;
