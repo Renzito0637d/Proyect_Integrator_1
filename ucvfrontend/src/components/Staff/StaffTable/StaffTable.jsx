@@ -1,4 +1,15 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
 function StaffTable() {
+    const [staffList, setStaffList] = useState([]);
+
+    useEffect(() => {
+        axios.post("http://localhost:8080/api/ucv/staffList")
+            .then(response => setStaffList(response.data))
+            .catch(error => console.error(error));
+    }, []);
+
     return (
         <>
             <div className="d-flex bg-light p-3 rounded border col-12">
@@ -17,16 +28,18 @@ function StaffTable() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Juan</td>
-                                <td>Pérez</td>
-                                <td>juan@asd.es</td>
-                                <td>987654321</td>
-                                <td>juanperez</td>
-                                <td>123456</td>
-                                <td>Administrador de sistemas</td>
-                            </tr>
+                            {staffList.map((staff) => (
+                                <tr key={staff.id}>
+                                    <td>{staff.id}</td>
+                                    <td>{staff.firstname}</td>
+                                    <td>{staff.lastname}</td>
+                                    <td>{staff.email}</td>
+                                    <td>{staff.phone}</td>
+                                    <td>{staff.username}</td>
+                                    <td>{staff.password}</td>
+                                    <td>{staff.role}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
@@ -42,7 +55,6 @@ function StaffTable() {
                     <button className="btn btn-primary w-100">Ordenar</button>
                 </div>
             </div>
-
         </>
     );
 }
