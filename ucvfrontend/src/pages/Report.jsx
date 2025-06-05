@@ -1,7 +1,7 @@
 import React from 'react';
 import ReportFrom from '../components/Report/ReportForm/ReportFrom';
 import ReportTable from '../components/Report/ReportTable/ReportTable';
-const Informe = () => {
+const Report = () => {
   return(
     <>      
       <ReportFrom />
@@ -10,4 +10,4 @@ const Informe = () => {
   );
 };
 
-export default Informe;
+export default Report;

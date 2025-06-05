@@ -2,7 +2,7 @@ import React from 'react';
 import StaffForm from '../components/Staff/StaffForm/StaffForm';
 import StaffTable from '../components/Staff/StaffTable/StaffTable';
 
-const Personal = () => {
+const Staff = () => {
   return(
     <>
       <StaffForm/>
@@ -11,4 +11,4 @@ const Personal = () => {
   );
 };
 
-export default Personal;
+export default Staff;
