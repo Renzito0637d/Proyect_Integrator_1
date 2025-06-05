@@ -1,7 +1,15 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import CategoryForm from '../components/Category/CategoryForm/CategoryForm';
+import CategoryTable from '../components/Category/CategoryTable/CategoryTable';
 
 const Categoria = () => {
-  return <h2>Gestión de Categorías</h2>;
+  return (
+    <>
+      <CategoryForm/>
+      <CategoryTable/>
+    </>
+  );
 };
 
 export default Categoria;
