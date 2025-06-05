@@ -79,7 +79,7 @@ const DashboardLayout = () => {
           <button className="btn btn-outline-secondary btn-sm ms-3">Cerrar sesión</button>
         </div>
 
-        <div className="p-3">
+        <div className="container p-3">
           <Outlet />
         </div>
       </div>
