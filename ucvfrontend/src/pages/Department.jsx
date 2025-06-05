@@ -2,7 +2,7 @@ import React from 'react';
 import DeparmentFrom from '../components/Deparment/DeparmentFrom/DeparmentFrom';
 import DeparmentTable from '../components/Deparment/DeparmentTablet/DeparmentTable';
 
-const Departamento = () => {
+const Department = () => {
   return (
     <>
       <DeparmentFrom/>
@@ -11,4 +11,4 @@ const Departamento = () => {
   );
 };
 
-export default Departamento;
+export default Department;

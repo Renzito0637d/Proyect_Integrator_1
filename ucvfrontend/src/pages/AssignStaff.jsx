@@ -1,7 +1,7 @@
 import React from 'react';
 
-const AsignarPersonal = () => {
+const AssignStaff = () => {
   return <h2>Asignación de Personal</h2>;
 };
 
-export default AsignarPersonal;
+export default AssignStaff;

@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import CategoryForm from '../components/Category/CategoryForm/CategoryForm';
 import CategoryTable from '../components/Category/CategoryTable/CategoryTable';
 
-const Categoria = () => {
+const Category = () => {
   return (
     <>
       <CategoryForm/>
@@ -12,4 +12,4 @@ const Categoria = () => {
   );
 };
 
-export default Categoria;
+export default Category;
