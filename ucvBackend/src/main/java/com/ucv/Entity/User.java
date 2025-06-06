@@ -48,6 +48,8 @@ public class User implements UserDetails{
     // Se utiliza un enumerador (enum) para definir los diferentes roles disponibles.
     @Enumerated(EnumType.ORDINAL)
     private Role role;
+    
+    private String cargo;
 
     // Este campo indica si el usuario ha confirmado su cuenta o no.
     @Override
