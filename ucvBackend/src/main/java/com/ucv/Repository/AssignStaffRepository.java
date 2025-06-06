@@ -1,6 +1,11 @@
 package com.ucv.Repository;
 
-public interface AssignStaffRepository {
+import com.ucv.Entity.AssignStaff;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface AssignStaffRepository extends JpaRepository<AssignStaff,Long> {
 
     
 }
