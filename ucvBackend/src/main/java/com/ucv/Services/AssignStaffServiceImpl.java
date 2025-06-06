@@ -3,9 +3,11 @@ package com.ucv.Services;
 import com.ucv.DAO.AssignStaffDAO;
 import com.ucv.Entity.AssignStaff;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AssignStaffServiceImpl implements AssignStaffService{
 
     @Autowired

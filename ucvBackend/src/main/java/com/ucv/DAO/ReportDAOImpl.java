@@ -3,10 +3,12 @@ package com.ucv.DAO;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.ucv.Entity.Report;
 import com.ucv.Repository.ReportRepository;
 
+@Repository
 public class ReportDAOImpl implements ReportDAO{
 
     @Autowired

@@ -3,10 +3,12 @@ package com.ucv.DAO;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.ucv.Entity.Category;
 import com.ucv.Repository.CategoryRepository;
 
+@Repository
 public class CategoryDAOImpl implements CategoryDAO{
 
     @Autowired
