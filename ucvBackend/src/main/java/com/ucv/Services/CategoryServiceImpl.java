@@ -1,33 +1,38 @@
 package com.ucv.Services;
 
+import com.ucv.DAO.CategoryDAO;
 import com.ucv.Entity.Category;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class CategoryServiceImpl implements CategoryService {
 
+    @Autowired
+    private CategoryDAO categoryDAO;
     @Override
     public List<Category> getAll() {
-        return List.of();
+        return categoryDAO.getAll();
     }
 
     @Override
-    public Category get(Long id) {
-        return null;
+    public Category getById(Long id) {
+        return categoryDAO.getById(id);
     }
 
     @Override
     public void save(Category employee) {
-
+        categoryDAO.save(employee);
     }
 
     @Override
     public void update(Category employee) {
-
+        categoryDAO.save(employee);
     }
 
     @Override
     public void delete(Long id) {
-
+        categoryDAO.delete(id);
     }
 }

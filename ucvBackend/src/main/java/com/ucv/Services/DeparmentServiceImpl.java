@@ -2,40 +2,40 @@ package com.ucv.Services;
 
 import java.util.List;
 
+import com.ucv.DAO.DeparmentDAO;
 import com.ucv.Entity.Deparment;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DeparmentServiceImpl implements DeparmentService{
 
+    @Autowired
+    private DeparmentDAO deparmentDAO;
     @Override
     public List<Deparment> getAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        return deparmentDAO.getAll();
     }
 
     @Override
-    public Deparment get(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
+    public Deparment getById(Long id) {
+        return deparmentDAO.getById(id);
     }
 
     @Override
     public void save(Deparment employee) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        deparmentDAO.save(employee);
     }
 
     @Override
     public void update(Deparment employee) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        deparmentDAO.save(employee);
     }
 
     @Override
     public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        deparmentDAO.delete(id);
     }
     
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ReportService {
     public List<Report> getAll();
-    public Report get(Long id);
+    public Report getById(Long id);
     public void save(Report employee);
     public void update(Report employee);
     public void delete(Long id);

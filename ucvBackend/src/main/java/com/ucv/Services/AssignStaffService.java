@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AssignStaffService {
     public List<AssignStaff> getAll();
-    public AssignStaff get(Long id);
+    public AssignStaff getById(Long id);
     public void save(AssignStaff employee);
     public void update(AssignStaff employee);
     public void delete(Long id);
