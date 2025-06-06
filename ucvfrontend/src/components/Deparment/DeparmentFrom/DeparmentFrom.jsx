@@ -24,7 +24,9 @@ function DeparmentFrom() {
           <div className="col-md-2">
             <label className="form-label fw-medium">Pabellon</label>
             <select className="form-select">
-              <option>[Seleccionar]</option>
+              <option value="">[Seleccionar]</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
             </select>
           </div>
 
@@ -56,8 +58,6 @@ function DeparmentFrom() {
           <button className="btn btn-warning">Eliminar</button>
         </div>
 
-        {/* Línea roja justo debajo de los botones */}
-        
       </fieldset>
       <hr className="border border-danger border-2 opacity-100 mt-3" />
     </>
