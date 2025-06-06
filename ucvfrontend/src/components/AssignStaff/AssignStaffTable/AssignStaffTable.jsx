@@ -1,41 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './AssignStaffTable.css';
+import React from 'react';
 
 function AssignStaffTable() {
-  const [assignments, setAssignments] = useState([]);
-
-  useEffect(() => {
-    axios.post('http://localhost:8080/api/ucv/assignmentList')
-      .then(res => setAssignments(res.data))
-      .catch(err => console.error(err));
-  }, []);
-
   return (
-    <div className="d-flex bg-light p-3 rounded border col-12 mt-4">
-      <div className="flex-grow-1 me-4 col-md-12">
+    <div className="d-flex gap-3">
+      {/* Tabla de asignaciones */}
+      <div className="flex-grow-1 bg-light p-3 rounded border">
         <table className="table table-bordered text-center">
           <thead className="table-info">
             <tr>
               <th>ID</th>
-              <th>Incidencia</th>
-              <th>Usuario Asignado</th>
+              <th>Acciones Tomadas</th>
+              <th>Estados</th>
+              <th>Personal</th>
+              <th>Descripción</th>
               <th>Fecha</th>
-              <th>Estado</th>
             </tr>
           </thead>
           <tbody>
-            {assignments.map((a) => (
-              <tr key={a.id}>
-                <td>{a.id}</td>
-                <td>{a.incidente}</td>
-                <td>{a.usuario}</td>
-                <td>{a.fecha}</td>
-                <td>{a.estado}</td>
-              </tr>
-            ))}
+            {/* Datos estáticos o dinámicos aquí */}
+            <tr>
+              <td>001</td>
+              <td>Bloqueo de acceso</td>
+              <td>En Proceso</td>
+              <td>ana.fuentes.1</td>
+              <td>Base de datos expuesta</td>
+              <td>2025-06-06</td>
+            </tr>
           </tbody>
         </table>
+      </div>
+
+      {/* Panel de descripción y orden */}
+      <div style={{ width: '300px' }}>
+        <label className="fw-bold">Descripción</label>
+        <textarea className="form-control mb-2" rows="8" placeholder="Detalle de la incidencia..."></textarea>
+
+        <div className="d-flex align-items-center gap-2">
+          <select className="form-select">
+            <option>ID</option>
+          </select>
+          <button className="btn btn-primary">Ordenar</button>
+        </div>
       </div>
     </div>
   );
