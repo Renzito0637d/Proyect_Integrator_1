@@ -1,5 +1,5 @@
 package com.ucv.Repository;
 
-public interface Department {
+public interface ReportRepository {
     
 }
