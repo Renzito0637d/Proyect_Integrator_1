@@ -1,43 +1,31 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login/Login';
-import DashboardLayout from './components/DashboardLayout/DashboardLayout';
-import './styles/App.css';
-import Dashboard from './pages/Dashboard';
-import Incident from './pages/Incident';
-import Category from './pages/Category';
-import Report from './pages/Report';
-import Department from './pages/Department';
-import Staff from './pages/Staff';
-import AssignStaff from './pages/AssignStaff';
-import PrivateRoute from './components/PrivateRoute';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-// Páginas internas del dashboard (puedes crear archivos reales luego)
+
+import Dashboard    from './pages/Dashboard';
+import Incidencias  from './pages/Incident';
+import Category     from './pages/Category';
+import Department   from './pages/Department';
+import Report       from './pages/Report';
+import Staff        from './pages/Staff';
+import AssignStaff  from './pages/AssignStaff';
+
 function App() {
   return (
     <Router>
-      <Routes>        
-        <Route path="/" element={<Login />} />
-
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <DashboardLayout />
-            </PrivateRoute>
-          }
-        >
-          <Route index element={<Dashboard />} />
-          <Route path="incident" element={<Incident />} />
-          <Route path="category" element={<Category />} />
-          <Route path="report" element={<Report />} />
-          <Route path="department" element={<Department />} />
-          <Route path="staff" element={<Staff />} />
-          <Route path="assignStaff" element={<AssignStaff />} />
-        </Route>
+      <Routes>
+        <Route path="/"                element={<Navigate to="/dashboard" />} />
+        <Route path="/dashboard"       element={<Dashboard />} />
+        <Route path="/incidencias"     element={<Incidencias />} />
+        <Route path="/categoria"       element={<Category />} />
+        <Route path="/departamento"    element={<Department />} />
+        <Route path="/informe"         element={<Report />} />
+        <Route path="/personal"        element={<Staff />} />
+        <Route path="/asignar-personal" element={<AssignStaff />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+
