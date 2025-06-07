@@ -1,49 +1,51 @@
-import React from 'react';
-
-function AssignStaffTable() {
-  return (
-    <div className="d-flex gap-3">
-      {/* Tabla de asignaciones */}
-      <div className="flex-grow-1 bg-light p-3 rounded border">
-        <table className="table table-bordered text-center">
-          <thead className="table-info">
-            <tr>
-              <th>ID</th>
-              <th>Acciones Tomadas</th>
-              <th>Estados</th>
-              <th>Personal</th>
-              <th>Descripción</th>
-              <th>Fecha</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* Datos estáticos o dinámicos aquí */}
-            <tr>
-              <td>001</td>
-              <td>Bloqueo de acceso</td>
-              <td>En Proceso</td>
-              <td>ana.fuentes.1</td>
-              <td>Base de datos expuesta</td>
-              <td>2025-06-06</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      {/* Panel de descripción y orden */}
-      <div style={{ width: '300px' }}>
-        <label className="fw-bold">Descripción</label>
-        <textarea className="form-control mb-2" rows="8" placeholder="Detalle de la incidencia..."></textarea>
-
-        <div className="d-flex align-items-center gap-2">
-          <select className="form-select">
-            <option>ID</option>
-          </select>
-          <button className="btn btn-primary">Ordenar</button>
-        </div>
-      </div>
-    </div>
-  );
+/* ===== ESTRUCTURA PRINCIPAL ===== */
+.main-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
 }
 
-export default AssignStaffTable;
+/* ===== PANEL LATERAL ===== */
+.sidebar {
+  width: 90px;
+  background-color: #343a40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.sidebar-item {
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  margin: 15px 0;
+  width: 100%;
+  transition: background-color 0.2s;
+}
+
+.sidebar-item svg {
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.sidebar-item span {
+  font-size: 10px;
+}
+
+.sidebar-item:hover {
+  background-color: #495057;
+  border-radius: 10px;
+  padding: 8px 0;
+}
+
+/* ===== ÁREA DE CONTENIDO ===== */
+.content-area {
+  margin-left: 90px;
+  padding: 20px;
+  width: calc(100% - 90px);
+}
+
