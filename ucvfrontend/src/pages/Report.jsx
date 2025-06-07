@@ -9,27 +9,48 @@ import {
   FaUsers,
   FaUserPlus,
 } from 'react-icons/fa';
-import IncidentForm  from '../components/Incident/IncidentForm/IncidentForm';
-import IncidentTable from '../components/Incident/IncidentTable/IncidentTable';
+import ReportFrom  from '../components/Report/ReportForm/ReportFrom';
+import ReportTable from '../components/Report/ReportTable/ReportTable';
 
-export default function Incidencias() {
+export default function Report() {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8f9fa' }}>
-      <div style={{
-          width: 90, background: '#343a40', display: 'flex', flexDirection: 'column',
-          alignItems: 'center', paddingTop: 20, position: 'fixed', top: 0, left: 0
-        }}>
-        <Link to="/dashboard"       style={{ color:'white', margin:'15px 0', textAlign:'center' }}><FaTachometerAlt size={22}/><div style={{fontSize:10}}>Dashboard</div></Link>
-        <Link to="/incidencias"     style={{ color:'white', margin:'15px 0', textAlign:'center' }}><FaClipboardList size={22}/><div style={{fontSize:10}}>Incidencias</div></Link>
-        <Link to="/categoria"       style={{ color:'white', margin:'15px 0', textAlign:'center' }}><FaTags size={22}/><div style={{fontSize:10}}>Categoría</div></Link>
-        <Link to="/informe"         style={{ color:'white', margin:'15px 0', textAlign:'center' }}><FaFileAlt size={22}/><div style={{fontSize:10}}>Informe</div></Link>
-        <Link to="/departamento"    style={{ color:'white', margin:'15px 0', textAlign:'center' }}><FaBuilding size={22}/><div style={{fontSize:10}}>Departamento</div></Link>
-        <Link to="/personal"        style={{ color:'white', margin:'15px 0', textAlign:'center' }}><FaUsers size={22}/><div style={{fontSize:10}}>Personal</div></Link>
-        <Link to="/asignar-personal"style={{ color:'white', margin:'15px 0', textAlign:'center' }}><FaUserPlus size={22}/><div style={{fontSize:10}}>Asignar</div></Link>
+    <div className="main-layout">
+      {/* ===== SIDEBAR ===== */}
+      <div className="sidebar">
+        <Link to="/dashboard" className="sidebar-item">
+          <FaTachometerAlt />
+          <span>Dashboard</span>
+        </Link>
+        <Link to="/incidencias" className="sidebar-item">
+          <FaClipboardList />
+          <span>Incidencias</span>
+        </Link>
+        <Link to="/categoria" className="sidebar-item">
+          <FaTags />
+          <span>Categoría</span>
+        </Link>
+        <Link to="/informe" className="sidebar-item">
+          <FaFileAlt />
+          <span>Informe</span>
+        </Link>
+        <Link to="/departamento" className="sidebar-item">
+          <FaBuilding />
+          <span>Departamento</span>
+        </Link>
+        <Link to="/personal" className="sidebar-item">
+          <FaUsers />
+          <span>Personal</span>
+        </Link>
+        <Link to="/asignar-personal" className="sidebar-item">
+          <FaUserPlus />
+          <span>Asignar</span>
+        </Link>
       </div>
-      <div style={{ marginLeft: 90, padding: 20, width: `calc(100% - 90px)` }}>
-        <IncidentForm />
-        <IncidentTable />
+
+      {/* ===== ÁREA DE CONTENIDO ===== */}
+      <div className="content-area">
+        <ReportFrom />
+        <ReportTable />
       </div>
     </div>
   );
