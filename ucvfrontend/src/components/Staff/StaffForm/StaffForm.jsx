@@ -21,7 +21,7 @@ const StaffForm = ({ onStaffAdded }) => {
             email, phone, nickname, password, cargo
         }
         try {
-            const reponseStaff = await axios.post("http://localhost:8080/api/ucv/register",
+            await axios.post("http://localhost:8080/api/ucv/register",
                 StaffData, {
                 // Configuración de la solicitud
                 headers: {
