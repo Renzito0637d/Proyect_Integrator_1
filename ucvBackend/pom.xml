@@ -79,6 +79,21 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+        	<groupId>org.apache.poi</groupId>
+        	<artifactId>poi</artifactId>
+        	<version>5.2.5</version>
+    	</dependency>
+    	<dependency>
+	        <groupId>org.apache.poi</groupId>
+    	    <artifactId>poi-ooxml</artifactId>
+        	<version>5.2.5</version>
+    	</dependency>
+		<dependency>
+    		<groupId>com.google.guava</groupId>
+    		<artifactId>guava</artifactId>
+    		<version>33.2.0-jre</version>
+		</dependency>
 	</dependencies>
 
 	<build>
