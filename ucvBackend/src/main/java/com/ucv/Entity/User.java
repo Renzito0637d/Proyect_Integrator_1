@@ -42,7 +42,7 @@ public class User implements UserDetails{
     private String lastname;
     private String email;
     private String phone;
-    private String username;
+    private String nickname;
     private String password;
 
     // Este campo representa el rol del usuario en la aplicación.
