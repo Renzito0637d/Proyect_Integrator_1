@@ -39,6 +39,7 @@ public class AuthServiceImpl implements AuthService{
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
+                .cargo(request.getCargo())
                 .build();
 
         // Guardar el nuevo usuario en la base de datos

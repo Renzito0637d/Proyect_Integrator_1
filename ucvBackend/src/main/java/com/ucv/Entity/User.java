@@ -13,6 +13,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,6 +49,14 @@ public class User implements UserDetails{
     // Se utiliza un enumerador (enum) para definir los diferentes roles disponibles.
     @Enumerated(EnumType.ORDINAL)
     private Role role;
+    
+    private String cargo;
+
+    @OneToMany(mappedBy = "user")
+    private List<Incident> incident;
+
+    @OneToMany(mappedBy = "user")
+    private List<AssignStaff> assignStaff;
 
     // Este campo indica si el usuario ha confirmado su cuenta o no.
     @Override
