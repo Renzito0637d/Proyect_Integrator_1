@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./StaffTable.css";
 
-function StaffTable() {
-    const [staffList, setStaffList] = useState([]);
-
-    useEffect(() => {
-        axios.post("http://localhost:8080/api/ucv/staffList")
-            .then(response => setStaffList(response.data))
-            .catch(error => console.error(error));
-    }, []);
-
+function StaffTable({ staffList }) {
     return (
         <>
             <div className="d-flex bg-light p-3 rounded border col-12">
@@ -24,6 +17,7 @@ function StaffTable() {
                                 <th scope="col">Telefóno</th>
                                 <th scope="col">Usuario</th>
                                 <th scope="col">Contraseña</th>
+                                <th scope="col">Rol</th>
                                 <th scope="col">Cargo</th>
                             </tr>
                         </thead>
@@ -35,9 +29,10 @@ function StaffTable() {
                                     <td>{staff.lastname}</td>
                                     <td>{staff.email}</td>
                                     <td>{staff.phone}</td>
-                                    <td>{staff.username}</td>
-                                    <td>{staff.password}</td>
+                                    <td>{staff.nickname}</td>
+                                    <td className="password-ellipsis">{staff.password}</td>
                                     <td>{staff.role}</td>
+                                    <td>{staff.cargo}</td>
                                 </tr>
                             ))}
                         </tbody>
