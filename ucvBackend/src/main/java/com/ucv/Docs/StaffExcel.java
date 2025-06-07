@@ -32,7 +32,7 @@ public class StaffExcel {
             row.createCell(2).setCellValue(user.getLastname());
             row.createCell(3).setCellValue(user.getEmail());
             row.createCell(4).setCellValue(user.getPhone());
-            row.createCell(5).setCellValue(user.getUsername());
+            row.createCell(5).setCellValue(user.getNickname());
         }
 
         // Usando Guava para crear los directorios padres si no existen
