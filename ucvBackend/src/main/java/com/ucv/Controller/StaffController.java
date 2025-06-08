@@ -18,7 +18,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 
 @RestController
 @RequestMapping("/api/ucv")
@@ -35,7 +34,8 @@ public class StaffController {
     public ResponseEntity<byte[]> downloadStaffExcel() throws Exception {
         List<User> staffList = staffService.getAll();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        StaffExcel.writeStaffToExcel(staffService.getAll(), new File("ruta/deseada/staff.xlsx"));
+        // Cambia para escribir el Excel directamente al OutputStream
+        StaffExcel.writeStaffToExcel(staffList, out);
 
         return ResponseEntity.ok()
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=staff.xlsx")
