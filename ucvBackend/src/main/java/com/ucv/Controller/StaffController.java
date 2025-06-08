@@ -4,20 +4,24 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.ucv.Docs.StaffExcel;
 import com.ucv.Entity.User;
 import com.ucv.Services.StaffService;
 
-import com.ucv.Docs.StaffExcel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RestController
 @RequestMapping("/api/ucv")
@@ -25,20 +29,64 @@ public class StaffController {
     @Autowired
     private StaffService staffService;
 
-    @PostMapping("/staffList")
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @GetMapping("/staffList")
     public List<User> getStaffList() {
         return staffService.getAll();
+    }
+
+    @GetMapping("/staffUpdate")
+    public String getMethodName(@RequestParam String param) {
+        return new String();
     }
 
     @PostMapping("/staffExcel")
     public ResponseEntity<byte[]> downloadStaffExcel() throws Exception {
         List<User> staffList = staffService.getAll();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        StaffExcel.writeStaffToExcel(staffService.getAll(), new File("ruta/deseada/staff.xlsx"));
+        // Cambia para escribir el Excel directamente al OutputStream
+        StaffExcel.writeStaffToExcel(staffList, out);
 
         return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=staff.xlsx")
-            .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
-            .body(out.toByteArray());
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=staff.xlsx")
+                .contentType(
+                        MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(out.toByteArray());
     }
+
+    @PutMapping("/staffUpdate/{id}")
+    public ResponseEntity<User> updateStaff(@PathVariable Long id, @RequestBody User user) {
+        User actual = staffService.getById(id);
+        if (actual == null) {
+            return ResponseEntity.notFound().build();
+        }
+        // Actualiza los campos necesarios
+        actual.setFirstname(user.getFirstname());
+        actual.setLastname(user.getLastname());
+        actual.setEmail(user.getEmail());
+        actual.setPhone(user.getPhone());
+        actual.setNickname(user.getNickname());
+        actual.setCargo(user.getCargo());
+        // Encripta la contraseña solo si fue enviada
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            actual.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        // ...otros campos...
+
+        staffService.update(actual);
+        return ResponseEntity.ok(actual);
+    }
+
+    @DeleteMapping("/staffDelete/{id}")
+    public ResponseEntity<Void> deleteStaff(@PathVariable Long id) {
+        User staff = staffService.getById(id);
+        if (staff == null) {
+            return ResponseEntity.notFound().build();
+        }
+        staffService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
