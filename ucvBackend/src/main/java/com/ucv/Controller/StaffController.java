@@ -56,7 +56,7 @@ public class StaffController {
             .body(out.toByteArray());
     }
 
-    @PutMapping("/staff/{id}")
+    @PutMapping("/staffUpdate/{id}")
     public ResponseEntity<User> updateStaff(@PathVariable Long id, @RequestBody User user) {
         User actual = staffService.getById(id);
         if (actual == null) {
@@ -78,4 +78,10 @@ public class StaffController {
         staffService.update(actual);
         return ResponseEntity.ok(actual);
     }
+
+    @GetMapping("staffDelate/{id}")
+    public String delatestaff(@PathVariable Long id) {
+        return new String();
+    }
+    
 }

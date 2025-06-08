@@ -21,7 +21,6 @@ const StaffForm = ({ onStaffAdded }) => {
 
     const [updateId, setUpdateId] = useState("");
     const [isUpdating, setIsUpdating] = useState(false);
-    const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [updateModalId, setUpdateModalId] = useState("");
 
     const handleSave = async (e) => {
@@ -99,12 +98,6 @@ const StaffForm = ({ onStaffAdded }) => {
         }
     };
 
-    // Abre el modal para pedir el ID a actualizar
-    const openUpdateModal = () => {
-        setUpdateModalId("");
-        setShowUpdateModal(true);
-    };
-
     // Busca el usuario y rellena los campos
     const handleFetchForUpdate = async () => {
         if (!updateModalId) {
@@ -124,7 +117,6 @@ const StaffForm = ({ onStaffAdded }) => {
                 setPassword(""); // No mostrar la contraseña actual
                 setCargo(user.cargo || "");
                 setIsUpdating(true);
-                setShowUpdateModal(false);
             } else {
                 alert("Usuario no encontrado.");
             }
@@ -145,7 +137,7 @@ const StaffForm = ({ onStaffAdded }) => {
             email, phone, nickname, password, cargo
         };
         try {
-            await axios.put(`http://localhost:8080/api/ucv/staff/${updateId}`, StaffData, {
+            await axios.put(`http://localhost:8080/api/ucv/staffUpdate/${updateId}`, StaffData, {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -238,11 +230,11 @@ const StaffForm = ({ onStaffAdded }) => {
                                     onChange={e => setCargo(e.target.value)}
                                 >
                                     <option value="">[Seleccionar]</option>
-                                    <option value="admin">Administrador de sistemas</option>
-                                    <option value="soporte">Soporte técnico</option>
-                                    <option value="redes">Especialista de redes</option>
-                                    <option value="seguridad">Seguridad informática</option>
-                                    <option value="cliente">Cliente</option>
+                                    <option value="Admin">Administrador de sistemas</option>
+                                    <option value="Soporte">Soporte técnico</option>
+                                    <option value="Redes">Especialista de redes</option>
+                                    <option value="Seguridad">Seguridad informática</option>
+                                    <option value="Estudiante">Estudiante</option>
                                 </select>
                             </div>
                         </div>
@@ -276,7 +268,7 @@ const StaffForm = ({ onStaffAdded }) => {
                                 className="btn btn-primary"
                                 type="button"
                                 data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"
+                                data-bs-target="#modalConsult"
                                 onClick={() => {
                                     setConsultId("");
                                     setConsultResult(null);
@@ -289,7 +281,8 @@ const StaffForm = ({ onStaffAdded }) => {
                             <button
                                 className="btn btn-secondary"
                                 type="button"
-                                onClick={openUpdateModal}
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalUpdate"
                                 disabled={isUpdating}
                             >
                                 Actualizar
@@ -334,11 +327,11 @@ const StaffForm = ({ onStaffAdded }) => {
             <hr className="border border-danger border-2 opacity-75" />
 
             {/* Modal de consulta */}
-            <div className="modal fade custom-modal" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade custom-modal" id="modalConsult" tabIndex="-1" aria-labelledby="modalConsultLabel" aria-hidden="true">
                 <div className="modal-dialog custom-modal-dialog modal-dialog-centered">
                     <div className="modal-content custom-modal-content">
                         <div className="modal-header custom-modal-header">
-                            <h1 className="modal-title fs-5 custom-modal-title" id="exampleModalLabel">Consultar Usuario por ID</h1>
+                            <h1 className="modal-title fs-5 custom-modal-title" id="modalConsultLabel">Consultar Usuario por ID</h1>
                             <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body custom-modal-body">
@@ -381,13 +374,13 @@ const StaffForm = ({ onStaffAdded }) => {
             </div>
 
             {/* Modal para pedir ID de actualización */}
-            {showUpdateModal && (
-                <div className="modal fade show" style={{ display: "block" }} tabIndex="-1">
-                    <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Actualizar usuario</h5>
-                                <button type="button" className="btn-close" onClick={() => setShowUpdateModal(false)}></button>
+            
+                <div className="modal fade custom-modal" id="modalUpdate" tabIndex="-1" aria-labelledby="modalUpdateLabel" aria-hidden="true">
+                <div className="modal-dialog custom-modal-dialog modal-dialog-centered">
+                    <div className="modal-content custom-modal-content">
+                        <div className="modal-header custom-modal-header">
+                                <h5 className="modal-title fs-5 custom-modal-title" id="modalUpdateLabel">Actualizar usuario</h5>
+                                <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
                                 <label>Ingrese el ID del usuario a actualizar:</label>
@@ -398,14 +391,14 @@ const StaffForm = ({ onStaffAdded }) => {
                                     onChange={e => setUpdateModalId(e.target.value)}
                                 />
                             </div>
-                            <div className="modal-footer">
-                                <button className="btn btn-primary" onClick={handleFetchForUpdate}>Buscar</button>
-                                <button className="btn btn-secondary" onClick={() => setShowUpdateModal(false)}>Cancelar</button>
+                            <div className="modal-footer custom-modal-footer">
+                                <button className="btn btn-primary" onClick={handleFetchForUpdate} data-bs-dismiss="modal">Buscar</button>
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            )}
+            
         </>
     );
 }
