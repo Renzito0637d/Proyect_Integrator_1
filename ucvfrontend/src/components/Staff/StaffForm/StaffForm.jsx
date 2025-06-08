@@ -23,6 +23,11 @@ const StaffForm = ({ onStaffAdded }) => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [updateModalId, setUpdateModalId] = useState("");
 
+    const [delateId, setDelateId] = useState("")
+    const [delateResult, setDelateResult] = useState(null);
+    const [delateError, setDelateError] = useState("");
+
+
     const handleSave = async (e) => {
         e.preventDefault();
         const StaffData = {
@@ -159,6 +164,41 @@ const StaffForm = ({ onStaffAdded }) => {
         }
     };
 
+    const handleDelateConsult = async () => {
+        setDelateResult(null);
+        setDelateError("");
+        if (!delateId) {
+            setDelateError("Debe ingresar un ID.");
+            return;
+        }
+        try {
+            const res = await axios.get(`http://localhost:8080/api/ucv/staffList`);
+            const user = res.data.find(u => String(u.id) === String(delateId));
+            if (user) {
+                setDelateResult(user);
+            } else {
+                setDelateError("Usuario no encontrado.");
+            }
+        } catch (err) {
+            setDelateError("Error al consultar el usuario.");
+        }
+    };
+
+
+    const handleDelate = async (e) => {
+        e.preventDefault();
+        if (!delateId) {
+            alert("ID no definido.");
+            return;
+        }
+        try {
+            await axios.delete(`http://localhost:8080/api/ucv/staffDelete/${delateId}`)
+            if (onStaffAdded) onStaffAdded();
+        } catch (error) {
+            alert("Error al actualizar el eliminar al usuario.");
+        }
+    }
+
     const handleExcelExport = async () => {
         try {
             axios.post('http://localhost:8080/api/ucv/staffExcel', {}, {
@@ -287,7 +327,15 @@ const StaffForm = ({ onStaffAdded }) => {
                             >
                                 Actualizar
                             </button>
-                            <button className="btn btn-warning" disabled={isUpdating}>Eliminar</button>
+                            <button
+                                className="btn btn-warning"
+                                disabled={isUpdating}
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalDelate"
+                            >
+                                Eliminar
+                            </button>
                             {isUpdating && (
                                 <>
                                     <button
@@ -374,31 +422,82 @@ const StaffForm = ({ onStaffAdded }) => {
             </div>
 
             {/* Modal para pedir ID de actualización */}
-            
-                <div className="modal fade custom-modal" id="modalUpdate" tabIndex="-1" aria-labelledby="modalUpdateLabel" aria-hidden="true">
+            <div className="modal fade custom-modal" id="modalUpdate" tabIndex="-1" aria-labelledby="modalUpdateLabel" aria-hidden="true">
                 <div className="modal-dialog custom-modal-dialog modal-dialog-centered">
                     <div className="modal-content custom-modal-content">
                         <div className="modal-header custom-modal-header">
-                                <h5 className="modal-title fs-5 custom-modal-title" id="modalUpdateLabel">Actualizar usuario</h5>
-                                <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div className="modal-body">
-                                <label>Ingrese el ID del usuario a actualizar:</label>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    value={updateModalId}
-                                    onChange={e => setUpdateModalId(e.target.value)}
-                                />
-                            </div>
-                            <div className="modal-footer custom-modal-footer">
-                                <button className="btn btn-primary" onClick={handleFetchForUpdate} data-bs-dismiss="modal">Buscar</button>
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            </div>
+                            <h5 className="modal-title fs-5 custom-modal-title" id="modalUpdateLabel">Actualizar usuario</h5>
+                            <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <label>Ingrese el ID del usuario a actualizar:</label>
+                            <input
+                                type="number"
+                                className="form-control"
+                                value={updateModalId}
+                                onChange={e => setUpdateModalId(e.target.value)}
+                            />
+                        </div>
+                        <div className="modal-footer custom-modal-footer">
+                            <button className="btn btn-primary" onClick={handleFetchForUpdate} data-bs-dismiss="modal">Buscar</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         </div>
                     </div>
                 </div>
-            
+            </div>
+
+            {/* Modal para pedir ID de eliminar */}
+            <div className="modal fade custom-modal" id="modalDelate" tabIndex="-1" aria-labelledby="modalDelateLabel" aria-hidden="true">
+                <div className="modal-dialog custom-modal-dialog modal-dialog-centered">
+                    <div className="modal-content custom-modal-content">
+                        <div className="modal-header custom-modal-header">
+                            <h5 className="modal-title fs-5 custom-modal-title" id="modalDelateLabel">Eliminar usuario</h5>
+                            <button type="button" className="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body custom-modal-body">
+                            <div className="mb-3">
+                                <label className="form-label custom-form-label">ID de usuario</label>
+                                <input
+                                    type="number"
+                                    className="form-control custom-input"
+                                    value={delateId}
+                                    onChange={e => setDelateId(e.target.value)}
+                                    placeholder="Ingrese el ID"
+                                />
+                            </div>
+                            <button
+                                type="button"
+                                className="btn custom-btn-primary mb-3"
+                                onClick={handleDelateConsult}
+
+                            >
+                                Consultar
+                            </button>
+                            {delateError && (
+                                <div className="alert custom-alert-danger mt-2">{delateError}</div>
+                            )}
+                            {delateResult && (
+                                <>
+                                    <div className="alert custom-alert-success mt-2">
+                                        <strong>Nombre:</strong> {delateResult.firstname} <br />
+                                        <strong>Apellido:</strong> {delateResult.lastname} <br />
+                                        <strong>Email:</strong> {delateResult.email} <br />
+                                        <strong>Teléfono:</strong> {delateResult.phone} <br />
+                                        <strong>Usuario:</strong> {delateResult.nickname} <br />
+                                        <strong>Cargo:</strong> {delateResult.cargo}
+                                    </div>
+                                    <button type="button" className="btn btn-danger"  data-bs-dismiss="modal" onClick={handleDelate}>Eliminar usuario</button>
+                                </>
+                            )}
+
+                        </div>
+                        <div className="modal-footer custom-modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </>
     );
 }
