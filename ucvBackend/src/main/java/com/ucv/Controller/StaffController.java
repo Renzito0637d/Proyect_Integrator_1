@@ -6,18 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.ucv.Docs.StaffExcel;
 import com.ucv.Entity.User;
 import com.ucv.Services.StaffService;
 
-import com.ucv.Docs.StaffExcel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import java.io.ByteArrayOutputStream;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 @RestController
 @RequestMapping("/api/ucv")
@@ -25,10 +29,19 @@ public class StaffController {
     @Autowired
     private StaffService staffService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping("/staffList")
     public List<User> getStaffList() {
         return staffService.getAll();
     }
+
+    @GetMapping("/staffUpdate")
+    public String getMethodName(@RequestParam String param) {
+        return new String();
+    }
+    
 
     @PostMapping("/staffExcel")
     public ResponseEntity<byte[]> downloadStaffExcel() throws Exception {
@@ -41,5 +54,28 @@ public class StaffController {
             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=staff.xlsx")
             .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
             .body(out.toByteArray());
+    }
+
+    @PutMapping("/staff/{id}")
+    public ResponseEntity<User> updateStaff(@PathVariable Long id, @RequestBody User user) {
+        User actual = staffService.getById(id);
+        if (actual == null) {
+            return ResponseEntity.notFound().build();
+        }
+        // Actualiza los campos necesarios
+        actual.setFirstname(user.getFirstname());
+        actual.setLastname(user.getLastname());
+        actual.setEmail(user.getEmail());
+        actual.setPhone(user.getPhone());
+        actual.setNickname(user.getNickname());
+        actual.setCargo(user.getCargo());
+        // Encripta la contraseña solo si fue enviada
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            actual.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        // ...otros campos...
+
+        staffService.update(actual);
+        return ResponseEntity.ok(actual);
     }
 }

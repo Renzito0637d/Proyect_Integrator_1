@@ -19,6 +19,11 @@ const StaffForm = ({ onStaffAdded }) => {
     const [consultResult, setConsultResult] = useState(null);
     const [consultError, setConsultError] = useState("");
 
+    const [updateId, setUpdateId] = useState("");
+    const [isUpdating, setIsUpdating] = useState(false);
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
+    const [updateModalId, setUpdateModalId] = useState("");
+
     const handleSave = async (e) => {
         e.preventDefault();
         const StaffData = {
@@ -94,6 +99,74 @@ const StaffForm = ({ onStaffAdded }) => {
         }
     };
 
+    // Abre el modal para pedir el ID a actualizar
+    const openUpdateModal = () => {
+        setUpdateModalId("");
+        setShowUpdateModal(true);
+    };
+
+    // Busca el usuario y rellena los campos
+    const handleFetchForUpdate = async () => {
+        if (!updateModalId) {
+            alert("Ingrese el ID del usuario a actualizar.");
+            return;
+        }
+        try {
+            const res = await axios.get("http://localhost:8080/api/ucv/staffList");
+            const user = res.data.find(u => String(u.id) === String(updateModalId));
+            if (user) {
+                setUpdateId(user.id);
+                setFirstname(user.firstname || "");
+                setLastname(user.lastname || "");
+                setEmail(user.email || "");
+                setPhone(user.phone || "");
+                setNickname(user.nickname || "");
+                setPassword(""); // No mostrar la contraseña actual
+                setCargo(user.cargo || "");
+                setIsUpdating(true);
+                setShowUpdateModal(false);
+            } else {
+                alert("Usuario no encontrado.");
+            }
+        } catch (error) {
+            alert("Error al buscar el usuario.");
+        }
+    };
+
+    // Actualiza el usuario
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        if (!updateId) {
+            alert("ID no definido.");
+            return;
+        }
+        const StaffData = {
+            firstname, lastname,
+            email, phone, nickname, password, cargo
+        };
+        try {
+            await axios.put(`http://localhost:8080/api/ucv/staff/${updateId}`, StaffData, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            alert("Usuario actualizado correctamente.");
+            // Limpiar campos tras actualización
+            setUpdateId("");
+            setFirstname("");
+            setLastname("");
+            setEmail("");
+            setPhone("");
+            setNickname("");
+            setPassword("");
+            setCargo("");
+            setIsUpdating(false);
+            if (onStaffAdded) onStaffAdded();
+        } catch (error) {
+            alert("Error al actualizar el usuario.");
+        }
+    };
+
     const handleExcelExport = async () => {
         try {
             axios.post('http://localhost:8080/api/ucv/staffExcel', {}, {
@@ -117,7 +190,7 @@ const StaffForm = ({ onStaffAdded }) => {
 
     return (
         <>
-            <form onSubmit={handleSave}>
+            <form onSubmit={isUpdating ? handleUpdate : handleSave}>
                 <fieldset className="p-3 bg-light rounded border">
                     <legend className="fw-bold">Registro de personal</legend>
                     <div className='row col-md-12 mb-2'>
@@ -196,8 +269,8 @@ const StaffForm = ({ onStaffAdded }) => {
                         </div>
                     </div>
                     <div className='d-flex justify-content-between align-items-center mt-3'>
-                        <div className='col-md-8 d-flex justify-content-start gap-4 flex-wrap'>
-                            <button type="submit" className="btn btn-danger">Registrar</button>
+                        <div className='col-md-10 d-flex justify-content-start gap-4 flex-wrap'>
+                            <button type="submit" className="btn btn-danger" disabled={isUpdating}>Registrar</button>
                             {/* Botón para abrir el modal de consulta */}
                             <button
                                 className="btn btn-primary"
@@ -209,17 +282,53 @@ const StaffForm = ({ onStaffAdded }) => {
                                     setConsultResult(null);
                                     setConsultError("");
                                 }}
+                                disabled={isUpdating}
                             >
                                 Consultar
                             </button>
-                            <button className="btn btn-secondary">Actualizar</button>
-                            <button className="btn btn-warning">Eliminar</button>
+                            <button
+                                className="btn btn-secondary"
+                                type="button"
+                                onClick={openUpdateModal}
+                                disabled={isUpdating}
+                            >
+                                Actualizar
+                            </button>
+                            <button className="btn btn-warning" disabled={isUpdating}>Eliminar</button>
+                            {isUpdating && (
+                                <>
+                                    <button
+                                        className="btn btn-success ml-2"
+                                        type="submit"
+                                    >
+                                        Guardar actualización
+                                    </button>
+                                    <button
+                                        className="btn btn-secondary"
+                                        type="button"
+                                        onClick={() => {
+                                            setIsUpdating(false);
+                                            setUpdateId("");
+                                            setFirstname("");
+                                            setLastname("");
+                                            setEmail("");
+                                            setPhone("");
+                                            setNickname("");
+                                            setPassword("");
+                                            setCargo("");
+                                        }}
+                                    >
+                                        Cancelar
+                                    </button>
+                                </>
+                            )}
                         </div>
-                        <div className='col-md-4 d-flex justify-content-end gap-4'>
-                            <button className="btn btn-success" type='button' onClick={handleExcelExport}>Excel</button>
-                            <button className="btn btn-warning">Pdf</button>
+                        <div className='col-md-2 d-flex justify-content-end gap-4'>
+                            <button className="btn btn-success" type='button' onClick={handleExcelExport} disabled={isUpdating}>Excel</button>
+                            <button className="btn btn-warning" disabled={isUpdating}>Pdf</button>
                         </div>
                     </div>
+
                 </fieldset>
             </form>
             <hr className="border border-danger border-2 opacity-75" />
@@ -271,7 +380,32 @@ const StaffForm = ({ onStaffAdded }) => {
                 </div>
             </div>
 
-
+            {/* Modal para pedir ID de actualización */}
+            {showUpdateModal && (
+                <div className="modal fade show" style={{ display: "block" }} tabIndex="-1">
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Actualizar usuario</h5>
+                                <button type="button" className="btn-close" onClick={() => setShowUpdateModal(false)}></button>
+                            </div>
+                            <div className="modal-body">
+                                <label>Ingrese el ID del usuario a actualizar:</label>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    value={updateModalId}
+                                    onChange={e => setUpdateModalId(e.target.value)}
+                                />
+                            </div>
+                            <div className="modal-footer">
+                                <button className="btn btn-primary" onClick={handleFetchForUpdate}>Buscar</button>
+                                <button className="btn btn-secondary" onClick={() => setShowUpdateModal(false)}>Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
