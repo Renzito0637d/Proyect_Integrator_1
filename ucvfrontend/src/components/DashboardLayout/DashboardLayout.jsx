@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {
+  FaTachometerAlt,
+  FaClipboardList,
+  FaTags,
+  FaFileAlt,
+  FaBuilding,
+  FaUsers,
+  FaUserPlus,
+} from 'react-icons/fa';
 import './DashboardLayout.css';
-import ucvLogo from '../../assets/logoucv.png';
+import ucvLogo from '../../assets/logoCompleto.png';
 import defaultUser from '../../assets/logousuario.png';
 import ChatbotUCV from '../../components/Chatbot/Chatbot'; // <-- ajusta esta ruta
 
@@ -12,16 +21,56 @@ const DashboardLayout = () => {
   return (
     <div className="d-flex">
       {/* Sidebar */}
-      <div className="sidebar bg-primary text-white p-4 vh-100" style={{ width: '260px', boxShadow: '2px 0 6px rgba(0,0,0,0.1)' }}>
-        <img src={ucvLogo} alt="UCV Logo" style={{ width: '200px', height: 'auto', mixBlendMode: 'darken', backgroundColor: 'transparent', border: 'none' }} />
-        <ul className="nav flex-column">
-          <li className="nav-item"><Link className="nav-link text-white" to="/dashboard">Dashboard</Link></li>
-          <li className="nav-item"><Link className="nav-link text-white" to="/dashboard/incident">Incidencias</Link></li>
-          <li className="nav-item"><Link className="nav-link text-white" to="/dashboard/category">Categoría</Link></li>
-          <li className="nav-item"><Link className="nav-link text-white" to="/dashboard/report">Informe</Link></li>
-          <li className="nav-item"><Link className="nav-link text-white" to="/dashboard/department">Departamento</Link></li>
-          <li className="nav-item"><Link className="nav-link text-white" to="/dashboard/staff">Personal</Link></li>
-          <li className="nav-item"><Link className="nav-link text-white" to="/dashboard/assignStaff">Asignar personal</Link></li>
+      <div className='sidebar'>
+        
+        <ul>
+          <li className="nav-item">
+            <Link className="nav-link text-white" to="/dashboard">
+              <img src={ucvLogo} alt="UCV Logo" style={{ width: '119px', height: 'auto',  border: 'none' }} />
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link text-white" to="/dashboard">
+              <FaTachometerAlt size={27} />
+              <span className='item-txt'>Home</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link text-white" to="/dashboard/incident">
+              <FaClipboardList size={27}/>
+              <span className='item-txt'>Incidencias</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link text-white" to="/dashboard/category">
+              <FaTags size={27}/>
+              <span className='item-txt'>Categoría</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link text-white" to="/dashboard/report">
+              <FaFileAlt size={27}/>
+              <span className='item-txt'>Informe</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link text-white" to="/dashboard/department">
+              <FaBuilding size={27}/>
+              <span className='item-txt'>Departamento</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link text-white" to="/dashboard/staff">
+              <FaUsers size={27}/>
+              <span className='item-txt'>Personal</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link text-white" to="/dashboard/assignStaff">
+              <FaUserPlus size={27} />
+              <span className='item-txt'>Asignar personal</span>
+            </Link>
+          </li>
         </ul>
       </div>
 
@@ -33,7 +82,7 @@ const DashboardLayout = () => {
           <button className="btn btn-outline-secondary btn-sm ms-3">Cerrar sesión</button>
         </div>
 
-        <div className="container p-3">
+        <div className="container-fluid p-3">
           <Outlet />
         </div>
 
@@ -62,7 +111,7 @@ const DashboardLayout = () => {
             width="28"
             height="28"
             fill="currentColor"
-            className="bi bi-person-square"
+            className="bi bi-person-square noM"
             viewBox="0 0 16 16"
           >
             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
