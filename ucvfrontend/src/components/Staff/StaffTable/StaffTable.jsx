@@ -31,38 +31,40 @@ function StaffTable({ staffList }) {
     return (
         <div className="d-flex bg-light p-3 rounded border col-12">
             <div className="flex-grow-1 me-4 col-md-10">
-                <table className="table tmn table-bordered text-center">
-                    <thead className="table-info">
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombres</th>
-                            <th>Apellidos</th>
-                            <th>Correo</th>
-                            <th>Teléfono</th>
-                            <th>Usuario</th>
-                            <th>Contraseña</th>
-                            <th>Rol</th>
-                            <th>Cargo</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {sortedList.map((staff) => (
-                            <tr key={staff.id}>
-                                <td>{staff.id}</td>
-                                <td>{staff.firstname}</td>
-                                <td>{staff.lastname}</td>
-                                <td>{staff.email}</td>
-                                <td>{staff.phone}</td>
-                                <td>{staff.nickname}</td>
-                                <td className="password-ellipsis">{staff.password}</td>
-                                <td>{staff.role}</td>
-                                <td>{staff.cargo}</td>
+                <div className="scroll">
+                    <table className="table tmn table-bordered text-center">
+                        <thead className="table-info">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th>Usuario</th>
+                                <th>Contraseña</th>
+                                <th>Rol</th>
+                                <th>Cargo</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {sortedList.map((staff) => (
+                                <tr key={staff.id}>
+                                    <td>{staff.id}</td>
+                                    <td>{staff.firstname}</td>
+                                    <td>{staff.lastname}</td>
+                                    <td>{staff.email}</td>
+                                    <td>{staff.phone}</td>
+                                    <td>{staff.nickname}</td>
+                                    <td className="password-ellipsis">{staff.password}</td>
+                                    <td>{staff.role}</td>
+                                    <td>{staff.cargo}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div style={{ width: "200px" }}>
+            <div style={{ width: "100px" }}>
                 <label className="fw-medium">Ordenar por</label>
                 <select
                     className="form-select"
