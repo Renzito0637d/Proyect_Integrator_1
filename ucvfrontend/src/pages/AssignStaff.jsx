@@ -4,10 +4,10 @@ import AssignStaffTable from '../components/AssignStaff/AssignStaffTable/AssignS
 
 function AssignStaff() {
   return (
-    <div className="container mt-4">
+    <>
       <AssignStaffForm />
       <AssignStaffTable />
-    </div>
+    </>
   );
 }
 
