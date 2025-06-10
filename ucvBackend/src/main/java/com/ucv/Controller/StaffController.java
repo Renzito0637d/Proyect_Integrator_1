@@ -2,6 +2,8 @@ package com.ucv.Controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RestController
 @RequestMapping("/api/ucv")
 public class StaffController {
+    private static final Logger logger = LoggerFactory.getLogger(StaffController.class);
     @Autowired
     private StaffService staffService;
 
@@ -48,6 +51,9 @@ public class StaffController {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         // Cambia para escribir el Excel directamente al OutputStream
         StaffExcel.writeStaffToExcel(staffList, out);
+        logger.info("******************************************");
+        logger.info("Staff Excel file generated successfully.");
+        logger.info("******************************************");
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=staff.xlsx")
@@ -76,6 +82,9 @@ public class StaffController {
         // ...otros campos...
 
         staffService.update(actual);
+        logger.info("**************************");
+        logger.info("Staff updated: " + actual);
+        logger.info("**************************");
         return ResponseEntity.ok(actual);
     }
 
@@ -86,6 +95,9 @@ public class StaffController {
             return ResponseEntity.notFound().build();
         }
         staffService.delete(id);
+        logger.info("**************************");
+        logger.info("Staff deleted: " + staff);
+        logger.info("**************************");
         return ResponseEntity.noContent().build();
     }
 
