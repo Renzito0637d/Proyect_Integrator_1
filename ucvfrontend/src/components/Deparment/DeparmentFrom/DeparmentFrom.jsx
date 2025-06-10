@@ -406,7 +406,7 @@ function DeparmentFrom({ onDeparmentChanged }) {
                 <div className="alert alert-danger mt-2">{consultError}</div>
               )}
               {consultResult && (
-                <div className="alert alert-success mt-2">
+                <div className=" alert-success mt-2">
                   <strong>Nombre:</strong> {consultResult.name} <br />
                   <strong>Pabellón:</strong> {consultResult.tower} <br />
                   <strong>Piso:</strong> {consultResult.floor} <br />

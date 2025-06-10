@@ -308,7 +308,7 @@ function CategoryForm({ onCategoryChanged }) {
                                 <div className="alert alert-danger mt-2">{consultError}</div>
                             )}
                             {consultResult && (
-                                <div className="alert alert-success mt-2">
+                                <div className="alert-success mt-2">
                                     <strong>Tipo:</strong> {consultResult.type} <br />
                                     <strong>Nivel de prioridad:</strong> {consultResult.prioritylevel} <br />
                                     <strong>Categoría:</strong> {consultResult.category} <br />
