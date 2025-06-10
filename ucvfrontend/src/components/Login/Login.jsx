@@ -130,7 +130,13 @@ const Login = () => {
 
 
               <div className="mb-3 text-end">
-                <a href="#" className="text-decoration-none text-primary">¿Olvidaste tu contraseña?</a>
+                <span
+                  className="text-decoration-none text-primary"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => navigate('/forgot-password')}
+                >
+                  ¿Olvidaste tu contraseña?
+                </span>
               </div>
 
               <button type="submit" className="btn btn-primary w-100">Ingresar</button>

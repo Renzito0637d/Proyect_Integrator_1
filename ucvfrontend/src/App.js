@@ -11,6 +11,7 @@ import Department from './pages/Department';
 import Staff from './pages/Staff';
 import AssignStaff from './pages/AssignStaff';
 import PrivateRoute from './components/PrivateRoute';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword'; // <--- Agrega este import
 
 // Páginas internas del dashboard (puedes crear archivos reales luego)
 function App() {
@@ -18,7 +19,7 @@ function App() {
     <Router>
       <Routes>        
         <Route path="/" element={<Login />} />
-
+        <Route path="/forgot-password" element={<ForgotPassword />} /> {/* <--- Agrega esta línea */}
         <Route
           path="/dashboard"
           element={
