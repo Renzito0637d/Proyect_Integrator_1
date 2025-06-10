@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ucv.Entity.Report;
 import com.ucv.Repository.ReportRepository;
+import org.apache.commons.lang3.StringUtils;
 
 @Repository
 public class ReportDAOImpl implements ReportDAO{
@@ -24,8 +25,12 @@ public class ReportDAOImpl implements ReportDAO{
     }
 
     @Override
-    public void save(Report deparment) {
-        reportRepository.save(deparment);
+    public void save(Report report) {
+        // Normaliza los espacios en descripcion antes de guardar
+        if (report.getDescripcion() != null) {
+            report.setDescripcion(StringUtils.normalizeSpace(report.getDescripcion()));
+        }
+        reportRepository.save(report);
     }
 
     @Override
@@ -35,8 +40,12 @@ public class ReportDAOImpl implements ReportDAO{
     }
 
     @Override
-    public void update(Report deparment) {
-        reportRepository.save(deparment);
+    public void update(Report report) {
+        // Normaliza los espacios en descripcion antes de actualizar
+        if (report.getDescripcion() != null) {
+            report.setDescripcion(StringUtils.normalizeSpace(report.getDescripcion()));
+        }
+        reportRepository.save(report);
     }
     
 }

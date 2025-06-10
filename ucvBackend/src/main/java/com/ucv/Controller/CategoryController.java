@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ucv.Entity.Category;
 import com.ucv.Services.CategoryService;
+import com.ucv.Docs.CategoryExcel;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 @RestController
 @RequestMapping("/api/ucv")
@@ -58,6 +64,21 @@ public class CategoryController {
         }
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/categoryExcel")
+    public ResponseEntity<byte[]> downloadCategoryExcel() throws Exception {
+        List<Category> categoryList = categoryService.getAll();
+        byte[] excelBytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+             InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+            CategoryExcel.writeCategoryToExcel(categoryList, out, logo);
+            excelBytes = out.toByteArray();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=categories.xlsx")
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(excelBytes);
     }
 }
 

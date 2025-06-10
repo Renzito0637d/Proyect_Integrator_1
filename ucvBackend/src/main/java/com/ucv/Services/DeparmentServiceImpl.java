@@ -24,13 +24,13 @@ public class DeparmentServiceImpl implements DeparmentService{
     }
 
     @Override
-    public void save(Deparment employee) {
-        deparmentDAO.save(employee);
+    public void save(Deparment deparment) {     
+        deparmentDAO.save(deparment);
     }
 
     @Override
-    public void update(Deparment employee) {
-        deparmentDAO.update(employee);
+    public void update(Deparment deparment) {
+        deparmentDAO.update(deparment);
     }
 
     @Override

@@ -7,7 +7,7 @@ import com.ucv.Entity.Deparment;
 public interface DeparmentService {
     public List<Deparment> getAll();
     public Deparment getById(Long id);
-    public void save(Deparment employee);
-    public void update(Deparment employee);
+    public void save(Deparment deparment);
+    public void update(Deparment deparment);
     public void delete(Long id);
 }

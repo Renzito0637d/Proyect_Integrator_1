@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import com.ucv.Docs.DeparmentExcel;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 @RestController
 @RequestMapping("api/ucv")
@@ -61,5 +67,20 @@ public class DeparmentController {
         }
         deparmentService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/deparmentExcel")
+    public ResponseEntity<byte[]> downloadDeparmentExcel() throws Exception {
+        List<Deparment> deparmentList = deparmentService.getAll();
+        byte[] excelBytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+             InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+            DeparmentExcel.writeDeparmentToExcel(deparmentList, out, logo);
+            excelBytes = out.toByteArray();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=deparments.xlsx")
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(excelBytes);
     }
 }
