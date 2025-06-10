@@ -22,6 +22,9 @@ import com.ucv.Services.StaffService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -48,9 +51,13 @@ public class StaffController {
     @PostMapping("/staffExcel")
     public ResponseEntity<byte[]> downloadStaffExcel() throws Exception {
         List<User> staffList = staffService.getAll();
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        // Cambia para escribir el Excel directamente al OutputStream
-        StaffExcel.writeStaffToExcel(staffList, out);
+        byte[] excelBytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+                InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+            StaffExcel.writeStaffToExcel(staffList, out, logo);
+            excelBytes = out.toByteArray();
+        }
+
         logger.info("******************************************");
         logger.info("Staff Excel file generated successfully.");
         logger.info("******************************************");
@@ -59,7 +66,7 @@ public class StaffController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=staff.xlsx")
                 .contentType(
                         MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
-                .body(out.toByteArray());
+                .body(excelBytes);
     }
 
     @PutMapping("/staffUpdate/{id}")
