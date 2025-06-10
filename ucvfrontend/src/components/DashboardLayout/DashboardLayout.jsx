@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   FaTachometerAlt,
@@ -14,58 +14,156 @@ import './DashboardLayout.css';
 import ucvLogo from '../../assets/logoCompleto.png';
 import defaultUser from '../../assets/logousuario.png';
 import ChatbotUCV from '../../components/Chatbot/Chatbot'; // <-- ajusta esta ruta
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
 
 const DashboardLayout = () => {
   const [mostrarChat, setMostrarChat] = useState(false);
+
+  const [registeredUser, setRegisteredUser] = useState("");
+  useEffect(() => {
+    // Decodifica el JWT para obtener el nickname
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        if (payload.sub) setRegisteredUser(payload.sub);
+        else setRegisteredUser("");
+      } catch {
+        setRegisteredUser("");
+      }
+    }
+  }, []);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setRegisteredUser("");
+    navigate("/");
+  };
+
+  useEffect(() => {
+    const driverObj = driver({
+      showProgress: true,
+      steps: [
+        {
+          element: '#sidebar-home',
+          popover: {
+            title: 'Inicio',
+            description: 'Aquí puedes volver al panel principal.',
+          },
+        },
+        {
+          element: '#sidebar-incident',
+          popover: {
+            title: 'Incidencias',
+            description: 'Gestiona y revisa las incidencias reportadas.',
+          },
+        },
+        {
+          element: '#sidebar-category',
+          popover: {
+            title: 'Categorias',
+            description: 'Gestiona y revisa los tipos de incidencia.',
+          },
+        },
+        {
+          element: '#sidebar-report',
+          popover: {
+            title: 'Informe',
+            description: 'Realizacion de informes.',
+          },
+        },
+        {
+          element: '#sidebar-deparment',
+          popover: {
+            title: 'Departamento',
+            description: 'Gestiona y revisa los departamentos regitrados.',
+          },
+        },
+        {
+          element: '#sidebar-staff',
+          popover: {
+            title: 'Personal',
+            description: 'Gestiona y revisa el personal registrado.',
+          },
+        },
+        {
+          element: '#sidebar-assignStaff',
+          popover: {
+            title: 'Asignar Personal',
+            description: 'Gestiona y revisa el seguimiento de la posible solucion a la incidencia.',
+          },
+        },
+        {
+          element: '#sidebar-chatbot-btn',
+          popover: {
+            title: 'Chatbot',
+            description: 'Haz clic aquí para abrir el chatbot de ayuda.',
+          },
+        },
+        {
+          element: '#user-profile',
+          popover: {
+            title: 'Usuario',
+            description: 'Aquí puedes ver tu perfil y cerrar sesión.',
+          },
+        },
+      ],
+    });
+
+    driverObj.drive();
+  }, []);
 
   return (
     <div className="d-flex">
       {/* Sidebar */}
       <div className='sidebar'>
-        
+
         <ul>
           <li className="nav-item">
             <Link className="nav-link text-white" to="/dashboard">
-              <img src={ucvLogo} alt="UCV Logo" style={{ width: '119px', height: 'auto',  border: 'none' }} />
+              <img src={ucvLogo} alt="UCV Logo" style={{ width: '119px', height: 'auto', border: 'none' }} />
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item" id="sidebar-home">
             <Link className="nav-link text-white" to="/dashboard">
               <FaTachometerAlt size={27} />
               <span className='item-txt'>Home</span>
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item" id="sidebar-incident">
             <Link className="nav-link text-white" to="/dashboard/incident">
-              <FaClipboardList size={27}/>
+              <FaClipboardList size={27} />
               <span className='item-txt'>Incidencias</span>
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item" id='sidebar-category'>
             <Link className="nav-link text-white" to="/dashboard/category">
-              <FaTags size={27}/>
+              <FaTags size={27} />
               <span className='item-txt'>Categoría</span>
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item" id='sidebar-report'>
             <Link className="nav-link text-white" to="/dashboard/report">
-              <FaFileAlt size={27}/>
+              <FaFileAlt size={27} />
               <span className='item-txt'>Informe</span>
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item" id='sidebar-deparment'>
             <Link className="nav-link text-white" to="/dashboard/department">
-              <FaBuilding size={27}/>
+              <FaBuilding size={27} />
               <span className='item-txt'>Departamento</span>
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item" id='sidebar-staff'>
             <Link className="nav-link text-white" to="/dashboard/staff">
-              <FaUsers size={27}/>
+              <FaUsers size={27} />
               <span className='item-txt'>Personal</span>
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item" id='sidebar-assignStaff'>
             <Link className="nav-link text-white" to="/dashboard/assignStaff">
               <FaUserPlus size={27} />
               <span className='item-txt'>Asignar personal</span>
@@ -76,10 +174,10 @@ const DashboardLayout = () => {
 
       {/* Main content */}
       <div className="flex-grow-1 position-relative">
-        <div className="d-flex justify-content-end align-items-center p-3 border-bottom bg-light" style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+        <div className="d-flex justify-content-end align-items-center p-3 border-bottom bg-light" style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }} id="user-profile">
           <img src={defaultUser} alt="User" className="rounded-circle me-2" style={{ width: '40px', height: '40px', objectFit: 'cover' }} />
-          <span>Usuario</span>
-          <button className="btn btn-outline-secondary btn-sm ms-3">Cerrar sesión</button>
+          <span>{registeredUser ? registeredUser : "Usuario"}</span>
+          <button className="btn btn-outline-secondary btn-sm ms-3" onClick={handleLogout}>Cerrar sesión</button>
         </div>
 
         <div className="container-fluid p-3">
@@ -89,6 +187,7 @@ const DashboardLayout = () => {
         {/* Botón flotante para abrir el chatbot con bordes suaves */}
         <button
           className="btn btn-primary"
+          id="sidebar-chatbot-btn"
           style={{
             position: 'fixed',
             bottom: '20px',
@@ -102,7 +201,7 @@ const DashboardLayout = () => {
             alignItems: 'center',
             justifyContent: 'center',
             padding: 0,
-            borderRadius: '8px',   // Bordes suaves
+            borderRadius: '8px',
           }}
           onClick={() => setMostrarChat(prev => !prev)}
         >
