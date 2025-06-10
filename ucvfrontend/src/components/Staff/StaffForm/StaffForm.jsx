@@ -255,7 +255,7 @@ const StaffForm = ({ onStaffAdded }) => {
     return (
         <>
             {showToast && formError && (
-                <div className='alert'>
+                <div className='noti2'>
                     {formError}
                 </div>
             )}
@@ -441,7 +441,7 @@ const StaffForm = ({ onStaffAdded }) => {
                                 <div className="alert custom-alert-danger mt-2">{consultError}</div>
                             )}
                             {consultResult && (
-                                <div className="alert custom-alert-success mt-2">
+                                <div className=" custom-alert-success mt-2">
                                     <strong>Nombre:</strong> {consultResult.firstname} <br />
                                     <strong>Apellido:</strong> {consultResult.lastname} <br />
                                     <strong>Email:</strong> {consultResult.email} <br />
