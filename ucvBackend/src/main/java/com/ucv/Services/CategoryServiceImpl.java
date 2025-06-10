@@ -24,13 +24,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void save(Category employee) {
-        categoryDAO.save(employee);
+    public void save(Category category) {
+        categoryDAO.save(category);
     }
 
     @Override
-    public void update(Category employee) {
-        categoryDAO.save(employee);
+    public void update(Category category) {
+        categoryDAO.save(category);
     }
 
     @Override
