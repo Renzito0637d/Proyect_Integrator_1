@@ -30,7 +30,7 @@ public class DeparmentServiceImpl implements DeparmentService{
 
     @Override
     public void update(Deparment employee) {
-        deparmentDAO.save(employee);
+        deparmentDAO.update(employee);
     }
 
     @Override

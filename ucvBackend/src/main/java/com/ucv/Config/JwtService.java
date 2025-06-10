@@ -25,7 +25,21 @@ public class JwtService {
 
     // Método que genera un token JWT a partir de los detalles del usuario.
     public String generateToken (UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        // Si el usuario tiene nickname, lo agrega como claim extra
+        Map<String, Object> extraClaims = new HashMap<>();
+        try {
+            // El UserDetails puede ser User, que tiene getNickname()
+            Object maybeUser = userDetails;
+            String nickname = null;
+            // Reflection para evitar cast directo
+            try {
+                nickname = (String) maybeUser.getClass().getMethod("getNickname").invoke(maybeUser);
+            } catch (Exception ignored) {}
+            if (nickname != null) {
+                extraClaims.put("nickname", nickname);
+            }
+        } catch (Exception ignored) {}
+        return generateToken(extraClaims, userDetails);
     }
 
     // Método que genera un token JWT a partir de los detalles del usuario y otros reclamos adicionales.
