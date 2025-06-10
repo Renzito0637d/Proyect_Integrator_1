@@ -51,6 +51,13 @@ const StaffForm = ({ onStaffAdded }) => {
         return true;
     };
 
+    const handleOnlyNumbersInput = setter => e => {
+        const val = e.target.value;
+        if (/^\d*$/.test(val) && val.length <= 9) {
+      setter(val);  
+    }
+    };
+
     const handleSave = async (e) => {
         e.preventDefault();
         if (!validateForm()) return;
@@ -254,7 +261,7 @@ const StaffForm = ({ onStaffAdded }) => {
             )}
             <form onSubmit={isUpdating ? handleUpdate : handleSave}>
                 <fieldset className="p-3 bg-light rounded border">
-                    <legend className="fw-bold">Registro de personal</legend>                    
+                    <legend className="fw-bold">Registro de personal</legend>
                     <div className='row col-md-12 mb-2'>
 
                         <div className="col-md-3 d-grid gap-2 mb-2">
@@ -281,7 +288,7 @@ const StaffForm = ({ onStaffAdded }) => {
                             <div>
                                 <label className="fw-medium">Telefono móvil</label>
                                 <input type="text" className="form-control" placeholder="Ingrese el telefóno del personal"
-                                    value={phone} onChange={(e) => setPhone(e.target.value)}
+                                    value={phone} onChange={handleOnlyNumbersInput(setPhone)} 
                                 />
                             </div>
                         </div>
@@ -516,7 +523,7 @@ const StaffForm = ({ onStaffAdded }) => {
                                         <strong>Usuario:</strong> {delateResult.nickname} <br />
                                         <strong>Cargo:</strong> {delateResult.cargo}
                                     </div>
-                                    <button type="button" className="btn btn-danger"  data-bs-dismiss="modal" onClick={handleDelate}>Eliminar usuario</button>
+                                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={handleDelate}>Eliminar usuario</button>
                                 </>
                             )}
 

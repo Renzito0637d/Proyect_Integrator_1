@@ -200,6 +200,21 @@ function DeparmentFrom({ onDeparmentChanged }) {
     }
   };
 
+  // Función utilitaria para permitir solo números enteros positivos
+  const handleOnlyNumbersInput = setter => e => {
+    const val = e.target.value;
+    if (/^\d*$/.test(val)) setter(val);
+  };
+
+  const handleOnlyNumbersKeyDown = e => {
+    if (
+      ["e", "E", "+", "-", ".", ","].includes(e.key) ||
+      (e.key.length === 1 && !/\d/.test(e.key))
+    ) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <>
       {/* Toast flotante para errores de validación */}
@@ -253,7 +268,8 @@ function DeparmentFrom({ onDeparmentChanged }) {
                 type="number"
                 className="form-control"
                 value={floor}
-                onChange={e => setFloor(e.target.value)}
+                onChange={handleOnlyNumbersInput(setFloor)}
+                onKeyDown={handleOnlyNumbersKeyDown}
                 placeholder="Piso"
                 min={0}
               />
@@ -265,7 +281,8 @@ function DeparmentFrom({ onDeparmentChanged }) {
                 className="form-control"
                 placeholder="Ingrese el salón del departamento"
                 value={classroom}
-                onChange={e => setClassroom(e.target.value)}
+                onChange={handleOnlyNumbersInput(setClassroom)}
+                onKeyDown={handleOnlyNumbersKeyDown}
               />
             </div>
 
