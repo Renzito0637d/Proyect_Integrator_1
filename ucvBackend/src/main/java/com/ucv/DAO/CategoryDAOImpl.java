@@ -2,6 +2,7 @@ package com.ucv.DAO;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +27,9 @@ public class CategoryDAOImpl implements CategoryDAO{
 
     @Override
     public void save(Category category) {
+        if(category.getDescription() != null) {
+            category.setDescription(StringUtils.normalizeSpace(category.getDescription()));
+        }
         categoryRepository.save(category);
     }
 

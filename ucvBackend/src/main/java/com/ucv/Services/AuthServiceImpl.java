@@ -1,5 +1,6 @@
 package com.ucv.Services;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,6 +43,25 @@ public class AuthServiceImpl implements AuthService{
                 .cargo(request.getCargo())
                 .build();
 
+        if(user.getFirstname() != null){
+            user.setFirstname(StringUtils.normalizeSpace(user.getFirstname()));
+        }
+        if(user.getLastname() != null){
+            user.setLastname(StringUtils.normalizeSpace(user.getLastname()));
+        }
+        if(user.getNickname() != null){
+            user.setNickname(StringUtils.replace(user.getNickname(), " ", ""));
+        }
+        if(user.getEmail() != null){
+            user.setEmail(StringUtils.normalizeSpace(user.getEmail()));
+        }
+        if(user.getPhone() != null){
+            user.setPhone(StringUtils.normalizeSpace(user.getPhone()));
+        }
+        // Verificar si el usuario ya existe en la base de datos
+        if (userRepository.findUserByEmail(request.getEmail()).isPresent()) {
+            throw new IllegalStateException("El usuario ya existe");
+        }
         // Guardar el nuevo usuario en la base de datos
         userRepository.save(user);
         // Generar un token JWT para el usuario registrado

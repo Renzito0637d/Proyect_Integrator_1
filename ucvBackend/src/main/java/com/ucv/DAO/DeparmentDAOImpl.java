@@ -2,6 +2,7 @@ package com.ucv.DAO;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -25,6 +26,13 @@ public class DeparmentDAOImpl implements DeparmentDAO{
 
     @Override
     public void save(Deparment deparment) {
+        // Normaliza los espacios en el nombre del departamento antes de guardar
+        if (deparment.getName() != null) {
+            deparment.setName(StringUtils.normalizeSpace(deparment.getName()));
+        }
+        if (deparment.getClassroom() != null) {
+            deparment.setClassroom(StringUtils.normalizeSpace(deparment.getClassroom()));
+        }
         deparmentRepository.save(deparment);
     }
 
@@ -36,6 +44,12 @@ public class DeparmentDAOImpl implements DeparmentDAO{
 
     @Override
     public void update(Deparment deparment) {
+        if (deparment.getName() != null) {
+            deparment.setName(StringUtils.normalizeSpace(deparment.getName()));
+        }
+        if (deparment.getClassroom() != null) {
+            deparment.setClassroom(StringUtils.normalizeSpace(deparment.getClassroom()));
+        }
         deparmentRepository.save(deparment);
     }
     
