@@ -137,6 +137,26 @@ function CategoryForm({ onCategoryChanged }) {
         }
     };
 
+    const handleExcelExport = async () => {
+        try {
+            axios.post('http://localhost:8080/api/ucv/categoryExcel', {}, {
+                responseType: 'blob'
+            })
+                .then(response => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'category.xlsx');
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                    window.URL.revokeObjectURL(url);
+
+                })
+        } catch (error) {
+            console.error('Error al descargar el archivo:', error);
+        }
+    }
     return (
         <>
             <form onSubmit={isUpdating ? handleUpdate : handleSave}>
@@ -228,7 +248,7 @@ function CategoryForm({ onCategoryChanged }) {
                                 </button>
                             </div>
                             <div className='col-md-6 d-flex justify-content-end gap-4'>
-                                <button className="btn btn-success" type='button' disabled={isUpdating}>Excel</button>
+                                <button className="btn btn-success" type='button' onClick={handleExcelExport} disabled={isUpdating}>Excel</button>
                                 <button className="btn btn-warning" disabled={isUpdating}>Pdf</button>
                             </div>
                             {isUpdating && (
