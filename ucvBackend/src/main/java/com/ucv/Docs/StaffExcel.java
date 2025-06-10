@@ -1,18 +1,16 @@
 package com.ucv.Docs;
 
 import com.ucv.Entity.User;
-import com.google.common.io.Files;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.io.IOException;
 import java.util.List;
 
 public class StaffExcel {
 
-    public static void writeStaffToExcel(List<User> staffList, File file) throws IOException {
+    public static void writeStaffToExcel(List<User> staffList, OutputStream out) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Staff");
 
@@ -35,12 +33,7 @@ public class StaffExcel {
             row.createCell(5).setCellValue(user.getNickname());
         }
 
-        // Usando Guava para crear los directorios padres si no existen
-        Files.createParentDirs(file);
-
-        try (FileOutputStream fos = new FileOutputStream(file)) {
-            workbook.write(fos);
-        }
+        workbook.write(out);
         workbook.close();
     }
 }

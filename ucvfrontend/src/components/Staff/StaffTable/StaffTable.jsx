@@ -1,61 +1,85 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import "./StaffTable.css";
 
-function StaffTable() {
-    const [staffList, setStaffList] = useState([]);
+function StaffTable({ staffList }) {
+    const [sortOption, setSortOption] = useState("Id");
+    const [sortedList, setSortedList] = useState([...staffList]);
 
     useEffect(() => {
-        axios.post("http://localhost:8080/api/ucv/staffList")
-            .then(response => setStaffList(response.data))
-            .catch(error => console.error(error));
-    }, []);
+        const list = [...staffList];
+        list.sort((a, b) => {
+            switch (sortOption) {
+                case "Id":
+                    return a.id - b.id;
+                case "Apellido":
+                    return a.lastname.localeCompare(b.lastname);
+                case "Usuario":
+                    return a.nickname.localeCompare(b.nickname);
+                case "Rol":
+                    return a.role.localeCompare(b.role);
+                case "Correo":
+                    return a.email.localeCompare(b.email);
+                case "Cargo":
+                    return a.cargo.localeCompare(b.cargo);
+                default:
+                    return 0;
+            }
+        });
+        setSortedList(list);
+    }, [sortOption, staffList]); // se ejecuta cuando cambia el criterio o la lista original
 
     return (
-        <>
-            <div className="d-flex bg-light p-3 rounded border col-12">
-                <div className="flex-grow-1 me-4 col-md-10">
+        <div className="d-flex bg-light p-3 rounded border col-12">
+            <div className="flex-grow-1 me-4 col-md-10">
+                <div className="scroll">
                     <table className="table tmn table-bordered text-center">
                         <thead className="table-info">
                             <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Nombres</th>
-                                <th scope="col">Apellidos</th>
-                                <th scope="col">Correo</th>
-                                <th scope="col">Telefóno</th>
-                                <th scope="col">Usuario</th>
-                                <th scope="col">Contraseña</th>
-                                <th scope="col">Cargo</th>
+                                <th>ID</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th>Usuario</th>
+                                <th>Contraseña</th>
+                                <th>Rol</th>
+                                <th>Cargo</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {staffList.map((staff) => (
+                            {sortedList.map((staff) => (
                                 <tr key={staff.id}>
                                     <td>{staff.id}</td>
                                     <td>{staff.firstname}</td>
                                     <td>{staff.lastname}</td>
                                     <td>{staff.email}</td>
                                     <td>{staff.phone}</td>
-                                    <td>{staff.username}</td>
-                                    <td>{staff.password}</td>
+                                    <td>{staff.nickname}</td>
+                                    <td className="password-ellipsis">{staff.password}</td>
                                     <td>{staff.role}</td>
+                                    <td>{staff.cargo}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
-                <div style={{ width: "200px" }}>
-                    <label className="fw-medium">Ordenar por</label>
-                    <select className="form-select mb-2">
-                        <option>Id</option>
-                        <option>Nombre</option>
-                        <option>Apellido</option>
-                        <option>Usuario</option>
-                        <option>Cargo</option>
-                    </select>
-                    <button className="btn btn-primary w-100">Ordenar</button>
-                </div>
             </div>
-        </>
+            <div style={{ width: "100px" }}>
+                <label className="fw-medium">Ordenar por</label>
+                <select
+                    className="form-select"
+                    value={sortOption}
+                    onChange={(e) => setSortOption(e.target.value)}
+                >
+                    <option value="Id">Id</option>
+                    <option value="Apellido">Apellido</option>
+                    <option value="Usuario">Usuario</option>
+                    <option value="Rol">Rol</option>
+                    <option value="Correo">Correo</option>
+                    <option value="Cargo">Cargo</option>
+                </select>
+            </div>
+        </div>
     );
 }
 
