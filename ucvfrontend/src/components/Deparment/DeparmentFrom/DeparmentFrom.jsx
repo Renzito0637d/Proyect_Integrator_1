@@ -54,9 +54,33 @@ function DeparmentFrom({ onDeparmentChanged }) {
   const [deleteResult, setDeleteResult] = useState(null);
   const [deleteError, setDeleteError] = useState("");
 
+  // Estado para mensajes de error de validación
+  const [formError, setFormError] = useState("");
+  const [showToast, setShowToast] = useState(false);
+
+  // Mostrar toast de error
+  useEffect(() => {
+    if (formError) {
+      setShowToast(true);
+      const timer = setTimeout(() => setShowToast(false), 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [formError]);
+
+  // Validar formulario
+  const validateForm = () => {
+    if (!name.trim() || !tower.trim() || !floor.toString().trim() || !classroom.trim()) {
+      setFormError("Todos los campos son obligatorios.");
+      return false;
+    }
+    setFormError("");
+    return true;
+  };
+
   // Registrar nuevo departamento
   const handleSave = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
     // Genera la fecha y hora actual en formato LocalDateTime (YYYY-MM-DDTHH:mm:ss)
     const now = new Date();
     const pad = (n) => n.toString().padStart(2, '0');
@@ -123,6 +147,7 @@ function DeparmentFrom({ onDeparmentChanged }) {
       alert("ID no definido.");
       return;
     }
+    if (!validateForm()) return;
     // Al actualizar, también se registra la fecha y hora actual como nueva fecha de registro
     const now = new Date();
     const pad = (n) => n.toString().padStart(2, '0');
@@ -177,6 +202,12 @@ function DeparmentFrom({ onDeparmentChanged }) {
 
   return (
     <>
+      {/* Toast flotante para errores de validación */}
+      {showToast && formError && (
+        <div className='alert'>
+          {formError}
+        </div>
+      )}
       <form onSubmit={isUpdating ? handleUpdate : handleSave}>
         <fieldset className="p-3 bg-light rounded border">
           <legend className="fw-bold">
@@ -241,67 +272,67 @@ function DeparmentFrom({ onDeparmentChanged }) {
           </div>
           <div className='d-flex'>
             <div className='col-md-10 d-flex justify-content-start gap-2'>
-            <button type="submit" className="btn btn-danger" disabled={isUpdating}>Registrar</button>
-            <button
-              className="btn btn-primary"
-              type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#modalConsultDeparment"
-              onClick={() => {
-                setConsultId("");
-                setConsultResult(null);
-                setConsultError("");
-              }}
-              disabled={isUpdating}
-            >
-              Consultar
-            </button>
-            <button
-              className="btn btn-secondary"
-              type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#modalUpdateDeparment"
-              disabled={isUpdating}
-            >
-              Actualizar
-            </button>
-            <button
-              className="btn btn-warning"
-              type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#modalDeleteDeparment"
-              disabled={isUpdating}
-            >
-              Eliminar
-            </button>
-            {isUpdating && (
-              <>
-                <button className="btn btn-success" type="submit">
-                  Guardar actualización
-                </button>
-                <button
-                  className="btn btn-secondary"
-                  type="button"
-                  onClick={() => {
-                    setIsUpdating(false);
-                    setUpdateId("");
-                    setName("");
-                    setTower("");
-                    setFloor("");
-                    setClassroom("");
-                    setCode("");
-                  }}
-                >
-                  Cancelar
-                </button>
-              </>
-            )}
+              <button type="submit" className="btn btn-danger" disabled={isUpdating}>Registrar</button>
+              <button
+                className="btn btn-primary"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#modalConsultDeparment"
+                onClick={() => {
+                  setConsultId("");
+                  setConsultResult(null);
+                  setConsultError("");
+                }}
+                disabled={isUpdating}
+              >
+                Consultar
+              </button>
+              <button
+                className="btn btn-secondary"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#modalUpdateDeparment"
+                disabled={isUpdating}
+              >
+                Actualizar
+              </button>
+              <button
+                className="btn btn-warning"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#modalDeleteDeparment"
+                disabled={isUpdating}
+              >
+                Eliminar
+              </button>
+              {isUpdating && (
+                <>
+                  <button className="btn btn-success" type="submit">
+                    Guardar actualización
+                  </button>
+                  <button
+                    className="btn btn-secondary"
+                    type="button"
+                    onClick={() => {
+                      setIsUpdating(false);
+                      setUpdateId("");
+                      setName("");
+                      setTower("");
+                      setFloor("");
+                      setClassroom("");
+                      setCode("");
+                    }}
+                  >
+                    Cancelar
+                  </button>
+                </>
+              )}
             </div>
             <div className='col-md-2 d-flex justify-content-end gap-4'>
               <button className="btn btn-success" type='button' disabled={isUpdating}>Excel</button>
               <button className="btn btn-warning" disabled={isUpdating}>Pdf</button>
             </div>
-            
+
           </div>
         </fieldset>
       </form>

@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './StaffForm.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const StaffForm = ({ onStaffAdded }) => {
@@ -27,9 +27,33 @@ const StaffForm = ({ onStaffAdded }) => {
     const [delateResult, setDelateResult] = useState(null);
     const [delateError, setDelateError] = useState("");
 
+    const [formError, setFormError] = useState("");
+    const [showToast, setShowToast] = useState(false);
+
+    useEffect(() => {
+        if (formError) {
+            setShowToast(true);
+            const timer = setTimeout(() => setShowToast(false), 2500);
+            return () => clearTimeout(timer);
+        }
+    }, [formError]);
+
+    const validateForm = () => {
+        if (!firstname.trim() || !lastname.trim() || !email.trim() || !phone.trim() || !nickname.trim() || !password.trim()) {
+            setFormError("Todos los campos son obligatorios.");
+            return false;
+        }
+        if (!cargo) {
+            setFormError("Debe seleccionar un cargo.");
+            return false;
+        }
+        setFormError("");
+        return true;
+    };
 
     const handleSave = async (e) => {
         e.preventDefault();
+        if (!validateForm()) return;
         const StaffData = {
             firstname, lastname,
             email, phone, nickname, password, cargo
@@ -137,6 +161,7 @@ const StaffForm = ({ onStaffAdded }) => {
             alert("ID no definido.");
             return;
         }
+        if (!validateForm()) return;
         const StaffData = {
             firstname, lastname,
             email, phone, nickname, password, cargo
@@ -222,9 +247,14 @@ const StaffForm = ({ onStaffAdded }) => {
 
     return (
         <>
+            {showToast && formError && (
+                <div className='alert'>
+                    {formError}
+                </div>
+            )}
             <form onSubmit={isUpdating ? handleUpdate : handleSave}>
                 <fieldset className="p-3 bg-light rounded border">
-                    <legend className="fw-bold">Registro de personal</legend>
+                    <legend className="fw-bold">Registro de personal</legend>                    
                     <div className='row col-md-12 mb-2'>
 
                         <div className="col-md-3 d-grid gap-2 mb-2">
