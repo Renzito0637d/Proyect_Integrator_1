@@ -104,7 +104,7 @@ Para poder ejecutar los proyectos, se necesitan los siguientes requisitos:
 >       use ucvincidencia;         
 >       ~~~
 
-## :clipboard: Requisitos Funcionales (RF)
+## :clipboard: Requirimientos Funcionales (RF)
 | ID  | Descripción                                                                                              | Estado            |
 |-----|----------------------------------------------------------------------------------------------------------|-------------------|
 | RF1 | El aplicativo permite el acceso a los recursos mediante un login                                         | ✔️      |
