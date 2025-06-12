@@ -3,7 +3,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './StaffForm.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import 'bootstrap-icons/font/bootstrap-icons.css';
 const StaffForm = ({ onStaffAdded }) => {
 
     const [firstname, setFirstname] = useState("");
@@ -13,6 +13,8 @@ const StaffForm = ({ onStaffAdded }) => {
     const [nickname, setNickname] = useState("");
     const [password, setPassword] = useState("");
     const [cargo, setCargo] = useState("");
+
+    const [showPassword, setShowPassword] = useState(false); // Controla visibilidad
 
     // Estado para el modal de consulta
     const [consultId, setConsultId] = useState("");
@@ -54,8 +56,8 @@ const StaffForm = ({ onStaffAdded }) => {
     const handleOnlyNumbersInput = setter => e => {
         const val = e.target.value;
         if (/^\d*$/.test(val) && val.length <= 9) {
-      setter(val);  
-    }
+            setter(val);
+        }
     };
 
     const handleSave = async (e) => {
@@ -288,16 +290,35 @@ const StaffForm = ({ onStaffAdded }) => {
                             <div>
                                 <label className="fw-medium">Telefono móvil</label>
                                 <input type="text" className="form-control" placeholder="Ingrese el telefóno del personal"
-                                    value={phone} onChange={handleOnlyNumbersInput(setPhone)} 
+                                    value={phone} onChange={handleOnlyNumbersInput(setPhone)}
                                 />
                             </div>
                         </div>
                         <div className="col-md-3 d-grid gap-2 mb-2">
                             <div>
-                                <label className="fw-medium">Contraseña</label>
-                                <input type="text" className="form-control" placeholder="Ingrese la contraseña del personal"
-                                    value={password} onChange={(e) => setPassword(e.target.value)}
-                                />
+                                <label className="fw-medium">Contraseña</label>                                
+                                <div className="position-relative">
+                                    <input
+                                        type={showPassword ? 'text' : 'password'}
+                                        className="form-control pe-5" // Espacio a la derecha para el ícono
+                                        placeholder="Ingresa tu contraseña"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                    />
+                                    <span
+                                        className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`}
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        style={{
+                                            position: 'absolute',
+                                            top: '50%',
+                                            right: '15px',
+                                            transform: 'translateY(-50%)',
+                                            cursor: 'pointer',
+                                            color: '#6c757d'
+                                        }}
+                                    />
+                                </div>
                             </div>
                             <div>
                                 <label className="fw-medium">Cargo</label>
