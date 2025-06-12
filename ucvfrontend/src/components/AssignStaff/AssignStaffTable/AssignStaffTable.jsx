@@ -5,7 +5,7 @@ function AssignStaffTable() {
     <>
       <div className="d-flex flex-wrap col-12 gap-2">
         {/* Tabla de asignaciones */}
-        <div className="flex-grow-1 bg-light p-3 rounded border col-12 col-md-10">
+        <div className="flex-grow-1 bg-light p-3 rounded border col-12 col-md-8">
           <div className="scroll">
             <table className="table table-bordered text-center">
               <thead className="table-info">
@@ -34,7 +34,7 @@ function AssignStaffTable() {
         </div>
 
         {/* Panel de descripción y orden */}
-        <div className="col-12 col-md-2 mt-md-0" style={{ width: '300px' }}>
+        <div className="col-12 col-md-4 mt-md-0" style={{ width: '300px' }}>
           <label className="fw-bold">Descripción</label>
           <textarea className="form-control mb-2" rows="8" placeholder="Detalle de la incidencia..."></textarea>
 
