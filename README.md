@@ -106,10 +106,10 @@ To run the project, you need the following:
 | ID  | Description                                                                                          | Status            |
 |-----|------------------------------------------------------------------------------------------------------|-------------------|
 | FR1 | The app allows access to resources through a login                                                   | ✔️                |
-| FR2 | The app should allow navigation between forms via a menu                                             | :hourglass_flowing_sand: |
-| FR3 | The app allows registration of IT incident types and their corresponding management                  | :hourglass_flowing_sand: |
-| FR4 | The app allows registration of employees and their corresponding management                          | :hourglass_flowing_sand: |
-| FR5 | The app allows registration of departments and their corresponding management                        | :hourglass_flowing_sand: |
+| FR2 | The app should allow navigation between forms via a menu                                             | :heavy_check_mark: |
+| FR3 | The app allows registration of IT incident types and their corresponding management                  | :heavy_check_mark: |
+| FR4 | The app allows registration of employees and their corresponding management                          | :heavy_check_mark: |
+| FR5 | The app allows registration of departments and their corresponding management                        | :heavy_check_mark: |
 | FR6 | The app allows registration of IT incidents and their corresponding management                       | :hourglass_flowing_sand: |
 | FR7 | The app allows assigning a staff member to resolve an IT incident                                    | :hourglass_flowing_sand: |
 | FR8 | The app allows employees to register solution details and observations on resolved incidents         | :hourglass_flowing_sand: |
