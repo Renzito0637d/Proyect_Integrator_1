@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import './login.css'; // Asegúrate de tener este archivo CSS
+import './login.css';
 import ucvImage from "../../assets/ucv.jpg";
 import logoCom from "../../assets/logoCom.jpg";
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -60,17 +60,13 @@ const Login = () => {
   return (
     <div className="container-fluid login-wrapper">
       <div className="row h-100">
-
-        {/* Columna de la imagen */}
-        <div className="col-12 col-md-6 p-0">
+        <div className="d-none d-md-block col-md-6 p-0">
           <img
             src={ucvImage}
             alt="Imagen UCV"
             className="img-fluid h-100 w-100 object-fit-cover masked-image"
           />
         </div>
-
-        {/* Columna del login */}
         <div className="col-12 col-md-6 d-flex align-items-center justify-content-center p-5 bg-white">
           <div className="w-100" style={{ maxWidth: '400px' }}>
             <div className="col-12 cent">
@@ -79,7 +75,7 @@ const Login = () => {
                 alt="Imagen UCV"
                 className="img-fluid h-100 w-100 object-fit-cover"
               />
-            </div>            
+            </div>
             <p className="text-muted text-center mb-4">Bienvenido de nuevo</p>
 
             <form onSubmit={handleSubmit}>
@@ -130,14 +126,19 @@ const Login = () => {
 
 
               <div className="mb-3 text-end">
-                <a href="#" className="text-decoration-none text-primary">¿Olvidaste tu contraseña?</a>
+                <span
+                  className="text-decoration-none text-primary"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => navigate('/forgot-password')}
+                >
+                  ¿Olvidaste tu contraseña?
+                </span>
               </div>
 
               <button type="submit" className="btn btn-primary w-100">Ingresar</button>
             </form>
           </div>
         </div>
-
       </div>
     </div>
   );

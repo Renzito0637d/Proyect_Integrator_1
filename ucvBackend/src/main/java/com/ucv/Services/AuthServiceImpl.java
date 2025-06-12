@@ -1,5 +1,6 @@
 package com.ucv.Services;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +14,8 @@ import com.ucv.Entity.Role;
 import com.ucv.Entity.User;
 import com.ucv.Repository.UserRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import lombok.RequiredArgsConstructor;
 
 // Esta clase implementa la interfaz AuthService y proporciona la lógica de negocio 
@@ -21,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService{
-
+    private static final Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
     // Inyecciones de dependencias
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -42,8 +45,28 @@ public class AuthServiceImpl implements AuthService{
                 .cargo(request.getCargo())
                 .build();
 
+        if(user.getFirstname() != null){
+            user.setFirstname(StringUtils.normalizeSpace(user.getFirstname()));
+        }
+        if(user.getLastname() != null){
+            user.setLastname(StringUtils.normalizeSpace(user.getLastname()));
+        }
+        if(user.getNickname() != null){
+            user.setNickname(StringUtils.replace(user.getNickname(), " ", ""));
+        }
+        if(user.getEmail() != null){
+            user.setEmail(StringUtils.normalizeSpace(user.getEmail()));
+        }
+        if(user.getPhone() != null){
+            user.setPhone(StringUtils.normalizeSpace(user.getPhone()));
+        }
+        // Verificar si el usuario ya existe en la base de datos
+        if (userRepository.findUserByEmail(request.getEmail()).isPresent()) {
+            throw new IllegalStateException("El usuario ya existe");
+        }
         // Guardar el nuevo usuario en la base de datos
         userRepository.save(user);
+        logger.info("Usuario registrado exitoxamente: ", user.getEmail());
         // Generar un token JWT para el usuario registrado
         var jwtToken = jwtService.generateToken(user);
         // Devolver el token generado dentro de un objeto AuthResponse
@@ -64,6 +87,8 @@ public class AuthServiceImpl implements AuthService{
         var user = userRepository.findUserByEmail(request.getEmail()).orElseThrow();
         // Generar un token JWT para el usuario autenticado
         var jwtToken = jwtService.generateToken(user);
+        logger.info("Usuario autenticado exitosamente: ", user.getEmail());
+        logger.info("Token JWT generado para el usuario autenticado: "+jwtToken);
         // Devolver el token generado dentro de un objeto AuthResponse
         return AuthResponse.builder().token(jwtToken).build();
     }
