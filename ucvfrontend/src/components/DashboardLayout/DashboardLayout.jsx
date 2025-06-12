@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -116,12 +116,91 @@ const DashboardLayout = () => {
     driverObj.drive();
   }, []);
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const sidebarRef = useRef(null);
+
+  // Cierra el sidebar al hacer clic fuera en móvil
+  useEffect(() => {
+    if (!sidebarOpen) return;
+    const handleClickOutside = (event) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target) &&
+        !event.target.classList.contains('hamburger-btn')
+      ) {
+        setSidebarOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [sidebarOpen]);
+
+  // Evita scroll cuando el sidebar está abierto en móvil
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [sidebarOpen]);
+
+  const handleSidebarLinkClick = () => {
+  if (window.innerWidth < 768) {
+    setSidebarOpen(false);
+  }
+};
+
   return (
     <div className="d-flex">
-      {/* Sidebar */}
-      <div className='sidebar'>
+      {/* Botón hamburguesa solo visible en móvil */}
+      <button
+        className="hamburger-btn d-md-none"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        style={{
+          position: 'fixed',
+          top: '15px',
+          left: '15px',
+          zIndex: 1201,
+          fontSize: '28px',
+          background: 'midnightblue',
+          color: 'white',
+          border: 'none',
+          borderRadius: '5px',
+          padding: '6px 10px',
+          display: 'inline-block',
+        }}
+        aria-label="Abrir menú"
+      >
+        ☰
+      </button>
 
-        <ul>
+      {/* Overlay oscuro cuando el sidebar está abierto en móvil */}
+      {sidebarOpen && (
+        <div
+          className="sidebar-overlay d-md-none"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0,0,0,0.3)',
+            zIndex: 1200,
+          }}
+        />
+      )}
+
+      <div
+        ref={sidebarRef}
+        className={`sidebar${sidebarOpen ? ' active' : ''}`}
+        style={{
+          // En móvil, el sidebar está por encima del contenido
+          zIndex: sidebarOpen ? 1202 : 1000,
+          position: 'fixed',
+        }}
+      >
+        <ul onClick={handleSidebarLinkClick}>
           <li className="nav-item">
             <Link className="nav-link text-white" to="/dashboard">
               <img src={ucvLogo} alt="UCV Logo" style={{ width: '119px', height: 'auto', border: 'none' }} />
@@ -173,7 +252,13 @@ const DashboardLayout = () => {
       </div>
 
       {/* Main content */}
-      <div className="container-fluid flex-grow-1 position-relative">
+      <div
+        className="container-fluid flex-grow-1 position-relative"
+        style={{
+          marginLeft: '80px',
+          transition: 'margin-left .75s ease',
+        }}
+      >
         <div className="d-flex justify-content-end align-items-center p-3 border-bottom bg-light" style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }} id="user-profile">
           <img src={defaultUser} alt="User" className="rounded-circle me-2" style={{ width: '40px', height: '40px', objectFit: 'cover' }} />
           <span>{registeredUser ? registeredUser : "Usuario"}</span>
