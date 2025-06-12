@@ -29,8 +29,23 @@ function StaffTable({ staffList }) {
     }, [sortOption, staffList]); // se ejecuta cuando cambia el criterio o la lista original
 
     return (
-        <div className="d-flex bg-light p-3 rounded border col-12">
-            <div className="flex-grow-1 me-4 col-md-10">
+        <div className="d-flex flex-wrap bg-light p-3 rounded border col-12 gap-2">
+            <div className="col-12 col-md-2 mt-md-0" style={{ width: "100px" }}>
+                <label className="fw-medium">Ordenar por</label>
+                <select
+                    className="form-select"
+                    value={sortOption}
+                    onChange={(e) => setSortOption(e.target.value)}
+                >
+                    <option value="Id">Id</option>
+                    <option value="Apellido">Apellido</option>
+                    <option value="Usuario">Usuario</option>
+                    <option value="Rol">Rol</option>
+                    <option value="Correo">Correo</option>
+                    <option value="Cargo">Cargo</option>
+                </select>
+            </div>
+            <div className="flex-grow-1 col-12 col-md-10">
                 <div className="scroll">
                     <table className="table tmn table-bordered text-center">
                         <thead className="table-info">
@@ -63,21 +78,6 @@ function StaffTable({ staffList }) {
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div style={{ width: "100px" }}>
-                <label className="fw-medium">Ordenar por</label>
-                <select
-                    className="form-select"
-                    value={sortOption}
-                    onChange={(e) => setSortOption(e.target.value)}
-                >
-                    <option value="Id">Id</option>
-                    <option value="Apellido">Apellido</option>
-                    <option value="Usuario">Usuario</option>
-                    <option value="Rol">Rol</option>
-                    <option value="Correo">Correo</option>
-                    <option value="Cargo">Cargo</option>
-                </select>
             </div>
         </div>
     );

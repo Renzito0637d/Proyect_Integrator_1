@@ -57,52 +57,56 @@ function ReportTable() {
   };
 
   return (
-    <div className="d-flex bg-light p-3 rounded border">
-      {/* Tabla principal */}
-      <div className="flex-grow-1 me-4">
-        <table className="table table-bordered table-sm text-center align-middle">
-          <thead className="table-light">
-            <tr>
-              <th>ID</th>
-              <th>Acciones Tomadas</th>
-              <th>Estados</th>
-              <th>Personal</th>
-              <th>Descripción</th>
-              <th>Fecha</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reports.map(({ id, accionesTomadas, estados, personal, descripcion, fecha }) => (
-              <tr key={id}>
-                <td>{id}</td>
-                <td>{accionesTomadas}</td>
-                <td>{estados}</td>
-                <td>{personal}</td>
-                <td>{descripcion}</td>
-                <td>{fecha}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+    <>
+      <div className="d-flex flex-wrap bg-light p-3 rounded border col-12 gap-2">
+        {/* Tabla principal */}
+        <div className="flex-grow-1 col-12 col-md-10">
+          <div className="scroll">
+            <table className="table table-bordered table-sm text-center align-middle">
+              <thead className="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Acciones Tomadas</th>
+                  <th>Estados</th>
+                  <th>Personal</th>
+                  <th>Descripción</th>
+                  <th>Fecha</th>
+                </tr>
+              </thead>
+              <tbody>
+                {reports.map(({ id, accionesTomadas, estados, personal, descripcion, fecha }) => (
+                  <tr key={id}>
+                    <td>{id}</td>
+                    <td>{accionesTomadas}</td>
+                    <td>{estados}</td>
+                    <td>{personal}</td>
+                    <td>{descripcion}</td>
+                    <td>{fecha}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-      {/* Panel lateral derecho */}
-      <div style={{ width: "220px" }}>
-        <h6 className="fw-bold">Ordenar por</h6>
-        <select
-          className="form-select mb-2"
-          value={sortBy}
-          onChange={e => setSortBy(e.target.value)}
-        >
-          <option>ID</option>
-          <option>Acciones Tomadas</option>
-          <option>Estados</option>
-          <option>Personal</option>
-          <option>Fecha</option>
-        </select>
-        <button className="btn btn-primary w-100" onClick={handleSort}>Ordenar</button>
+        {/* Panel lateral derecho */}
+        <div className="col-12 col-md-2 mt-md-0" style={{ width: "100px" }}>
+          <h6 className="fw-bold">Ordenar por</h6>
+          <select
+            className="form-select mb-2"
+            value={sortBy}
+            onChange={e => setSortBy(e.target.value)}
+          >
+            <option>ID</option>
+            <option>Acciones Tomadas</option>
+            <option>Estados</option>
+            <option>Personal</option>
+            <option>Fecha</option>
+          </select>
+          <button className="btn btn-primary w-100" onClick={handleSort}>Ordenar</button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

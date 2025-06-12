@@ -1,6 +1,6 @@
-function ReportFrom(){
- return(
-      <>
+function ReportFrom() {
+    return (
+        <>
             <fieldset className="p-3 bg-light rounded border">
                 <legend className="fw-bold">
                     Informe de Incidencias Informáticas <span className="badge bg-success">#CAT-0001</span>
@@ -39,11 +39,17 @@ function ReportFrom(){
                     </div>
                 </div>
 
-                <div className="d-flex justify-content-start gap-3  flex-wrap mb-0">
-                    <button className="btn btn-danger">Registrar</button>
-                    <button className="btn btn-primary">Consultar</button>
-                    <button className="btn btn-secondary">Actualizar</button>
-                    <button className="btn btn-warning">Eliminar</button>
+                <div className='col-md-12 d-flex justify-content-between align-items-center mt-3'>
+                    <div className='col-md-10 d-flex justify-content-start gap-4 flex-wrap'>
+                        <button className="btn btn-danger">Registrar</button>
+                        <button className="btn btn-primary">Consultar</button>
+                        <button className="btn btn-secondary">Actualizar</button>
+                        <button className="btn btn-warning">Eliminar</button>
+                    </div>
+                    <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
+                        <button className="btn btn-success" type='button' >Excel</button>
+                        <button className="btn btn-warning" >Pdf</button>
+                    </div>
                 </div>
 
                 {/* Línea roja después de los botones */}

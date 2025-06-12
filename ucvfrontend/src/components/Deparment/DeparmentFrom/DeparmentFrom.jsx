@@ -308,8 +308,8 @@ function DeparmentFrom({ onDeparmentChanged }) {
             </div>
 
           </div>
-          <div className='d-flex'>
-            <div className='col-md-10 d-flex justify-content-start gap-2'>
+          <div className='col-md-12 d-flex justify-content-between align-items-center mt-3'>
+            <div className='col-md-10 d-flex justify-content-start gap-4 flex-wrap'>
               <button type="submit" className="btn btn-danger" disabled={isUpdating}>Registrar</button>
               <button
                 className="btn btn-primary"
@@ -366,7 +366,7 @@ function DeparmentFrom({ onDeparmentChanged }) {
                 </>
               )}
             </div>
-            <div className='col-md-2 d-flex justify-content-end gap-4'>
+            <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
               <button className="btn btn-success" type='button' onClick={handleExcelExport} disabled={isUpdating}>Excel</button>
               <button className="btn btn-warning" disabled={isUpdating}>Pdf</button>
             </div>
