@@ -49,9 +49,9 @@ function CategoryTable({ categoryList = [] }) {
 
     return (
         <>
-            <div className="d-flex bg-light p-3 rounded border col-12">
+            <div className="d-flex flex-wrap bg-light p-3 rounded border col-12 gap-2">
                 {/* Ordenamiento */}
-                <div style={{ width: "200px" }} className="me-2 scroll">
+                <div style={{ width: "200px" }} className="col-12 col-md-3 mt-md-0 scroll">
                     <label className="fw-medium">Ordenar por</label>
                     <select
                         className="form-select mb-2"
@@ -104,7 +104,7 @@ function CategoryTable({ categoryList = [] }) {
                     </div>
                     {/* El botón es opcional, el ordenamiento es reactivo */}
                 </div>
-                <div className="flex-grow-1 col-md-10">
+                <div className="flex-grow-1 col-12 col-md-9">
                     <div className="scroll">
                         <table className="table tmn table-bordered text-center">
                             <thead className="table-info">
