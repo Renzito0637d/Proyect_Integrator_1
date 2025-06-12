@@ -4,62 +4,53 @@ import './IncidentForm.css'
 function IncidentForm() {
     return (
         <>
-            <fieldset className="p-3 bg-light rounded border">
-                <legend className="fw-bold">Registrar incidencias informaticas</legend>
-                <div className='row'>
-                    <div className="col-md-4">
-                        <p className="fw-medium">Descirpcion de la incidencia</p>
-                        <textarea class="form-control" id="" rows="7"></textarea>
-                    </div>
-                    <div className="col-md-4">
-                        <div className='mb-2'>
-                            <p className="fw-medium">Departamento</p>
-                            <select
-                                id=""
-                                className="form-select"
-                            >
-                                <option value=""></option>
-                            </select>
+            <fieldset className="p-2 bg-light rounded border">
+                <legend className="fw-bold mb-4">Registrar incidencias informaticas</legend>
+                <form>
+                    <div className="row g-4">
+                        <div className="col-md-4">
+                            <label className="fw-medium mb-2" htmlFor="descripcion">Descripción de la incidencia</label>
+                            <textarea className="form-control" id="descripcion" rows="7"></textarea>
                         </div>
-                        <div className='mb-3'>
-                            <p className="fw-medium">Area</p>
-                            <select
-                                id=""
-                                className="form-select"
-                            >
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <div className='justify-content-end d-flex'>
-                            <button type="button" class="btn btn-danger">Registrar</button>
-                            <button type="button" class="btn btn-primary ms-4">Consultar</button>
-                        </div>
-
-                    </div>
-                    <div className="col-md-4">
-                        <div className='mb-2'>
-                            <p className="fw-medium">Fecha de la incidencia</p>
-                            <input
-                                type="date"
-                                id=""
-                                className="form-control"
-                            />
-                        </div>
-                        <div className='mb-3'>
-                            <p className="fw-medium">Area</p>
-                            <select
-                                id=""
-                                className="form-select"
-                            >
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <div className=''>
-                            <button type="button" class="btn btn-secondary">Acualizar</button>
-                            <button type="button" class="btn btn-warning ms-4">Eliminar</button>
+                        <div className="col-md-8">
+                            <div className="row g-3">
+                                <div className="col-md-6">
+                                    <label className="fw-medium mb-1" htmlFor="departamento">Departamento</label>
+                                    <select id="departamento" className="form-select mb-3">
+                                        <option value="">Seleccione</option>
+                                        {/* ...opciones... */}
+                                    </select>
+                                    <label className="fw-medium mb-1" htmlFor="area1">Área</label>
+                                    <select id="area1" className="form-select">
+                                        <option value="">Seleccione</option>
+                                        {/* ...opciones... */}
+                                    </select>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="fw-medium mb-1" htmlFor="fecha">Fecha de la incidencia</label>
+                                    <input type="date" id="fecha" className="form-control mb-3" />
+                                    <label className="fw-medium mb-1" htmlFor="area2">Área</label>
+                                    <select id="area2" className="form-select">
+                                        <option value="">Seleccione</option>
+                                        {/* ...opciones... */}
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div className='col-md-12 d-flex justify-content-between align-items-center mt-3'>
+                        <div className='col-md-10 d-flex justify-content-start gap-4 flex-wrap'>
+                            <button type="button" className="btn btn-danger">Registrar</button>
+                            <button type="button" className="btn btn-primary">Consultar</button>
+                            <button type="button" className="btn btn-secondary">Actualizar</button>
+                            <button type="button" className="btn btn-warning">Eliminar</button>
+                        </div>                        
+                        <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
+                            <button className="btn btn-success" type='button'>Excel</button>
+                            <button className="btn btn-warning">Pdf</button>
+                        </div>
+                    </div>
+                </form>
             </fieldset>
             <hr />
         </>
