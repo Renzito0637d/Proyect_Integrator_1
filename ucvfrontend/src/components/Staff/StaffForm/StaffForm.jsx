@@ -326,18 +326,18 @@ const StaffForm = ({ onStaffAdded }) => {
                                     onChange={(e) => setNickname(e.target.value)}
                                 />
                             </div>
-                            <div className='d-flex justify-content-end gap-3 mt-4'>
+                            <div>
                                 <button
                                     type="button"
                                     className="btn btn-secondary"
                                     onClick={handleAutogenerateNickname}
                                 >
-                                    Autogenerar
+                                    Autogenerar usuario
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div className='d-flex justify-content-between align-items-center mt-3'>
+                    <div className='col-md-12 d-flex justify-content-between align-items-center mt-3'>
                         <div className='col-md-10 d-flex justify-content-start gap-4 flex-wrap'>
                             <button type="submit" className="btn btn-danger" disabled={isUpdating}>Registrar</button>
                             {/* Botón para abrir el modal de consulta */}
@@ -401,7 +401,7 @@ const StaffForm = ({ onStaffAdded }) => {
                                 </>
                             )}
                         </div>
-                        <div className='col-md-2 d-flex justify-content-end gap-4'>
+                        <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
                             <button className="btn btn-success" type='button' onClick={handleExcelExport} disabled={isUpdating}>Excel</button>
                             <button className="btn btn-warning" disabled={isUpdating}>Pdf</button>
                         </div>

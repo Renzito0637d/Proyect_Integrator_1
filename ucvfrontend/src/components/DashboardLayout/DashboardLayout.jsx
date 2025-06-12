@@ -173,7 +173,7 @@ const DashboardLayout = () => {
       </div>
 
       {/* Main content */}
-      <div className="flex-grow-1 position-relative">
+      <div className="container-fluid flex-grow-1 position-relative">
         <div className="d-flex justify-content-end align-items-center p-3 border-bottom bg-light" style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }} id="user-profile">
           <img src={defaultUser} alt="User" className="rounded-circle me-2" style={{ width: '40px', height: '40px', objectFit: 'cover' }} />
           <span>{registeredUser ? registeredUser : "Usuario"}</span>
