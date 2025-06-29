@@ -104,14 +104,14 @@ Para poder ejecutar los proyectos, se necesitan los siguientes requisitos:
 >       use ucvincidencia;         
 >       ~~~
 
-## :clipboard: Requisitos Funcionales (RF)
+## :clipboard: Requirimientos Funcionales (RF)
 | ID  | Descripción                                                                                              | Estado            |
 |-----|----------------------------------------------------------------------------------------------------------|-------------------|
 | RF1 | El aplicativo permite el acceso a los recursos mediante un login                                         | ✔️      |
-| RF2 | El aplicativo debe permitir la navegabilidad de los formularios mediante un menú                         | :hourglass_flowing_sand:   |
-| RF3 | El aplicativo permite el registro de tipos de incidencias informáticas y realizar el mantenimiento correspondiente | :hourglass_flowing_sand: |
-| RF4 | El aplicativo permite el registro de los empleados de la empresa y realizar el mantenimiento correspondiente | :hourglass_flowing_sand: |
-| RF5 | El aplicativo permite el registro de áreas y realizar el mantenimiento correspondiente                   | :hourglass_flowing_sand:     |
+| RF2 | El aplicativo debe permitir la navegabilidad de los formularios mediante un menú                         | :heavy_check_mark:   |
+| RF3 | El aplicativo permite el registro de tipos de incidencias informáticas y realizar el mantenimiento correspondiente | :heavy_check_mark: |
+| RF4 | El aplicativo permite el registro de los empleados de la empresa y realizar el mantenimiento correspondiente | :heavy_check_mark: |
+| RF5 | El aplicativo permite el registro de áreas y realizar el mantenimiento correspondiente                   | :heavy_check_mark:     |
 | RF6 | El aplicativo permite el registro de una incidencia informática y realizar el mantenimiento correspondiente | :hourglass_flowing_sand:     |
 | RF7 | El aplicativo permite asignar a un personal para la solución de la incidencia informática                 | :hourglass_flowing_sand:   |
 | RF8 | El aplicativo permite al empleado registrar los detalles de la solución y observaciones de la incidencia solucionada | :hourglass_flowing_sand:|

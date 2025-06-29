@@ -1,0 +1,12 @@
+.password-ellipsis {
+  max-width: 150px;          /* Define el ancho máximo del campo */
+  white-space: nowrap;       /* Evita que el texto se divida en varias líneas */
+  overflow: hidden;          /* Oculta cualquier texto que se desborde */
+  text-overflow: ellipsis;   /* Muestra los tres puntos (...) al final */
+}
+
+.scroll{
+  max-height: 185px;
+  overflow-y: auto;
+  display: block;
+}

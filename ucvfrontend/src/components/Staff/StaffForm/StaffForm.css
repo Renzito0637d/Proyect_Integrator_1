@@ -1,0 +1,120 @@
+/* Estilo personalizado para el modal */
+.custom-modal .modal-content {
+    background-color: #f9f9f9;
+    /* Blanco suave */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-modal-header {
+    background-color: #007bff;
+    /* Azul */
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 20px;
+}
+
+.custom-modal-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.custom-modal-body {
+    padding: 30px;
+}
+
+.custom-modal-footer {
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* Estilo para el botón de cerrar */
+.custom-btn-close {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    opacity: 0.7;
+}
+
+.custom-btn-close:hover {
+    opacity: 1;
+}
+
+/* Estilo para el botón "Consultar" */
+.custom-btn-primary {
+    background-color: #007bff;
+    /* Azul */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.custom-btn-primary:hover {
+    background-color: #0056b3;
+    /* Azul más oscuro */
+}
+
+/* Estilo para el botón "Cerrar" */
+.custom-btn-secondary {
+    background-color: #dc3545;
+    /* Rojo */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+.custom-btn-secondary:hover {
+    background-color: #c82333;
+    /* Rojo más oscuro */
+}
+
+/* Estilo de las alertas */
+.custom-alert-success {
+    background-color: #28a745;
+    /* Verde */
+    color: white;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.custom-alert-danger {
+    background-color: #dc3545;
+    /* Rojo */
+    color: white;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+/* Estilo para los inputs */
+.custom-input {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.custom-form-label {
+    font-weight: 600;
+    color: #007bff;
+    /* Azul */
+}
+
+.noti2 {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    min-width: 250px;
+    background-color: #dc3545;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-weight: bold;
+}
