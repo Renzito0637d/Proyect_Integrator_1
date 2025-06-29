@@ -75,68 +75,65 @@ function CategoryTable({ categoryList = [] }) {
                         Limpiar
                     </button>
                     <div className="gap-2 d-flex flex-column">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Filtrar por Tipo"
-                        value={filterType}
-                        onChange={e => setFilterType(e.target.value)}
-                    />
-                    <select
-                        className="form-select"
-                        value={filterPriority}
-                        onChange={e => setFilterPriority(e.target.value)}
-                    >
-                        <option value="">Filtrar por Prioridad</option>
-                        <option value="Alto">Alto</option>
-                        <option value="Medio">Medio</option>
-                        <option value="Bajo">Bajo</option>
-                    </select>
-                    <select
-                        className="form-select"
-                        value={filterCategory}
-                        onChange={e => setFilterCategory(e.target.value)}
-                    >
-                        <option value="">Filtrar por Categoria</option>
-                        <option value="Software">Software</option>
-                        <option value="Hardware">Hardware</option>
-                    </select>
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Filtrar por Tipo"
+                            value={filterType}
+                            onChange={e => setFilterType(e.target.value)}
+                        />
+                        <select
+                            className="form-select"
+                            value={filterPriority}
+                            onChange={e => setFilterPriority(e.target.value)}
+                        >
+                            <option value="">Filtrar por Prioridad</option>
+                            <option value="Alto">Alto</option>
+                            <option value="Medio">Medio</option>
+                            <option value="Bajo">Bajo</option>
+                        </select>
+                        <select
+                            className="form-select"
+                            value={filterCategory}
+                            onChange={e => setFilterCategory(e.target.value)}
+                        >
+                            <option value="">Filtrar por Categoria</option>
+                            <option value="Software">Software</option>
+                            <option value="Hardware">Hardware</option>
+                        </select>
                     </div>
                     {/* El botón es opcional, el ordenamiento es reactivo */}
                 </div>
                 <div className="flex-grow-1 col-12 col-md-9">
-                    <div className="scroll">
-                        <table className="table tmn table-bordered text-center">
-                            <thead className="table-info">
+                    <table className="table tmn table-bordered text-center">
+                        <thead className="table-info">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Nivel de prioridad</th>
+                                <th scope="col">Categoria</th>
+                                <th scope="col">Descripcion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredList.length === 0 ? (
                                 <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Tipo</th>
-                                    <th scope="col">Nivel de prioridad</th>
-                                    <th scope="col">Categoria</th>
-                                    <th scope="col">Descripcion</th>
+                                    <td colSpan={5}>Sin datos</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {filteredList.length === 0 ? (
-                                    <tr>
-                                        <td colSpan={5}>Sin datos</td>
+                            ) : (
+                                filteredList.map(cat => (
+                                    <tr key={cat.id}>
+                                        <td>{cat.id}</td>
+                                        <td>{cat.type}</td>
+                                        <td>{cat.prioritylevel}</td>
+                                        <td>{cat.category}</td>
+                                        <td className="desc-ellipsis">{cat.description}</td>
                                     </tr>
-                                ) : (
-                                    filteredList.map(cat => (
-                                        <tr key={cat.id}>
-                                            <td>{cat.id}</td>
-                                            <td>{cat.type}</td>
-                                            <td>{cat.prioritylevel}</td>
-                                            <td>{cat.category}</td>
-                                            <td className="desc-ellipsis">{cat.description}</td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
                 </div>
-
             </div>
         </>
     );
