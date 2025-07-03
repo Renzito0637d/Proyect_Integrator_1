@@ -1,9 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './StaffForm.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { toast } from 'sonner'
 import { getAuthHeader } from '../../../Utils/Auth';
 
 const StaffForm = ({ onStaffAdded }) => {
@@ -29,29 +30,20 @@ const StaffForm = ({ onStaffAdded }) => {
 
     const [delateId, setDelateId] = useState("")
     const [delateResult, setDelateResult] = useState(null);
-    const [delateError, setDelateError] = useState("");
-
-    const [formError, setFormError] = useState("");
-    const [showToast, setShowToast] = useState(false);
-
-    useEffect(() => {
-        if (formError) {
-            setShowToast(true);
-            const timer = setTimeout(() => setShowToast(false), 2500);
-            return () => clearTimeout(timer);
-        }
-    }, [formError]);
 
     const validateForm = () => {
         if (!firstname.trim() || !lastname.trim() || !email.trim() || !phone.trim() || !nickname.trim() || !password.trim()) {
-            setFormError("Todos los campos son obligatorios.");
+            toast.warning("Todos los campos son obligatorios.", {
+                duration: 3000,
+            });
             return false;
         }
         if (!cargo) {
-            setFormError("Debe seleccionar un cargo.");
+            toast.warning("Debe seleccionar un cargo.", {
+                duration: 3000,
+            });
             return false;
         }
-        setFormError("");
         return true;
     };
 
@@ -93,8 +85,10 @@ const StaffForm = ({ onStaffAdded }) => {
         } catch (error) {
             // Manejo de errores
             if (error.response) {
-                // El servidor respondió con un código de estado fuera del rango 2xx
-                alert("Error: Credenciales incorrectas");
+                // El servidor respondió con un código de estado fuera del rango 2xx error
+                toast.error("Correo ya existente", {
+                    duration: 3000,
+                });
             } else if (error.request) {
                 // La solicitud fue hecha pero no hubo respuesta
                 console.error("No se recibió respuesta del servidor:", error.request);
@@ -124,7 +118,9 @@ const StaffForm = ({ onStaffAdded }) => {
         setConsultResult(null);
         setConsultError("");
         if (!consultId) {
-            setConsultError("Debe ingresar un ID.");
+            toast.error("Debe ingresar un ID.", {
+                duration: 3000,
+            });
             return;
         }
         try {
@@ -137,17 +133,23 @@ const StaffForm = ({ onStaffAdded }) => {
             if (user) {
                 setConsultResult(user);
             } else {
-                setConsultError("Usuario no encontrado.");
+                toast.error("Usuario no encontrado.", {
+                    duration: 3000,
+                });
             }
         } catch (err) {
-            setConsultError("Error al consultar el usuario.");
+            toast.error("Error al consultar el usuario.", {
+                duration: 3000,
+            });
         }
     };
 
     // Busca el usuario y rellena los campos
     const handleFetchForUpdate = async () => {
         if (!updateModalId) {
-            alert("Ingrese el ID del usuario a actualizar.");
+            toast.error("Ingrese el ID del usuario a actualizar.", {
+                duration: 3000,
+            });
             return;
         }
         try {
@@ -167,10 +169,14 @@ const StaffForm = ({ onStaffAdded }) => {
                 setCargo(user.cargo || "");
                 setIsUpdating(true);
             } else {
-                alert("Usuario no encontrado.");
+                toast.error("Usuario no encontrado.", {
+                    duration: 3000,
+                });
             }
         } catch (error) {
-            alert("Error al buscar el usuario.");
+            toast.error("Error al buscar el usuario.", {
+                duration: 3000,
+            });
         }
     };
 
@@ -178,7 +184,9 @@ const StaffForm = ({ onStaffAdded }) => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         if (!updateId) {
-            alert("ID no definido.");
+            toast.error("ID no definido.", {
+                duration: 3000,
+            });
             return;
         }
         if (!validateForm()) return;
@@ -197,7 +205,9 @@ const StaffForm = ({ onStaffAdded }) => {
                     },
                 }
             );
-            alert("Usuario actualizado correctamente.");
+            toast.success("Usuario actualizado correctamente.", {
+                duration: 3000,
+            });
             // Limpiar campos tras actualización
             setUpdateId("");
             setFirstname("");
@@ -210,15 +220,17 @@ const StaffForm = ({ onStaffAdded }) => {
             setIsUpdating(false);
             if (onStaffAdded) onStaffAdded();
         } catch (error) {
-            alert("Error al actualizar el usuario.");
+            toast.error("Error al actualizar el usuario.", {
+                duration: 3000,
+            });
         }
     };
 
     const handleDelateConsult = async () => {
-        setDelateResult(null);
-        setDelateError("");
         if (!delateId) {
-            setDelateError("Debe ingresar un ID.");
+            toast.error("Debe ingresar un ID.", {
+                duration: 3000,
+            });
             return;
         }
         try {
@@ -230,10 +242,14 @@ const StaffForm = ({ onStaffAdded }) => {
             if (user) {
                 setDelateResult(user);
             } else {
-                setDelateError("Usuario no encontrado.");
+                toast.error("Usuario no encontrado.", {
+                    duration: 3000,
+                });
             }
         } catch (err) {
-            setDelateError("Error al consultar el usuario.");
+            toast.error("Error al consultar el usuario.", {
+                duration: 3000,
+            });
         }
     };
 
@@ -241,7 +257,7 @@ const StaffForm = ({ onStaffAdded }) => {
     const handleDelate = async (e) => {
         e.preventDefault();
         if (!delateId) {
-            alert("ID no definido.");
+            toast.error("ID no definido.", { duration: 3000 });
             return;
         }
         try {
@@ -249,9 +265,14 @@ const StaffForm = ({ onStaffAdded }) => {
                 `http://localhost:8080/api/ucv/staffDelete/${delateId}`,
                 { headers: getAuthHeader() }
             );
-            if (onStaffAdded) onStaffAdded();
+            toast.success("Usuario eliminado correctamente.", { duration: 3000 });
         } catch (error) {
-            alert("Error al actualizar el eliminar al usuario.");
+            // Si el backend responde con 200/204 pero axios lo toma como error, igual refresca
+            toast.error("Error al eliminar al usuario.", { duration: 3000 });
+        } finally {
+            setDelateId("");
+            setDelateResult(null);
+            if (onStaffAdded) onStaffAdded();
         }
     }
 
@@ -259,7 +280,6 @@ const StaffForm = ({ onStaffAdded }) => {
         try {
             axios.post(
                 'http://localhost:8080/api/ucv/staffExcel',
-                {},
                 {
                     responseType: 'blob',
                     headers: getAuthHeader(),
@@ -277,21 +297,18 @@ const StaffForm = ({ onStaffAdded }) => {
 
                 })
         } catch (error) {
-            console.error('Error al descargar el archivo:', error);
+            toast.error("Error al descargar el archivo.", {
+                duration: 3000,
+            });
         }
     }
 
     return (
         <>
-            {showToast && formError && (
-                <div className='noti2'>
-                    {formError}
-                </div>
-            )}
             <form onSubmit={isUpdating ? handleUpdate : handleSave}>
                 <fieldset className="p-3 bg-light rounded border">
                     <legend className="fw-bold">Registro de personal</legend>
-                    <div className='row col-md-12 mb-2'>
+                    <div className='row mb-2'>
 
                         <div className="col-md-3 d-grid gap-2 mb-2">
                             <div>
@@ -323,7 +340,7 @@ const StaffForm = ({ onStaffAdded }) => {
                         </div>
                         <div className="col-md-3 d-grid gap-2 mb-2">
                             <div>
-                                <label className="fw-medium">Contraseña</label>                                
+                                <label className="fw-medium">Contraseña</label>
                                 <div className="position-relative">
                                     <input
                                         type={showPassword ? 'text' : 'password'}
@@ -485,9 +502,6 @@ const StaffForm = ({ onStaffAdded }) => {
                             >
                                 Consultar
                             </button>
-                            {consultError && (
-                                <div className="alert custom-alert-danger mt-2">{consultError}</div>
-                            )}
                             {consultResult && (
                                 <div className=" custom-alert-success mt-2">
                                     <strong>Nombre:</strong> {consultResult.firstname} <br />
@@ -558,12 +572,9 @@ const StaffForm = ({ onStaffAdded }) => {
                             >
                                 Consultar
                             </button>
-                            {delateError && (
-                                <div className="alert custom-alert-danger mt-2">{delateError}</div>
-                            )}
                             {delateResult && (
                                 <>
-                                    <div className="alert custom-alert-success mt-2">
+                                    <div className="custom-alert-success mt-2 mb-2">
                                         <strong>Nombre:</strong> {delateResult.firstname} <br />
                                         <strong>Apellido:</strong> {delateResult.lastname} <br />
                                         <strong>Email:</strong> {delateResult.email} <br />

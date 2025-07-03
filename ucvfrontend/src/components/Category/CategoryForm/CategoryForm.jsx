@@ -176,7 +176,7 @@ function CategoryForm({ onCategoryChanged }) {
             <form onSubmit={isUpdating ? handleUpdate : handleSave}>
                 <fieldset className="p-3 bg-light rounded border">
                     <legend className="fw-bold">Registro de tipos de incidencias</legend>
-                    <div className='row col-md-12'>
+                    <div className='row'>
                         <div className="col-md-4">
                             <label className="fw-medium">Tipo de incidencia</label>
                             <input

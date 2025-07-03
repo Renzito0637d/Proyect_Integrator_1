@@ -51,7 +51,7 @@ function CategoryTable({ categoryList = [] }) {
         <>
             <div className="d-flex flex-wrap bg-light p-3 rounded border col-12 gap-2">
                 {/* Ordenamiento */}
-                <div style={{ width: "200px" }} className="col-12 col-md-3 mt-md-0 scroll">
+                <div style={{ width: "200px" }} className="col-12 col-md-3 mt-md-0">
                     <label className="fw-medium">Ordenar por</label>
                     <select
                         className="form-select mb-2"

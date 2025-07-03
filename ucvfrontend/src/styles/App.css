@@ -45,3 +45,17 @@
     transform: rotate(360deg);
   }
 }
+
+/* Puedes poner esto en src/styles/App.css o un archivo importado en App.js */
+.sonner-toast {
+  opacity: 0;
+  transform: translateY(30px) scale(0.98);
+  animation: sonner-fade-in 0.5s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+@keyframes sonner-fade-in {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

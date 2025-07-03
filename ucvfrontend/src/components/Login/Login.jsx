@@ -5,6 +5,7 @@ import './login.css';
 import ucvImage from "../../assets/ucv.jpg";
 import logoCom from "../../assets/logoCom.jpg";
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { toast } from 'sonner'
 
 // Componente de inicio de sesión
 const Login = () => {
@@ -39,9 +40,10 @@ const Login = () => {
       // Si la solicitud es exitosa
       sessionStorage.setItem("token", response.data.token); // Guarda el token JWT en localStorage
       // Alerta de éxito
-      alert("Login exitoso");
-
       navigate("/dashboard");
+      return toast.success("Inicio de sesión exitoso", {
+        duration: 3000,
+      });
     } catch (error) {
       // Manejo de errores
       if (error.response) {
@@ -59,6 +61,7 @@ const Login = () => {
 
   return (
     <div className="container-fluid login-wrapper">
+      
       <div className="row h-100">
         <div className="d-none d-md-block col-md-6 p-0">
           <img
