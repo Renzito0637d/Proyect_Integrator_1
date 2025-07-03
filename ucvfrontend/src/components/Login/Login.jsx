@@ -37,7 +37,7 @@ const Login = () => {
       );
 
       // Si la solicitud es exitosa
-      localStorage.setItem("token", response.data.token); // Guarda el token JWT en localStorage
+      sessionStorage.setItem("token", response.data.token); // Guarda el token JWT en localStorage
       // Alerta de éxito
       alert("Login exitoso");
 

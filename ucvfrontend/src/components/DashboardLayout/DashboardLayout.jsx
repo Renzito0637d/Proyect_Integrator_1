@@ -23,7 +23,7 @@ const DashboardLayout = () => {
   const [registeredUser, setRegisteredUser] = useState("");
   useEffect(() => {
     // Decodifica el JWT para obtener el nickname
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
@@ -38,10 +38,18 @@ const DashboardLayout = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     setRegisteredUser("");
     navigate("/");
   };
+
+  useEffect(() => {
+  const handleUnload = () => {
+    localStorage.removeItem("token");
+  };
+  window.addEventListener("beforeunload", handleUnload);
+  return () => window.removeEventListener("beforeunload", handleUnload);
+}, []);
 
   useEffect(() => {
     const driverObj = driver({

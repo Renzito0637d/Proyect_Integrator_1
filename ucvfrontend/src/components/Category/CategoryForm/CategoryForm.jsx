@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useState } from 'react';
 import axios from 'axios';
+import { getAuthHeader } from '../../../Utils/Auth';
 
 function CategoryForm({ onCategoryChanged }) {
     // Estados para el formulario principal
@@ -31,7 +32,7 @@ function CategoryForm({ onCategoryChanged }) {
         const data = { type, prioritylevel, category, description };
         try {
             await axios.post("http://localhost:8080/api/ucv/categorySave", data, {
-                headers: { "Content-Type": "application/json" }
+                headers: { "Content-Type": "application/json", ...getAuthHeader() }
             });
             setType(""); setPrioritylevel(""); setCategory(""); setDescription("");
             if (onCategoryChanged) onCategoryChanged();
@@ -65,7 +66,11 @@ function CategoryForm({ onCategoryChanged }) {
             return;
         }
         try {
-            const res = await axios.get("http://localhost:8080/api/ucv/categoryList");
+            const res = await axios.get("http://localhost:8080/api/ucv/categoryList",
+                {
+                    headers: getAuthHeader()
+                }
+            );
             const cat = res.data.find(c => String(c.id) === String(updateModalId));
             if (cat) {
                 setUpdateId(cat.id);
@@ -92,7 +97,7 @@ function CategoryForm({ onCategoryChanged }) {
         const data = { type, prioritylevel, category, description };
         try {
             await axios.put(`http://localhost:8080/api/ucv/categoryUpdate/${updateId}`, data, {
-                headers: { "Content-Type": "application/json" }
+                headers: { "Content-Type": "application/json", ...getAuthHeader() }
             });
             alert("Categoría actualizada correctamente.");
             setUpdateId(""); setType(""); setPrioritylevel(""); setCategory(""); setDescription("");
@@ -112,7 +117,9 @@ function CategoryForm({ onCategoryChanged }) {
             return;
         }
         try {
-            const res = await axios.get("http://localhost:8080/api/ucv/categoryList");
+            const res = await axios.get("http://localhost:8080/api/ucv/categoryList",{
+                headers: getAuthHeader()
+            });
             const cat = res.data.find(c => String(c.id) === String(deleteId));
             if (cat) setDeleteResult(cat);
             else setDeleteError("Categoría no encontrada.");
@@ -129,7 +136,9 @@ function CategoryForm({ onCategoryChanged }) {
             return;
         }
         try {
-            await axios.delete(`http://localhost:8080/api/ucv/categoryDelete/${deleteId}`);
+            await axios.delete(`http://localhost:8080/api/ucv/categoryDelete/${deleteId}`,{
+                headers: getAuthHeader()
+            });
             setDeleteId(""); setDeleteResult(null);
             if (onCategoryChanged) onCategoryChanged();
         } catch {
@@ -139,7 +148,12 @@ function CategoryForm({ onCategoryChanged }) {
 
     const handleExcelExport = async () => {
         try {
-            axios.post('http://localhost:8080/api/ucv/categoryExcel', {}, {
+            axios.post('http://localhost:8080/api/ucv/categoryExcel', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...getAuthHeader()
+                }
+            }, {
                 responseType: 'blob'
             })
                 .then(response => {

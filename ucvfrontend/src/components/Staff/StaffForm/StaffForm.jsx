@@ -4,6 +4,8 @@ import './StaffForm.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { getAuthHeader } from '../../../Utils/Auth';
+
 const StaffForm = ({ onStaffAdded }) => {
 
     const [firstname, setFirstname] = useState("");
@@ -68,13 +70,16 @@ const StaffForm = ({ onStaffAdded }) => {
             email, phone, nickname, password, cargo
         }
         try {
-            await axios.post("http://localhost:8080/api/ucv/register",
-                StaffData, {
-                // Configuración de la solicitud
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            await axios.post(
+                "http://localhost:8080/api/ucv/register",
+                StaffData,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...getAuthHeader(),
+                    },
+                }
+            );
             // Limpiar campos tras registro exitoso
             setFirstname("");
             setLastname("");
@@ -123,7 +128,10 @@ const StaffForm = ({ onStaffAdded }) => {
             return;
         }
         try {
-            const res = await axios.get(`http://localhost:8080/api/ucv/staffList`);
+            const res = await axios.get(
+                `http://localhost:8080/api/ucv/staffList`,
+                { headers: getAuthHeader() }
+            );
             // Buscar el usuario por ID en la lista (puedes cambiar a un endpoint específico si existe)
             const user = res.data.find(u => String(u.id) === String(consultId));
             if (user) {
@@ -143,7 +151,10 @@ const StaffForm = ({ onStaffAdded }) => {
             return;
         }
         try {
-            const res = await axios.get("http://localhost:8080/api/ucv/staffList");
+            const res = await axios.get(
+                "http://localhost:8080/api/ucv/staffList",
+                { headers: getAuthHeader() }
+            );
             const user = res.data.find(u => String(u.id) === String(updateModalId));
             if (user) {
                 setUpdateId(user.id);
@@ -176,11 +187,16 @@ const StaffForm = ({ onStaffAdded }) => {
             email, phone, nickname, password, cargo
         };
         try {
-            await axios.put(`http://localhost:8080/api/ucv/staffUpdate/${updateId}`, StaffData, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            await axios.put(
+                `http://localhost:8080/api/ucv/staffUpdate/${updateId}`,
+                StaffData,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...getAuthHeader(),
+                    },
+                }
+            );
             alert("Usuario actualizado correctamente.");
             // Limpiar campos tras actualización
             setUpdateId("");
@@ -206,7 +222,10 @@ const StaffForm = ({ onStaffAdded }) => {
             return;
         }
         try {
-            const res = await axios.get(`http://localhost:8080/api/ucv/staffList`);
+            const res = await axios.get(
+                `http://localhost:8080/api/ucv/staffList`,
+                { headers: getAuthHeader() }
+            );
             const user = res.data.find(u => String(u.id) === String(delateId));
             if (user) {
                 setDelateResult(user);
@@ -226,7 +245,10 @@ const StaffForm = ({ onStaffAdded }) => {
             return;
         }
         try {
-            await axios.delete(`http://localhost:8080/api/ucv/staffDelete/${delateId}`)
+            await axios.delete(
+                `http://localhost:8080/api/ucv/staffDelete/${delateId}`,
+                { headers: getAuthHeader() }
+            );
             if (onStaffAdded) onStaffAdded();
         } catch (error) {
             alert("Error al actualizar el eliminar al usuario.");
@@ -235,9 +257,14 @@ const StaffForm = ({ onStaffAdded }) => {
 
     const handleExcelExport = async () => {
         try {
-            axios.post('http://localhost:8080/api/ucv/staffExcel', {}, {
-                responseType: 'blob'
-            })
+            axios.post(
+                'http://localhost:8080/api/ucv/staffExcel',
+                {},
+                {
+                    responseType: 'blob',
+                    headers: getAuthHeader(),
+                }
+            )
                 .then(response => {
                     const url = window.URL.createObjectURL(new Blob([response.data]));
                     const link = document.createElement('a');

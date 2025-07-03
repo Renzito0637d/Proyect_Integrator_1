@@ -3,13 +3,14 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './DeparmentFrom.css'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { getAuthHeader } from '../../../Utils/Auth';
 
 function DeparmentFrom({ onDeparmentChanged }) {
   // Obtener nickname del usuario autenticado (ajusta según tu lógica de login)
   const [registeredUser, setRegisteredUser] = useState("");
   useEffect(() => {
     // Decodifica el JWT para obtener el nickname
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
@@ -87,9 +88,16 @@ function DeparmentFrom({ onDeparmentChanged }) {
     const dateTime = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
     const data = { registeredUser, name, tower, floor, classroom, registeredDate: dateTime, code };
     try {
-      await axios.post("http://localhost:8080/api/ucv/deparmentSave", data, {
-        headers: { "Content-Type": "application/json" }
-      });
+      await axios.post(
+        "http://localhost:8080/api/ucv/deparmentSave",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeader(),
+          }
+        }
+      );
       setName(""); setTower(""); setFloor(""); setClassroom(""); setCode("");
       if (onDeparmentChanged) onDeparmentChanged();
     } catch {
@@ -106,7 +114,10 @@ function DeparmentFrom({ onDeparmentChanged }) {
       return;
     }
     try {
-      const res = await axios.get("http://localhost:8080/api/ucv/deparmentList");
+      const res = await axios.get(
+        "http://localhost:8080/api/ucv/deparmentList",
+        { headers: getAuthHeader() }
+      );
       const dep = res.data.find(d => String(d.id) === String(consultId));
       if (dep) setConsultResult(dep);
       else setConsultError("Departamento no encontrado.");
@@ -122,7 +133,10 @@ function DeparmentFrom({ onDeparmentChanged }) {
       return;
     }
     try {
-      const res = await axios.get("http://localhost:8080/api/ucv/deparmentList");
+      const res = await axios.get(
+        "http://localhost:8080/api/ucv/deparmentList",
+        { headers: getAuthHeader() }
+      );
       const dep = res.data.find(d => String(d.id) === String(updateModalId));
       if (dep) {
         setUpdateId(dep.id);
@@ -154,9 +168,16 @@ function DeparmentFrom({ onDeparmentChanged }) {
     const dateTime = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
     const data = { registeredUser, name, tower, floor, classroom, registeredDate: dateTime, code };
     try {
-      await axios.put(`http://localhost:8080/api/ucv/deparmentUpdate/${updateId}`, data, {
-        headers: { "Content-Type": "application/json" }
-      });
+      await axios.put(
+        `http://localhost:8080/api/ucv/deparmentUpdate/${updateId}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeader(),
+          }
+        }
+      );
       alert("Departamento actualizado correctamente.");
       setUpdateId(""); setName(""); setTower(""); setFloor(""); setClassroom(""); setCode("");
       setIsUpdating(false);
@@ -175,7 +196,10 @@ function DeparmentFrom({ onDeparmentChanged }) {
       return;
     }
     try {
-      const res = await axios.get("http://localhost:8080/api/ucv/deparmentList");
+      const res = await axios.get(
+        "http://localhost:8080/api/ucv/deparmentList",
+        { headers: getAuthHeader() }
+      );
       const dep = res.data.find(d => String(d.id) === String(deleteId));
       if (dep) setDeleteResult(dep);
       else setDeleteError("Departamento no encontrado.");
@@ -192,7 +216,10 @@ function DeparmentFrom({ onDeparmentChanged }) {
       return;
     }
     try {
-      await axios.delete(`http://localhost:8080/api/ucv/deparmentDelate/${deleteId}`);
+      await axios.delete(
+        `http://localhost:8080/api/ucv/deparmentDelate/${deleteId}`,
+        { headers: getAuthHeader() }
+      );
       setDeleteId(""); setDeleteResult(null);
       if (onDeparmentChanged) onDeparmentChanged();
     } catch {
@@ -217,9 +244,14 @@ function DeparmentFrom({ onDeparmentChanged }) {
 
   const handleExcelExport = async () => {
     try {
-      axios.post('http://localhost:8080/api/ucv/deparmentExcel', {}, {
-        responseType: 'blob'
-      })
+      axios.post(
+        'http://localhost:8080/api/ucv/deparmentExcel',
+        {},
+        {
+          responseType: 'blob',
+          headers: getAuthHeader(),
+        }
+      )
         .then(response => {
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement('a');
