@@ -279,24 +279,22 @@ const StaffForm = ({ onStaffAdded }) => {
 
     const handleExcelExport = async () => {
         try {
-            axios.post(
+            const response = await axios.post(
                 'http://localhost:8080/api/ucv/staffExcel',
+                {}, // cuerpo vacío
                 {
                     responseType: 'blob',
                     headers: getAuthHeader(),
                 }
-            )
-                .then(response => {
-                    const url = window.URL.createObjectURL(new Blob([response.data]));
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.setAttribute('download', 'staff.xlsx');
-                    document.body.appendChild(link);
-                    link.click();
-                    link.remove();
-                    window.URL.revokeObjectURL(url);
-
-                })
+            );
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'staff.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
         } catch (error) {
             toast.error("Error al descargar el archivo.", {
                 duration: 3000,
