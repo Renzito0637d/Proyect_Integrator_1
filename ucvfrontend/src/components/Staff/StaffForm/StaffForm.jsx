@@ -6,6 +6,10 @@ import axios from 'axios';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { toast } from 'sonner'
 import { getAuthHeader } from '../../../Utils/Auth';
+import IconButton from '../../IconButton';
+import { MdAddCircle } from 'react-icons/md';
+import {FaSearch, FaRegEdit, FaTrash,FaSave} from 'react-icons/fa';
+import {FaFileExcel, FaFilePdf} from 'react-icons/fa6';
 
 const StaffForm = ({ onStaffAdded }) => {
 
@@ -399,10 +403,16 @@ const StaffForm = ({ onStaffAdded }) => {
                         </div>
                     </div>
                     <div className='col-md-12 d-flex justify-content-between align-items-center mt-3'>
-                        <div className='col-md-10 d-flex justify-content-start gap-4 flex-wrap'>
-                            <button type="submit" className="btn btn-danger" disabled={isUpdating}>Registrar</button>
-                            {/* Botón para abrir el modal de consulta */}
-                            <button
+                        <div className='col-md-10 d-flex justify-content-start gap-4 flex-wrap'>                            
+                            <IconButton
+                                type="submit"
+                                className="btn btn-danger"
+                                disabled={isUpdating}
+                                icon={MdAddCircle}
+                            >
+                                Registrar
+                            </IconButton>                                                        
+                            <IconButton
                                 className="btn btn-primary"
                                 type="button"
                                 data-bs-toggle="modal"
@@ -412,35 +422,39 @@ const StaffForm = ({ onStaffAdded }) => {
                                     setConsultResult(null);
                                 }}
                                 disabled={isUpdating}
+                                icon={FaSearch}
                             >
                                 Consultar
-                            </button>
-                            <button
+                            </IconButton>
+                            <IconButton
                                 className="btn btn-secondary"
                                 type="button"
                                 data-bs-toggle="modal"
                                 data-bs-target="#modalUpdate"
                                 disabled={isUpdating}
+                                icon={FaRegEdit}
                             >
                                 Actualizar
-                            </button>
-                            <button
+                            </IconButton>
+                            <IconButton
                                 className="btn btn-warning"
                                 disabled={isUpdating}
                                 type="button"
                                 data-bs-toggle="modal"
                                 data-bs-target="#modalDelate"
+                                icon={FaTrash}
                             >
                                 Eliminar
-                            </button>
+                            </IconButton>                            
                             {isUpdating && (
                                 <>
-                                    <button
+                                    <IconButton
                                         className="btn btn-success ml-2"
                                         type="submit"
+                                        icon={FaSave}
                                     >
                                         Guardar actualización
-                                    </button>
+                                    </IconButton>                                    
                                     <button
                                         className="btn btn-secondary"
                                         type="button"
@@ -455,8 +469,16 @@ const StaffForm = ({ onStaffAdded }) => {
                             )}
                         </div>
                         <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
-                            <button className="btn btn-success" type='button' onClick={handleExcelExport} disabled={isUpdating}>Excel</button>
-                            <button className="btn btn-warning" disabled={isUpdating}>Pdf</button>
+                            <IconButton
+                                className="btn btn-success" type='button' onClick={handleExcelExport} disabled={isUpdating} icon={FaFileExcel} title="Exportar a Excel" aria-label="Exportar a Excel"
+                            >
+                                Excel
+                            </IconButton>
+                            <IconButton
+                                className="btn btn-warning" disabled={isUpdating} icon={FaFilePdf} title="Exportar a PDF" aria-label="Exportar a PDF"
+                            >
+                                PDF
+                            </IconButton>                            
                         </div>
                     </div>
 
