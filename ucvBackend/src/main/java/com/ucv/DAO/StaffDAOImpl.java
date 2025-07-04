@@ -16,9 +16,8 @@ public class StaffDAOImpl implements StaffDAO {
     StaffRepository staffRepository;
     @Override
     public List<User> getAll() {
-        // Utiliza el repositorio para obtener todos los usuarios de la base de datos.
-        // El método findAll() es proporcionado por JpaRepository, que es una interfaz extendida por StaffRepository.
-        return staffRepository.findAll();
+        // Solo usuarios activos
+        return staffRepository.findByActiveTrue();
     }
 
     @Override
@@ -30,10 +29,10 @@ public class StaffDAOImpl implements StaffDAO {
 
     @Override
     public void delete(Long id) {
-        // Utiliza el repositorio para eliminar un usuario por su ID.
-        // El método deleteById() es proporcionado por JpaRepository, que es una interfaz extendida por StaffRepository.
-        User userObj= staffRepository.findById(id).get();
-        staffRepository.delete(userObj);
+        // Desactiva el usuario en vez de eliminarlo
+        User userObj = staffRepository.findById(id).get();
+        userObj.setActive(false);
+        staffRepository.save(userObj);
     }
 
     @Override
@@ -59,3 +58,4 @@ public class StaffDAOImpl implements StaffDAO {
     }
     
 }
+

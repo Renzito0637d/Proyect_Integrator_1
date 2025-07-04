@@ -22,7 +22,6 @@ const StaffForm = ({ onStaffAdded }) => {
     // Estado para el modal de consulta
     const [consultId, setConsultId] = useState("");
     const [consultResult, setConsultResult] = useState(null);
-    const [consultError, setConsultError] = useState("");
 
     const [updateId, setUpdateId] = useState("");
     const [isUpdating, setIsUpdating] = useState(false);
@@ -81,6 +80,9 @@ const StaffForm = ({ onStaffAdded }) => {
             setPassword("");
             setCargo("");
             // Notificar al padre que se agregó un staff
+            toast.success("Usuario registrado correctamente.", {
+                duration: 3000,
+            });
             if (onStaffAdded) onStaffAdded();
         } catch (error) {
             // Manejo de errores
@@ -116,7 +118,6 @@ const StaffForm = ({ onStaffAdded }) => {
     // Función para consultar usuario por ID
     const handleConsult = async () => {
         setConsultResult(null);
-        setConsultError("");
         if (!consultId) {
             toast.error("Debe ingresar un ID.", {
                 duration: 3000,
@@ -414,7 +415,6 @@ const StaffForm = ({ onStaffAdded }) => {
                                 onClick={() => {
                                     setConsultId("");
                                     setConsultResult(null);
-                                    setConsultError("");
                                 }}
                                 disabled={isUpdating}
                             >

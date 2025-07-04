@@ -48,6 +48,7 @@ public class AuthServiceImpl implements AuthService{
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(assignedRole)
                 .cargo(request.getCargo())
+                .active(true)
                 .build();
 
         if(user.getFirstname() != null){

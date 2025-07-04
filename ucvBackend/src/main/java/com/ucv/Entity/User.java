@@ -59,6 +59,8 @@ public class User implements UserDetails{
     private List<AssignStaff> assignStaff;
 
     // Este campo indica si el usuario ha confirmado su cuenta o no.
+    private Boolean active = true; // El nombre correcto es "active"
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -97,7 +99,7 @@ public class User implements UserDetails{
     // Este método indica si la cuenta del usuario está habilitada o no.
     @Override
     public boolean isEnabled() {    
-        return true;
+        return Boolean.TRUE.equals(this.active);
     }
     
 }// Fin de la clase
