@@ -3,6 +3,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useState } from 'react';
 import axios from 'axios';
 import { getAuthHeader } from '../../../Utils/Auth';
+import { toast } from 'sonner';
 
 function CategoryForm({ onCategoryChanged }) {
     // Estados para el formulario principal
@@ -14,7 +15,6 @@ function CategoryForm({ onCategoryChanged }) {
     // Estados para consulta
     const [consultId, setConsultId] = useState("");
     const [consultResult, setConsultResult] = useState(null);
-    const [consultError, setConsultError] = useState("");
 
     // Estados para actualización
     const [updateId, setUpdateId] = useState("");
@@ -24,45 +24,67 @@ function CategoryForm({ onCategoryChanged }) {
     // Estados para eliminación
     const [deleteId, setDeleteId] = useState("");
     const [deleteResult, setDeleteResult] = useState(null);
-    const [deleteError, setDeleteError] = useState("");
+
+    const clearFormFields = () => {
+        setType(""); setPrioritylevel(""); setCategory(""); setDescription("");
+    };
+
+    const validateFields = () => {
+        if (!type.trim() || !prioritylevel.trim() || !category.trim() || !description.trim()) {
+            toast.error("Todos los campos son obligatorios.", { duration: 3000 });
+            return false;
+        }
+        return true;
+    };
 
     // Registrar nueva categoría
     const handleSave = async (e) => {
         e.preventDefault();
+        if (!validateFields()) return;
         const data = { type, prioritylevel, category, description };
         try {
             await axios.post("http://localhost:8080/api/ucv/categorySave", data, {
                 headers: { "Content-Type": "application/json", ...getAuthHeader() }
             });
-            setType(""); setPrioritylevel(""); setCategory(""); setDescription("");
+            clearFormFields();
+            toast.success("Categoría registrada correctamente.", { duration: 3000 });
             if (onCategoryChanged) onCategoryChanged();
         } catch (error) {
-            alert("Error al registrar la categoría.");
+            toast.error("Error al registrar la categoría.", { duration: 3000 });
         }
     };
 
     // Consultar categoría por ID
     const handleConsult = async () => {
         setConsultResult(null);
-        setConsultError("");
         if (!consultId) {
-            setConsultError("Debe ingresar un ID.");
+            toast.error("Debe ingresar un ID.", { duration: 3000 });
             return;
         }
         try {
-            const res = await axios.get("http://localhost:8080/api/ucv/categoryList");
-            const cat = res.data.find(c => String(c.id) === String(consultId));
-            if (cat) setConsultResult(cat);
-            else setConsultError("Categoría no encontrada.");
+            const res = await axios.get("http://localhost:8080/api/ucv/categoryList",
+                {
+                    headers: getAuthHeader()
+                }
+            );
+            // Comparar como número para evitar problemas de tipo
+            const cat = res.data.find(c => Number(c.id) === Number(consultId));
+            if (cat) {
+                setConsultResult(cat);
+                toast.success("Categoría encontrada.", { duration: 3000 });
+            }
+            else {
+                toast.error("Categoría no encontrada.", { duration: 3000 });
+            }
         } catch {
-            setConsultError("Error al consultar la categoría.");
+            toast.error("Error al consultar la categoría.", { duration: 3000 });
         }
     };
 
     // Buscar para actualizar
     const handleFetchForUpdate = async () => {
         if (!updateModalId) {
-            alert("Ingrese el ID de la categoría a actualizar.");
+            toast.error("Ingrese el ID de la categoría a actualizar.", { duration: 3000 });
             return;
         }
         try {
@@ -79,11 +101,12 @@ function CategoryForm({ onCategoryChanged }) {
                 setCategory(cat.category || "");
                 setDescription(cat.description || "");
                 setIsUpdating(true);
+                toast.success("Categoría cargada para actualizar.", { duration: 3000 });
             } else {
-                alert("Categoría no encontrada.");
+                toast.error("Categoría no encontrada.", { duration: 3000 });
             }
         } catch {
-            alert("Error al buscar la categoría.");
+            toast.error("Error al buscar la categoría.", { duration: 3000 });
         }
     };
 
@@ -91,40 +114,45 @@ function CategoryForm({ onCategoryChanged }) {
     const handleUpdate = async (e) => {
         e.preventDefault();
         if (!updateId) {
-            alert("ID no definido.");
+            toast.error("ID no definido.", { duration: 3000 });
             return;
         }
+        if (!validateFields()) return;
         const data = { type, prioritylevel, category, description };
         try {
             await axios.put(`http://localhost:8080/api/ucv/categoryUpdate/${updateId}`, data, {
                 headers: { "Content-Type": "application/json", ...getAuthHeader() }
             });
-            alert("Categoría actualizada correctamente.");
-            setUpdateId(""); setType(""); setPrioritylevel(""); setCategory(""); setDescription("");
+            toast.success("Categoría actualizada correctamente.", { duration: 3000 });
+            clearFormFields();
             setIsUpdating(false);
             if (onCategoryChanged) onCategoryChanged();
         } catch {
-            alert("Error al actualizar la categoría.");
+            toast.error("Error al actualizar la categoría.", { duration: 3000 });
         }
     };
 
     // Consultar para eliminar
     const handleDeleteConsult = async () => {
         setDeleteResult(null);
-        setDeleteError("");
         if (!deleteId) {
-            setDeleteError("Debe ingresar un ID.");
+            toast.error("Debe ingresar un ID.", { duration: 3000 });
             return;
         }
         try {
-            const res = await axios.get("http://localhost:8080/api/ucv/categoryList",{
+            const res = await axios.get("http://localhost:8080/api/ucv/categoryList", {
                 headers: getAuthHeader()
             });
             const cat = res.data.find(c => String(c.id) === String(deleteId));
-            if (cat) setDeleteResult(cat);
-            else setDeleteError("Categoría no encontrada.");
+            if (cat) {
+                setDeleteResult(cat);
+                toast.success("Categoría encontrada.", { duration: 3000 });
+            }
+            else {
+                toast.error("Categoría no encontrada.", { duration: 3000 });
+            }
         } catch {
-            setDeleteError("Error al consultar la categoría.");
+            toast.error("Error al consultar la categoría.", { duration: 3000 });
         }
     };
 
@@ -132,17 +160,18 @@ function CategoryForm({ onCategoryChanged }) {
     const handleDelete = async (e) => {
         e.preventDefault();
         if (!deleteId) {
-            alert("ID no definido.");
+            toast.error("ID no definido.", { duration: 3000 });
             return;
         }
         try {
-            await axios.delete(`http://localhost:8080/api/ucv/categoryDelete/${deleteId}`,{
+            await axios.delete(`http://localhost:8080/api/ucv/categoryDelete/${deleteId}`, {
                 headers: getAuthHeader()
             });
             setDeleteId(""); setDeleteResult(null);
+            toast.success("Categoría eliminada correctamente.", { duration: 3000 });
             if (onCategoryChanged) onCategoryChanged();
         } catch {
-            alert("Error al eliminar la categoría.");
+            toast.error("Error al eliminar la categoría.", { duration: 3000 });
         }
     };
 
@@ -165,10 +194,13 @@ function CategoryForm({ onCategoryChanged }) {
                     link.click();
                     link.remove();
                     window.URL.revokeObjectURL(url);
-
+                    toast.success("Archivo Excel descargado correctamente.", { duration: 3000 });
+                })
+                .catch(() => {
+                    toast.error("Error al descargar el archivo.", { duration: 3000 });
                 })
         } catch (error) {
-            console.error('Error al descargar el archivo:', error);
+            toast.error('Error al descargar el archivo.', { duration: 3000 });
         }
     }
     return (
@@ -236,7 +268,6 @@ function CategoryForm({ onCategoryChanged }) {
                                     onClick={() => {
                                         setConsultId("");
                                         setConsultResult(null);
-                                        setConsultError("");
                                     }}
                                     disabled={isUpdating}
                                 >
@@ -260,32 +291,29 @@ function CategoryForm({ onCategoryChanged }) {
                                 >
                                     Eliminar
                                 </button>
+                                {isUpdating && (
+                                    <>
+                                        <button className="btn btn-success ml-2" type="submit">
+                                            Guardar actualización
+                                        </button>
+                                        <button
+                                            className="btn btn-secondary"
+                                            type="button"
+                                            onClick={() => {
+                                                setIsUpdating(false);
+                                                clearFormFields();
+                                            }}
+                                        >
+                                            Cancelar
+                                        </button>
+                                    </>
+                                )}
                             </div>
                             <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
                                 <button className="btn btn-success" type='button' onClick={handleExcelExport} disabled={isUpdating}>Excel</button>
                                 <button className="btn btn-warning" disabled={isUpdating}>Pdf</button>
                             </div>
-                            {isUpdating && (
-                                <>
-                                    <button className="btn btn-success ml-2" type="submit">
-                                        Guardar actualización
-                                    </button>
-                                    <button
-                                        className="btn btn-secondary"
-                                        type="button"
-                                        onClick={() => {
-                                            setIsUpdating(false);
-                                            setUpdateId("");
-                                            setType("");
-                                            setPrioritylevel("");
-                                            setCategory("");
-                                            setDescription("");
-                                        }}
-                                    >
-                                        Cancelar
-                                    </button>
-                                </>
-                            )}
+
                         </div>
                     </div>
                 </fieldset>
@@ -318,9 +346,6 @@ function CategoryForm({ onCategoryChanged }) {
                             >
                                 Consultar
                             </button>
-                            {consultError && (
-                                <div className="alert alert-danger mt-2">{consultError}</div>
-                            )}
                             {consultResult && (
                                 <div className="alert-success mt-2">
                                     <strong>Tipo:</strong> {consultResult.type} <br />
@@ -388,9 +413,6 @@ function CategoryForm({ onCategoryChanged }) {
                             >
                                 Consultar
                             </button>
-                            {deleteError && (
-                                <div className="alert alert-danger mt-2">{deleteError}</div>
-                            )}
                             {deleteResult && (
                                 <>
                                     <div className="alert alert-success mt-2">

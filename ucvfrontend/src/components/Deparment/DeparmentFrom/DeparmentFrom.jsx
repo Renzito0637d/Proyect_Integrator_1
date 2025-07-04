@@ -4,6 +4,7 @@ import './DeparmentFrom.css'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getAuthHeader } from '../../../Utils/Auth';
+import { toast } from 'sonner';
 
 function DeparmentFrom({ onDeparmentChanged }) {
   // Obtener nickname del usuario autenticado (ajusta según tu lógica de login)
@@ -43,7 +44,7 @@ function DeparmentFrom({ onDeparmentChanged }) {
   // Consulta
   const [consultId, setConsultId] = useState("");
   const [consultResult, setConsultResult] = useState(null);
-  const [consultError, setConsultError] = useState("");
+
 
   // Actualización
   const [updateId, setUpdateId] = useState("");
@@ -53,28 +54,16 @@ function DeparmentFrom({ onDeparmentChanged }) {
   // Eliminación
   const [deleteId, setDeleteId] = useState("");
   const [deleteResult, setDeleteResult] = useState(null);
-  const [deleteError, setDeleteError] = useState("");
 
-  // Estado para mensajes de error de validación
-  const [formError, setFormError] = useState("");
-  const [showToast, setShowToast] = useState(false);
-
-  // Mostrar toast de error
-  useEffect(() => {
-    if (formError) {
-      setShowToast(true);
-      const timer = setTimeout(() => setShowToast(false), 2500);
-      return () => clearTimeout(timer);
-    }
-  }, [formError]);
-
+  const clearFormFields = () => {
+    setName(""); setTower(""); setFloor(""); setClassroom(""); setCode("");
+  };
   // Validar formulario
   const validateForm = () => {
     if (!name.trim() || !tower.trim() || !floor.toString().trim() || !classroom.trim()) {
-      setFormError("Todos los campos son obligatorios.");
+      toast.warning("Todos los campos son obligatorios.", { duration: 3000 });      
       return false;
     }
-    setFormError("");
     return true;
   };
 
@@ -98,19 +87,19 @@ function DeparmentFrom({ onDeparmentChanged }) {
           }
         }
       );
-      setName(""); setTower(""); setFloor(""); setClassroom(""); setCode("");
+      clearFormFields();
+      toast.success("Departamento registrado correctamente.", { duration: 3000 });
       if (onDeparmentChanged) onDeparmentChanged();
     } catch {
-      alert("Error al registrar el departamento.");
+      toast.error("Error al registrar el departamento.", { duration: 3000 });
     }
   };
 
   // Consultar departamento por ID
   const handleConsult = async () => {
     setConsultResult(null);
-    setConsultError("");
     if (!consultId) {
-      setConsultError("Debe ingresar un ID.");
+      toast.error("Debe ingresar un ID.", { duration: 3000 });
       return;
     }
     try {
@@ -119,17 +108,21 @@ function DeparmentFrom({ onDeparmentChanged }) {
         { headers: getAuthHeader() }
       );
       const dep = res.data.find(d => String(d.id) === String(consultId));
-      if (dep) setConsultResult(dep);
-      else setConsultError("Departamento no encontrado.");
+      if (dep) {        
+        toast.success("Departamento encontrado.", { duration: 3000 });
+      }
+      else {        
+        toast.error("Departamento no encontrado.", { duration: 3000 });
+      }
     } catch {
-      setConsultError("Error al consultar el departamento.");
+      toast.error("Error al consultar el departamento.", { duration: 3000 });
     }
   };
 
   // Buscar para actualizar
   const handleFetchForUpdate = async () => {
     if (!updateModalId) {
-      alert("Ingrese el ID del departamento a actualizar.");
+      toast.error("Ingrese el ID del departamento a actualizar.", { duration: 3000 });
       return;
     }
     try {
@@ -146,11 +139,12 @@ function DeparmentFrom({ onDeparmentChanged }) {
         setClassroom(dep.classroom || "");
         setCode(dep.code || "");
         setIsUpdating(true);
+        toast.success("Departamento cargado para actualizar.", { duration: 3000 });
       } else {
-        alert("Departamento no encontrado.");
+        toast.error("Departamento no encontrado.", { duration: 3000 });
       }
     } catch {
-      alert("Error al buscar el departamento.");
+      toast.error("Error al buscar el departamento.", { duration: 3000 });
     }
   };
 
@@ -158,7 +152,7 @@ function DeparmentFrom({ onDeparmentChanged }) {
   const handleUpdate = async (e) => {
     e.preventDefault();
     if (!updateId) {
-      alert("ID no definido.");
+      toast.error("ID no definido.", { duration: 3000 });
       return;
     }
     if (!validateForm()) return;
@@ -178,21 +172,20 @@ function DeparmentFrom({ onDeparmentChanged }) {
           }
         }
       );
-      alert("Departamento actualizado correctamente.");
-      setUpdateId(""); setName(""); setTower(""); setFloor(""); setClassroom(""); setCode("");
+      toast.success("Departamento actualizado correctamente.", { duration: 3000 });
+      clearFormFields();
       setIsUpdating(false);
       if (onDeparmentChanged) onDeparmentChanged();
     } catch {
-      alert("Error al actualizar el departamento.");
+      toast.error("Error al actualizar el departamento.", { duration: 3000 });
     }
   };
 
   // Consultar para eliminar
   const handleDeleteConsult = async () => {
-    setDeleteResult(null);
-    setDeleteError("");
+    setDeleteResult(null);    
     if (!deleteId) {
-      setDeleteError("Debe ingresar un ID.");
+      toast.error("Debe ingresar un ID.", { duration: 3000 });
       return;
     }
     try {
@@ -201,10 +194,15 @@ function DeparmentFrom({ onDeparmentChanged }) {
         { headers: getAuthHeader() }
       );
       const dep = res.data.find(d => String(d.id) === String(deleteId));
-      if (dep) setDeleteResult(dep);
-      else setDeleteError("Departamento no encontrado.");
-    } catch {
-      setDeleteError("Error al consultar el departamento.");
+      if (dep) {
+        setDeleteResult(dep);
+        toast.success("Departamento encontrado.", { duration: 3000 });
+      }
+      else {        
+        toast.error("Departamento no encontrado.", { duration: 3000 });
+      }
+    } catch {      
+      toast.error("Error al consultar el departamento.", { duration: 3000 });
     }
   };
 
@@ -212,7 +210,7 @@ function DeparmentFrom({ onDeparmentChanged }) {
   const handleDelete = async (e) => {
     e.preventDefault();
     if (!deleteId) {
-      alert("ID no definido.");
+      toast.error("ID no definido.", { duration: 3000 });
       return;
     }
     try {
@@ -221,9 +219,10 @@ function DeparmentFrom({ onDeparmentChanged }) {
         { headers: getAuthHeader() }
       );
       setDeleteId(""); setDeleteResult(null);
+      toast.success("Departamento eliminado correctamente.", { duration: 3000 });
       if (onDeparmentChanged) onDeparmentChanged();
     } catch {
-      alert("Error al eliminar el departamento.");
+      toast.error("Error al eliminar el departamento.", { duration: 3000 });
     }
   };
 
@@ -261,21 +260,18 @@ function DeparmentFrom({ onDeparmentChanged }) {
           link.click();
           link.remove();
           window.URL.revokeObjectURL(url);
-
+          toast.success("Archivo Excel descargado correctamente.", { duration: 3000 });
+        })
+        .catch(() => {
+          toast.error("Error al descargar el archivo.", { duration: 3000 });
         })
     } catch (error) {
-      console.error('Error al descargar el archivo:', error);
+      toast.error('Error al descargar el archivo.', { duration: 3000 });
     }
   }
 
   return (
     <>
-      {/* Toast flotante para errores de validación */}
-      {showToast && formError && (
-        <div className='alert'>
-          {formError}
-        </div>
-      )}
       <form onSubmit={isUpdating ? handleUpdate : handleSave}>
         <fieldset className="p-3 bg-light rounded border">
           <legend className="fw-bold">
@@ -351,7 +347,6 @@ function DeparmentFrom({ onDeparmentChanged }) {
                 onClick={() => {
                   setConsultId("");
                   setConsultResult(null);
-                  setConsultError("");
                 }}
                 disabled={isUpdating}
               >
@@ -385,12 +380,7 @@ function DeparmentFrom({ onDeparmentChanged }) {
                     type="button"
                     onClick={() => {
                       setIsUpdating(false);
-                      setUpdateId("");
-                      setName("");
-                      setTower("");
-                      setFloor("");
-                      setClassroom("");
-                      setCode("");
+                      clearFormFields();
                     }}
                   >
                     Cancelar
@@ -434,9 +424,6 @@ function DeparmentFrom({ onDeparmentChanged }) {
               >
                 Consultar
               </button>
-              {consultError && (
-                <div className="alert alert-danger mt-2">{consultError}</div>
-              )}
               {consultResult && (
                 <div className=" alert-success mt-2">
                   <strong>Nombre:</strong> {consultResult.name} <br />
@@ -506,9 +493,6 @@ function DeparmentFrom({ onDeparmentChanged }) {
               >
                 Consultar
               </button>
-              {deleteError && (
-                <div className="alert alert-danger mt-2">{deleteError}</div>
-              )}
               {deleteResult && (
                 <>
                   <div className="alert alert-success mt-2">

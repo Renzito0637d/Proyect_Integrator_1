@@ -30,6 +30,16 @@ const StaffForm = ({ onStaffAdded }) => {
     const [delateId, setDelateId] = useState("")
     const [delateResult, setDelateResult] = useState(null);
 
+    const clearFormFields = () => {
+        setFirstname("");
+        setLastname("");
+        setEmail("");
+        setPhone("");
+        setNickname("");
+        setPassword("");
+        setCargo("");
+    };
+
     const validateForm = () => {
         if (!firstname.trim() || !lastname.trim() || !email.trim() || !phone.trim() || !nickname.trim() || !password.trim()) {
             toast.warning("Todos los campos son obligatorios.", {
@@ -72,13 +82,7 @@ const StaffForm = ({ onStaffAdded }) => {
                 }
             );
             // Limpiar campos tras registro exitoso
-            setFirstname("");
-            setLastname("");
-            setEmail("");
-            setPhone("");
-            setNickname("");
-            setPassword("");
-            setCargo("");
+            clearFormFields();
             // Notificar al padre que se agregó un staff
             toast.success("Usuario registrado correctamente.", {
                 duration: 3000,
@@ -210,14 +214,7 @@ const StaffForm = ({ onStaffAdded }) => {
                 duration: 3000,
             });
             // Limpiar campos tras actualización
-            setUpdateId("");
-            setFirstname("");
-            setLastname("");
-            setEmail("");
-            setPhone("");
-            setNickname("");
-            setPassword("");
-            setCargo("");
+            clearFormFields();
             setIsUpdating(false);
             if (onStaffAdded) onStaffAdded();
         } catch (error) {
@@ -449,14 +446,7 @@ const StaffForm = ({ onStaffAdded }) => {
                                         type="button"
                                         onClick={() => {
                                             setIsUpdating(false);
-                                            setUpdateId("");
-                                            setFirstname("");
-                                            setLastname("");
-                                            setEmail("");
-                                            setPhone("");
-                                            setNickname("");
-                                            setPassword("");
-                                            setCargo("");
+                                            clearFormFields();
                                         }}
                                     >
                                         Cancelar
