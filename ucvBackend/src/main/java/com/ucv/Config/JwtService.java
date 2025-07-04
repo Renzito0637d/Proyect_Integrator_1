@@ -28,15 +28,25 @@ public class JwtService {
         // Si el usuario tiene nickname, lo agrega como claim extra
         Map<String, Object> extraClaims = new HashMap<>();
         try {
-            // El UserDetails puede ser User, que tiene getNickname()
+            // El UserDetails puede ser User, que tiene getNickname() y getRole()
             Object maybeUser = userDetails;
             String nickname = null;
+            String role = null;
             // Reflection para evitar cast directo
             try {
                 nickname = (String) maybeUser.getClass().getMethod("getNickname").invoke(maybeUser);
             } catch (Exception ignored) {}
+            try {
+                Object roleObj = maybeUser.getClass().getMethod("getRole").invoke(maybeUser);
+                if (roleObj != null) {
+                    role = roleObj.toString();
+                }
+            } catch (Exception ignored) {}
             if (nickname != null) {
                 extraClaims.put("nickname", nickname);
+            }
+            if (role != null) {
+                extraClaims.put("role", role);
             }
         } catch (Exception ignored) {}
         return generateToken(extraClaims, userDetails);
