@@ -88,3 +88,8 @@ span {
 .sidebar-overlay {
   display: block;
 }
+
+.sidebar .nav-item.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}

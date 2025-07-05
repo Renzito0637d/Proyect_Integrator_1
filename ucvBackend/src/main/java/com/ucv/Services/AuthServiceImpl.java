@@ -34,6 +34,11 @@ public class AuthServiceImpl implements AuthService{
     // Método para registrar un nuevo usuario
     @Override
     public AuthResponse register(RegisterRequest request) {
+        // Determinar el rol según el cargo
+        Role assignedRole = Role.USER;
+        if (request.getCargo() != null && !"Estudiante".equalsIgnoreCase(request.getCargo().trim())) {
+            assignedRole = Role.ADMIN;
+        }
         var user= User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
@@ -41,8 +46,9 @@ public class AuthServiceImpl implements AuthService{
                 .phone(request.getPhone())
                 .nickname(request.getNickname())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(assignedRole)
                 .cargo(request.getCargo())
+                .active(true)
                 .build();
 
         if(user.getFirstname() != null){

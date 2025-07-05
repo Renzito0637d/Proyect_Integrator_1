@@ -19,18 +19,23 @@ public class IncidentServiceImpl implements IncidentService{
     }
 
     @Override
+    public List<Incident> getByUserId(Long userId) {
+        return incidentDAO.getByUserId(userId);
+    }
+
+    @Override
     public Incident getById(Long id) {
         return incidentDAO.getById(id);
     }
 
     @Override
-    public void save(Incident employee) {
-        incidentDAO.save(employee);
+    public void save(Incident incident) {
+        incidentDAO.save(incident);
     }
 
     @Override
-    public void update(Incident employee) {
-        incidentDAO.save(employee);
+    public void update(Incident incident) {
+        incidentDAO.save(incident);
     }
 
     @Override

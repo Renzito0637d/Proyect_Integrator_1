@@ -21,16 +21,21 @@ const DashboardLayout = () => {
   const [mostrarChat, setMostrarChat] = useState(false);
 
   const [registeredUser, setRegisteredUser] = useState("");
+  const [userRole, setUserRole] = useState(""); // Nuevo estado para el rol
+
   useEffect(() => {
-    // Decodifica el JWT para obtener el nickname
-    const token = localStorage.getItem("token");
+    // Decodifica el JWT para obtener el nickname y el rol
+    const token = sessionStorage.getItem("token");
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
         if (payload.sub) setRegisteredUser(payload.sub);
         else setRegisteredUser("");
+        if (payload.role) setUserRole(payload.role);
+        else setUserRole("");
       } catch {
         setRegisteredUser("");
+        setUserRole("");
       }
     }
   }, []);
@@ -38,10 +43,18 @@ const DashboardLayout = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     setRegisteredUser("");
     navigate("/");
   };
+
+  useEffect(() => {
+  const handleUnload = () => {
+    localStorage.removeItem("token");
+  };
+  window.addEventListener("beforeunload", handleUnload);
+  return () => window.removeEventListener("beforeunload", handleUnload);
+}, []);
 
   useEffect(() => {
     const driverObj = driver({
@@ -146,10 +159,17 @@ const DashboardLayout = () => {
   }, [sidebarOpen]);
 
   const handleSidebarLinkClick = () => {
-  if (window.innerWidth < 768) {
-    setSidebarOpen(false);
-  }
-};
+    if (window.innerWidth < 768) {
+      setSidebarOpen(false);
+    }
+  };
+
+  // Función para saber si el botón debe estar deshabilitado para USER
+  const isDisabledForUser = (section) => {
+    if (userRole === "ADMIN") return false;
+    // Solo permite Home, Incident y Category para USER
+    return !["home", "incident", "category"].includes(section);
+  };
 
   return (
     <div className="d-flex">
@@ -224,26 +244,42 @@ const DashboardLayout = () => {
               <span className='item-txt'>Categoría</span>
             </Link>
           </li>
-          <li className="nav-item" id='sidebar-report'>
-            <Link className="nav-link text-white" to="/dashboard/report">
+          <li
+            className={`nav-item${isDisabledForUser("report") ? " disabled" : ""}`}
+            id='sidebar-report'
+            style={isDisabledForUser("report") ? { pointerEvents: "none", opacity: 0.5 } : {}}
+          >
+            <Link className="nav-link text-white" to="/dashboard/report" tabIndex={isDisabledForUser("report") ? -1 : 0}>
               <FaFileAlt size={27} />
               <span className='item-txt'>Informe</span>
             </Link>
           </li>
-          <li className="nav-item" id='sidebar-deparment'>
-            <Link className="nav-link text-white" to="/dashboard/department">
+          <li
+            className={`nav-item${isDisabledForUser("deparment") ? " disabled" : ""}`}
+            id='sidebar-deparment'
+            style={isDisabledForUser("deparment") ? { pointerEvents: "none", opacity: 0.5 } : {}}
+          >
+            <Link className="nav-link text-white" to="/dashboard/department" tabIndex={isDisabledForUser("deparment") ? -1 : 0}>
               <FaBuilding size={27} />
               <span className='item-txt'>Departamento</span>
             </Link>
           </li>
-          <li className="nav-item" id='sidebar-staff'>
-            <Link className="nav-link text-white" to="/dashboard/staff">
+          <li
+            className={`nav-item${isDisabledForUser("staff") ? " disabled" : ""}`}
+            id='sidebar-staff'
+            style={isDisabledForUser("staff") ? { pointerEvents: "none", opacity: 0.5 } : {}}
+          >
+            <Link className="nav-link text-white" to="/dashboard/staff" tabIndex={isDisabledForUser("staff") ? -1 : 0}>
               <FaUsers size={27} />
               <span className='item-txt'>Personal</span>
             </Link>
           </li>
-          <li className="nav-item" id='sidebar-assignStaff'>
-            <Link className="nav-link text-white" to="/dashboard/assignStaff">
+          <li
+            className={`nav-item${isDisabledForUser("assignStaff") ? " disabled" : ""}`}
+            id='sidebar-assignStaff'
+            style={isDisabledForUser("assignStaff") ? { pointerEvents: "none", opacity: 0.5 } : {}}
+          >
+            <Link className="nav-link text-white" to="/dashboard/assignStaff" tabIndex={isDisabledForUser("assignStaff") ? -1 : 0}>
               <FaUserPlus size={27} />
               <span className='item-txt'>Asignar personal</span>
             </Link>

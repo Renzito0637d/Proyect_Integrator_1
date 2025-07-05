@@ -31,7 +31,9 @@ public class SecurityConfig {
     // Método que configura la cadena de filtros de seguridad
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf(csrf -> csrf.disable())
+        httpSecurity
+            .cors(cors -> cors.and()) // Cambia esto a .cors(cors -> cors.and())
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(publicEndpoints()).permitAll()                
                 .anyRequest().authenticated())
@@ -44,9 +46,10 @@ public class SecurityConfig {
     // Método que define los endpoints públicos que no requieren autenticación
     private RequestMatcher publicEndpoints() {
         return new OrRequestMatcher(
-            new AntPathRequestMatcher("/api/ucv/**")
-            //new AntPathRequestMatcher("/example")
-        );            
+        new AntPathRequestMatcher("/api/ucv/authenticate"),
+        new AntPathRequestMatcher("/api/ucv/register"),
+        new AntPathRequestMatcher("/api/ucv/publictest")
+    );            
     }
     
 }

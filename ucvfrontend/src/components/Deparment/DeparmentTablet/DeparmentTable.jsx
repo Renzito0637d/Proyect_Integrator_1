@@ -103,44 +103,41 @@ function DeparmentTable({ departmentList = [] }) {
           </div>
         </div>
         <div className="flex-grow-1 col-12 col-md-9">
-          <div className="scroll2">
-            <table className="table table-bordered table-sm text-center align-middle">
-              <thead className="table-light">
+          <table className="table table-bordered table-sm text-center align-middle">
+            <thead className="table-light">
+              <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Pabellón</th>
+                <th>Piso</th>
+                <th>Salón</th>
+                <th>Ambiente</th>
+                <th>Fecha</th>
+                <th>Nombre</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredDepartments.length === 0 ? (
                 <tr>
-                  <th>ID</th>
-                  <th>Usuario</th>
-                  <th>Pabellón</th>
-                  <th>Piso</th>
-                  <th>Salón</th>
-                  <th>Ambiente</th>
-                  <th>Fecha</th>
-                  <th>Nombre</th>
+                  <td colSpan={8}>Sin datos</td>
                 </tr>
-              </thead>
-              <tbody>
-                {filteredDepartments.length === 0 ? (
-                  <tr>
-                    <td colSpan={8}>Sin datos</td>
+              ) : (
+                filteredDepartments.map(dep => (
+                  <tr key={dep.id}>
+                    <td>{dep.id}</td>
+                    <td>{dep.registeredUser}</td>
+                    <td>{dep.tower}</td>
+                    <td>{dep.floor}</td>
+                    <td>{dep.classroom}</td>
+                    <td className='fw-bold'>{dep.code}</td>
+                    <td>{dep.registeredDate ? dep.registeredDate.substring(0, 10) : ''}</td>
+                    <td>{dep.name}</td>
                   </tr>
-                ) : (
-                  filteredDepartments.map(dep => (
-                    <tr key={dep.id}>
-                      <td>{dep.id}</td>
-                      <td>{dep.registeredUser}</td>
-                      <td>{dep.tower}</td>
-                      <td>{dep.floor}</td>
-                      <td>{dep.classroom}</td>
-                      <td className='fw-bold'>{dep.code}</td>
-                      <td>{dep.registeredDate ? dep.registeredDate.substring(0, 10) : ''}</td>
-                      <td>{dep.name}</td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
-
       </div>
     </>
   );

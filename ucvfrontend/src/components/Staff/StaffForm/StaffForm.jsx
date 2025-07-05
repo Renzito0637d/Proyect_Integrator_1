@@ -1,9 +1,16 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './StaffForm.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { toast } from 'sonner'
+import { getAuthHeader } from '../../../Utils/Auth';
+import IconButton from '../../IconButton';
+import { MdAddCircle } from 'react-icons/md';
+import {FaSearch, FaRegEdit, FaTrash,FaSave} from 'react-icons/fa';
+import {FaFileExcel, FaFilePdf} from 'react-icons/fa6';
+
 const StaffForm = ({ onStaffAdded }) => {
 
     const [firstname, setFirstname] = useState("");
@@ -19,7 +26,6 @@ const StaffForm = ({ onStaffAdded }) => {
     // Estado para el modal de consulta
     const [consultId, setConsultId] = useState("");
     const [consultResult, setConsultResult] = useState(null);
-    const [consultError, setConsultError] = useState("");
 
     const [updateId, setUpdateId] = useState("");
     const [isUpdating, setIsUpdating] = useState(false);
@@ -27,29 +33,30 @@ const StaffForm = ({ onStaffAdded }) => {
 
     const [delateId, setDelateId] = useState("")
     const [delateResult, setDelateResult] = useState(null);
-    const [delateError, setDelateError] = useState("");
 
-    const [formError, setFormError] = useState("");
-    const [showToast, setShowToast] = useState(false);
-
-    useEffect(() => {
-        if (formError) {
-            setShowToast(true);
-            const timer = setTimeout(() => setShowToast(false), 2500);
-            return () => clearTimeout(timer);
-        }
-    }, [formError]);
+    const clearFormFields = () => {
+        setFirstname("");
+        setLastname("");
+        setEmail("");
+        setPhone("");
+        setNickname("");
+        setPassword("");
+        setCargo("");
+    };
 
     const validateForm = () => {
         if (!firstname.trim() || !lastname.trim() || !email.trim() || !phone.trim() || !nickname.trim() || !password.trim()) {
-            setFormError("Todos los campos son obligatorios.");
+            toast.warning("Todos los campos son obligatorios.", {
+                duration: 3000,
+            });
             return false;
         }
         if (!cargo) {
-            setFormError("Debe seleccionar un cargo.");
+            toast.warning("Debe seleccionar un cargo.", {
+                duration: 3000,
+            });
             return false;
         }
-        setFormError("");
         return true;
     };
 
@@ -68,28 +75,30 @@ const StaffForm = ({ onStaffAdded }) => {
             email, phone, nickname, password, cargo
         }
         try {
-            await axios.post("http://localhost:8080/api/ucv/register",
-                StaffData, {
-                // Configuración de la solicitud
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            await axios.post(
+                "http://localhost:8080/api/ucv/register",
+                StaffData,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...getAuthHeader(),
+                    },
+                }
+            );
             // Limpiar campos tras registro exitoso
-            setFirstname("");
-            setLastname("");
-            setEmail("");
-            setPhone("");
-            setNickname("");
-            setPassword("");
-            setCargo("");
+            clearFormFields();
             // Notificar al padre que se agregó un staff
+            toast.success("Usuario registrado correctamente.", {
+                duration: 3000,
+            });
             if (onStaffAdded) onStaffAdded();
         } catch (error) {
             // Manejo de errores
             if (error.response) {
-                // El servidor respondió con un código de estado fuera del rango 2xx
-                alert("Error: Credenciales incorrectas");
+                // El servidor respondió con un código de estado fuera del rango 2xx error
+                toast.error("Correo ya existente", {
+                    duration: 3000,
+                });
             } else if (error.request) {
                 // La solicitud fue hecha pero no hubo respuesta
                 console.error("No se recibió respuesta del servidor:", error.request);
@@ -117,33 +126,46 @@ const StaffForm = ({ onStaffAdded }) => {
     // Función para consultar usuario por ID
     const handleConsult = async () => {
         setConsultResult(null);
-        setConsultError("");
         if (!consultId) {
-            setConsultError("Debe ingresar un ID.");
+            toast.error("Debe ingresar un ID.", {
+                duration: 3000,
+            });
             return;
         }
         try {
-            const res = await axios.get(`http://localhost:8080/api/ucv/staffList`);
+            const res = await axios.get(
+                `http://localhost:8080/api/ucv/staffList`,
+                { headers: getAuthHeader() }
+            );
             // Buscar el usuario por ID en la lista (puedes cambiar a un endpoint específico si existe)
             const user = res.data.find(u => String(u.id) === String(consultId));
             if (user) {
                 setConsultResult(user);
             } else {
-                setConsultError("Usuario no encontrado.");
+                toast.error("Usuario no encontrado.", {
+                    duration: 3000,
+                });
             }
         } catch (err) {
-            setConsultError("Error al consultar el usuario.");
+            toast.error("Error al consultar el usuario.", {
+                duration: 3000,
+            });
         }
     };
 
     // Busca el usuario y rellena los campos
     const handleFetchForUpdate = async () => {
         if (!updateModalId) {
-            alert("Ingrese el ID del usuario a actualizar.");
+            toast.error("Ingrese el ID del usuario a actualizar.", {
+                duration: 3000,
+            });
             return;
         }
         try {
-            const res = await axios.get("http://localhost:8080/api/ucv/staffList");
+            const res = await axios.get(
+                "http://localhost:8080/api/ucv/staffList",
+                { headers: getAuthHeader() }
+            );
             const user = res.data.find(u => String(u.id) === String(updateModalId));
             if (user) {
                 setUpdateId(user.id);
@@ -156,10 +178,14 @@ const StaffForm = ({ onStaffAdded }) => {
                 setCargo(user.cargo || "");
                 setIsUpdating(true);
             } else {
-                alert("Usuario no encontrado.");
+                toast.error("Usuario no encontrado.", {
+                    duration: 3000,
+                });
             }
         } catch (error) {
-            alert("Error al buscar el usuario.");
+            toast.error("Error al buscar el usuario.", {
+                duration: 3000,
+            });
         }
     };
 
@@ -167,7 +193,9 @@ const StaffForm = ({ onStaffAdded }) => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         if (!updateId) {
-            alert("ID no definido.");
+            toast.error("ID no definido.", {
+                duration: 3000,
+            });
             return;
         }
         if (!validateForm()) return;
@@ -176,45 +204,54 @@ const StaffForm = ({ onStaffAdded }) => {
             email, phone, nickname, password, cargo
         };
         try {
-            await axios.put(`http://localhost:8080/api/ucv/staffUpdate/${updateId}`, StaffData, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
+            await axios.put(
+                `http://localhost:8080/api/ucv/staffUpdate/${updateId}`,
+                StaffData,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...getAuthHeader(),
+                    },
+                }
+            );
+            toast.success("Usuario actualizado correctamente.", {
+                duration: 3000,
             });
-            alert("Usuario actualizado correctamente.");
             // Limpiar campos tras actualización
-            setUpdateId("");
-            setFirstname("");
-            setLastname("");
-            setEmail("");
-            setPhone("");
-            setNickname("");
-            setPassword("");
-            setCargo("");
+            clearFormFields();
             setIsUpdating(false);
             if (onStaffAdded) onStaffAdded();
         } catch (error) {
-            alert("Error al actualizar el usuario.");
+            toast.error("Error al actualizar el usuario.", {
+                duration: 3000,
+            });
         }
     };
 
     const handleDelateConsult = async () => {
-        setDelateResult(null);
-        setDelateError("");
         if (!delateId) {
-            setDelateError("Debe ingresar un ID.");
+            toast.error("Debe ingresar un ID.", {
+                duration: 3000,
+            });
             return;
         }
         try {
-            const res = await axios.get(`http://localhost:8080/api/ucv/staffList`);
+            const res = await axios.get(
+                `http://localhost:8080/api/ucv/staffList`,
+                { headers: getAuthHeader() }
+            );
             const user = res.data.find(u => String(u.id) === String(delateId));
             if (user) {
                 setDelateResult(user);
             } else {
-                setDelateError("Usuario no encontrado.");
+                toast.error("Usuario no encontrado.", {
+                    duration: 3000,
+                });
             }
         } catch (err) {
-            setDelateError("Error al consultar el usuario.");
+            toast.error("Error al consultar el usuario.", {
+                duration: 3000,
+            });
         }
     };
 
@@ -222,49 +259,56 @@ const StaffForm = ({ onStaffAdded }) => {
     const handleDelate = async (e) => {
         e.preventDefault();
         if (!delateId) {
-            alert("ID no definido.");
+            toast.error("ID no definido.", { duration: 3000 });
             return;
         }
         try {
-            await axios.delete(`http://localhost:8080/api/ucv/staffDelete/${delateId}`)
-            if (onStaffAdded) onStaffAdded();
+            await axios.delete(
+                `http://localhost:8080/api/ucv/staffDelete/${delateId}`,
+                { headers: getAuthHeader() }
+            );
+            toast.success("Usuario eliminado correctamente.", { duration: 3000 });
         } catch (error) {
-            alert("Error al actualizar el eliminar al usuario.");
+            // Si el backend responde con 200/204 pero axios lo toma como error, igual refresca
+            toast.error("Error al eliminar al usuario.", { duration: 3000 });
+        } finally {
+            setDelateId("");
+            setDelateResult(null);
+            if (onStaffAdded) onStaffAdded();
         }
     }
 
     const handleExcelExport = async () => {
         try {
-            axios.post('http://localhost:8080/api/ucv/staffExcel', {}, {
-                responseType: 'blob'
-            })
-                .then(response => {
-                    const url = window.URL.createObjectURL(new Blob([response.data]));
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.setAttribute('download', 'staff.xlsx');
-                    document.body.appendChild(link);
-                    link.click();
-                    link.remove();
-                    window.URL.revokeObjectURL(url);
-
-                })
+            const response = await axios.post(
+                'http://localhost:8080/api/ucv/staffExcel',
+                {}, // cuerpo vacío
+                {
+                    responseType: 'blob',
+                    headers: getAuthHeader(),
+                }
+            );
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'staff.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
         } catch (error) {
-            console.error('Error al descargar el archivo:', error);
+            toast.error("Error al descargar el archivo.", {
+                duration: 3000,
+            });
         }
     }
 
     return (
         <>
-            {showToast && formError && (
-                <div className='noti2'>
-                    {formError}
-                </div>
-            )}
             <form onSubmit={isUpdating ? handleUpdate : handleSave}>
                 <fieldset className="p-3 bg-light rounded border">
                     <legend className="fw-bold">Registro de personal</legend>
-                    <div className='row col-md-12 mb-2'>
+                    <div className='row mb-2'>
 
                         <div className="col-md-3 d-grid gap-2 mb-2">
                             <div>
@@ -296,7 +340,7 @@ const StaffForm = ({ onStaffAdded }) => {
                         </div>
                         <div className="col-md-3 d-grid gap-2 mb-2">
                             <div>
-                                <label className="fw-medium">Contraseña</label>                                
+                                <label className="fw-medium">Contraseña</label>
                                 <div className="position-relative">
                                     <input
                                         type={showPassword ? 'text' : 'password'}
@@ -359,10 +403,16 @@ const StaffForm = ({ onStaffAdded }) => {
                         </div>
                     </div>
                     <div className='col-md-12 d-flex justify-content-between align-items-center mt-3'>
-                        <div className='col-md-10 d-flex justify-content-start gap-4 flex-wrap'>
-                            <button type="submit" className="btn btn-danger" disabled={isUpdating}>Registrar</button>
-                            {/* Botón para abrir el modal de consulta */}
-                            <button
+                        <div className='col-md-10 d-flex justify-content-start gap-4 flex-wrap'>                            
+                            <IconButton
+                                type="submit"
+                                className="btn btn-danger"
+                                disabled={isUpdating}
+                                icon={MdAddCircle}
+                            >
+                                Registrar
+                            </IconButton>                                                        
+                            <IconButton
                                 className="btn btn-primary"
                                 type="button"
                                 data-bs-toggle="modal"
@@ -370,51 +420,47 @@ const StaffForm = ({ onStaffAdded }) => {
                                 onClick={() => {
                                     setConsultId("");
                                     setConsultResult(null);
-                                    setConsultError("");
                                 }}
                                 disabled={isUpdating}
+                                icon={FaSearch}
                             >
                                 Consultar
-                            </button>
-                            <button
+                            </IconButton>
+                            <IconButton
                                 className="btn btn-secondary"
                                 type="button"
                                 data-bs-toggle="modal"
                                 data-bs-target="#modalUpdate"
                                 disabled={isUpdating}
+                                icon={FaRegEdit}
                             >
                                 Actualizar
-                            </button>
-                            <button
+                            </IconButton>
+                            <IconButton
                                 className="btn btn-warning"
                                 disabled={isUpdating}
                                 type="button"
                                 data-bs-toggle="modal"
                                 data-bs-target="#modalDelate"
+                                icon={FaTrash}
                             >
                                 Eliminar
-                            </button>
+                            </IconButton>                            
                             {isUpdating && (
                                 <>
-                                    <button
+                                    <IconButton
                                         className="btn btn-success ml-2"
                                         type="submit"
+                                        icon={FaSave}
                                     >
                                         Guardar actualización
-                                    </button>
+                                    </IconButton>                                    
                                     <button
                                         className="btn btn-secondary"
                                         type="button"
                                         onClick={() => {
                                             setIsUpdating(false);
-                                            setUpdateId("");
-                                            setFirstname("");
-                                            setLastname("");
-                                            setEmail("");
-                                            setPhone("");
-                                            setNickname("");
-                                            setPassword("");
-                                            setCargo("");
+                                            clearFormFields();
                                         }}
                                     >
                                         Cancelar
@@ -423,8 +469,16 @@ const StaffForm = ({ onStaffAdded }) => {
                             )}
                         </div>
                         <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
-                            <button className="btn btn-success" type='button' onClick={handleExcelExport} disabled={isUpdating}>Excel</button>
-                            <button className="btn btn-warning" disabled={isUpdating}>Pdf</button>
+                            <IconButton
+                                className="btn btn-success" type='button' onClick={handleExcelExport} disabled={isUpdating} icon={FaFileExcel} title="Exportar a Excel" aria-label="Exportar a Excel"
+                            >
+                                Excel
+                            </IconButton>
+                            <IconButton
+                                className="btn btn-warning" disabled={isUpdating} icon={FaFilePdf} title="Exportar a PDF" aria-label="Exportar a PDF"
+                            >
+                                PDF
+                            </IconButton>
                         </div>
                     </div>
 
@@ -458,9 +512,6 @@ const StaffForm = ({ onStaffAdded }) => {
                             >
                                 Consultar
                             </button>
-                            {consultError && (
-                                <div className="alert custom-alert-danger mt-2">{consultError}</div>
-                            )}
                             {consultResult && (
                                 <div className=" custom-alert-success mt-2">
                                     <strong>Nombre:</strong> {consultResult.firstname} <br />
@@ -531,12 +582,9 @@ const StaffForm = ({ onStaffAdded }) => {
                             >
                                 Consultar
                             </button>
-                            {delateError && (
-                                <div className="alert custom-alert-danger mt-2">{delateError}</div>
-                            )}
                             {delateResult && (
                                 <>
-                                    <div className="alert custom-alert-success mt-2">
+                                    <div className="custom-alert-success mt-2 mb-2">
                                         <strong>Nombre:</strong> {delateResult.firstname} <br />
                                         <strong>Apellido:</strong> {delateResult.lastname} <br />
                                         <strong>Email:</strong> {delateResult.email} <br />

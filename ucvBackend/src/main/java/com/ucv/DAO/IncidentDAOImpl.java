@@ -6,13 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ucv.Entity.Incident;
+import com.ucv.Entity.User;
 import com.ucv.Repository.IncidentRepository;
+import com.ucv.Repository.StaffRepository;
 
 @Repository
 public class IncidentDAOImpl implements IncidentDAO{
 
     @Autowired
     IncidentRepository incidentRepository;
+
+    @Autowired
+    StaffRepository staffRepository;
+
     @Override
     public List<Incident> getAll() {
         return incidentRepository.findAll();
@@ -24,8 +30,17 @@ public class IncidentDAOImpl implements IncidentDAO{
     }
 
     @Override
-    public void save(Incident deparment) {
-        incidentRepository.save(deparment);
+    public List<Incident> getByUserId(Long userId) {        
+        User user = staffRepository.findById(userId).orElse(null);
+        if (user == null) {
+            return List.of(); // o puedes lanzar una excepción si prefieres
+        }
+        return incidentRepository.findByUser(user);
+    }
+
+    @Override
+    public void save(Incident incident) {
+        incidentRepository.save(incident);
     }
 
     @Override
@@ -35,8 +50,8 @@ public class IncidentDAOImpl implements IncidentDAO{
     }
 
     @Override
-    public void update(Incident deparment) {
-        incidentRepository.save(deparment);
+    public void update(Incident incident) {
+        incidentRepository.save(incident);
     }
     
 }

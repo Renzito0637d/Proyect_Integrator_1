@@ -40,6 +40,7 @@ public class StaffController {
 
     @GetMapping("/staffList")
     public List<User> getStaffList() {
+        // Solo usuarios activos
         return staffService.getAll();
     }
 
@@ -101,9 +102,9 @@ public class StaffController {
         if (staff == null) {
             return ResponseEntity.notFound().build();
         }
-        staffService.delete(id);
+        staffService.delete(id); // Ahora solo desactiva
         logger.info("**************************");
-        logger.info("Staff deleted: " + staff);
+        logger.info("Staff deactivated: " + staff);
         logger.info("**************************");
         return ResponseEntity.noContent().build();
     }

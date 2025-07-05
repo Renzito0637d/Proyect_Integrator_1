@@ -3,6 +3,8 @@ package com.ucv.Entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,5 +32,6 @@ public class Deparment {
     private String code;
 
     @OneToMany(mappedBy = "deparment")
+    @JsonIgnore
     private List<Incident> incident;
 }
