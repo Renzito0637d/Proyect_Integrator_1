@@ -3,6 +3,7 @@ package com.ucv.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,13 +47,26 @@ public class IncidentController {
     }
 
     // Actualizar una incidencia
-    @PutMapping
-    public void updateIncident(@RequestBody Incident incident) {
+    @PutMapping("incidentUpdate/{id}")
+    public ResponseEntity<Incident> updateIncident(@RequestBody Incident incident, @PathVariable Long id){
+        Incident actual= incidentService.getById(id);
+        if (actual == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        actual.setRegisteredUser(incident.getRegisteredUser());
+        actual.setDescription(incident.getDescription());
+        actual.setArea(incident.getArea());
+        actual.setRegisteredDate(incident.getRegisteredDate());
+        actual.setIncidenDate(incident.getIncidenDate());
+        actual.setPrioritylevel(incident.getPrioritylevel());
+
         incidentService.update(incident);
+        return ResponseEntity.ok(actual);
     }
 
     // Eliminar una incidencia
-    @DeleteMapping("/{id}")
+    @DeleteMapping("incidentDelete/{id}")
     public void deleteIncident(@PathVariable Long id) {
         incidentService.delete(id);
     }
