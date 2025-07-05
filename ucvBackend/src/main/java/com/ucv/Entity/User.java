@@ -7,12 +7,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,15 +44,27 @@ public class User implements UserDetails{
     private String lastname;
     private String email;
     private String phone;
-    private String username;
+    private String nickname;
     private String password;
 
     // Este campo representa el rol del usuario en la aplicación.
     // Se utiliza un enumerador (enum) para definir los diferentes roles disponibles.
     @Enumerated(EnumType.ORDINAL)
     private Role role;
+    
+    private String cargo;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Incident> incident;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<AssignStaff> assignStaff;
 
     // Este campo indica si el usuario ha confirmado su cuenta o no.
+    private Boolean active = true; // El nombre correcto es "active"
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -88,7 +103,7 @@ public class User implements UserDetails{
     // Este método indica si la cuenta del usuario está habilitada o no.
     @Override
     public boolean isEnabled() {    
-        return true;
+        return Boolean.TRUE.equals(this.active);
     }
     
 }// Fin de la clase

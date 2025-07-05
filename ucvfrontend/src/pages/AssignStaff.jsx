@@ -1,7 +1,14 @@
 import React from 'react';
+import AssignStaffForm from '../components/AssignStaff/AssignStaffForm/AssignStaffForm';
+import AssignStaffTable from '../components/AssignStaff/AssignStaffTable/AssignStaffTable';
 
-const AsignarPersonal = () => {
-  return <h2>Asignación de Personal</h2>;
-};
+function AssignStaff() {
+  return (
+    <>
+      <AssignStaffForm />
+      <AssignStaffTable />
+    </>
+  );
+}
 
-export default AsignarPersonal;
+export default AssignStaff;

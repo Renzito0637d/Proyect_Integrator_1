@@ -11,32 +11,36 @@ import Department from './pages/Department';
 import Staff from './pages/Staff';
 import AssignStaff from './pages/AssignStaff';
 import PrivateRoute from './components/PrivateRoute';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
+import { Toaster } from 'sonner'
 
-// Páginas internas del dashboard (puedes crear archivos reales luego)
 function App() {
   return (
-    <Router>
-      <Routes>        
-        <Route path="/" element={<Login />} />
-
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <DashboardLayout />
-            </PrivateRoute>
-          }
-        >
-          <Route index element={<Dashboard />} />
-          <Route path="incident" element={<Incident />} />
-          <Route path="category" element={<Category />} />
-          <Route path="report" element={<Report />} />
-          <Route path="department" element={<Department />} />
-          <Route path="staff" element={<Staff />} />
-          <Route path="assignStaff" element={<AssignStaff />} />
-        </Route>
-      </Routes>
-    </Router>
+    <>
+    <Toaster position="bottom-left" richColors className='sonner-toast'/>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} /> {/* <--- Agrega esta línea */}
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <DashboardLayout />
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="incident" element={<Incident />} />
+            <Route path="category" element={<Category />} />
+            <Route path="report" element={<Report />} />
+            <Route path="department" element={<Department />} />
+            <Route path="staff" element={<Staff />} />
+            <Route path="assignStaff" element={<AssignStaff />} />
+          </Route>
+        </Routes>
+      </Router>
+    </>
   );
 }
 
