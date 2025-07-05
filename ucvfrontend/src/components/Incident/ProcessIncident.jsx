@@ -6,11 +6,11 @@ export const getAllDeparments = async () => {
     const response = await axios.get("http://localhost:8080/api/ucv/deparmentList", {
       headers: getAuthHeader(),
     });
-    console.log("Departamentos recibidos:", response.data); // 👈 Verifica formato
+    console.log("Departamentos recibidos:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error al obtener departamentos:", error);
-    return []; // 👈 Siempre devolver un array
+    return [];
   }
 };
 
@@ -20,11 +20,11 @@ export const getAllCategories = async () => {
     const response = await axios.get("http://localhost:8080/api/ucv/categoryList", {
       headers: getAuthHeader(),
     });
-    console.log("Categorías recibidas:", response.data); // 👈
+    console.log("Categorías recibidas:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error al obtener categorías:", error);
-    return []; // 👈 Siempre devolver un array aunque falle
+    return [];
   }
 };
 
@@ -40,4 +40,29 @@ export const registerIncident = async (incidentData) => {
     console.error("Error al registrar la incidencia:", error);
     throw error;
   }
+};
+
+// Consultar por ID
+export const getIncidentById = async (id) => {
+  const response = await axios.get(`http://localhost:8080/api/ucv/getAllIncidents`, {
+    headers: getAuthHeader(),
+  });
+  return response.data.find(incident => String(incident.id) === String(id));
+};
+
+// Actualizar incidencia
+export const updateIncident = async (id, data) => {
+  await axios.put(`http://localhost:8080/api/ucv/incidentUpdate/${id}`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeader(),
+    },
+  });
+};
+
+// Eliminar incidencia
+export const deleteIncident = async (id) => {
+  await axios.delete(`http://localhost:8080/api/ucv/incidentDelete/${id}`, {
+    headers: getAuthHeader(),
+  });
 };
