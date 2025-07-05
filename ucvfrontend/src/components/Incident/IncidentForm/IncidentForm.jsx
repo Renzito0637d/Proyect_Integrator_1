@@ -7,7 +7,7 @@ import { FaSearch, FaRegEdit, FaTrash } from 'react-icons/fa';
 import { FaFileExcel, FaFilePdf } from 'react-icons/fa6';
 import React, { useState, useEffect } from 'react';
 
-function IncidentForm() {
+function IncidentForm({onIncidentChange}) {
 
     const [description, setDescription] = useState("");
     const [incidentDate, setIncidentDate] = useState("");
@@ -53,8 +53,8 @@ function IncidentForm() {
     );
 
     const uniqueCategories = Array.from(
-  new Map(category.map((cat) => [cat.type, cat])).values()
-);
+        new Map(category.map((cat) => [cat.type, cat])).values()
+    );
 
     const handleSave = async (e) => {
         e.preventDefault();
@@ -90,8 +90,7 @@ function IncidentForm() {
                 incidenDate: incidentDate,
                 registeredDate: new Date().toISOString(),
                 registeredUser: nickname,
-                prioritylevel: "MEDIA",
-                area: selectedCode, // 👈 Aquí se llena el campo area
+                prioritylevel: selectedCategoryObj.prioritylevel,
                 user: { id: userId },
                 deparment: { id: selectedDepartment.id },
                 category: { id: selectedCategoryObj.id },
@@ -105,6 +104,7 @@ function IncidentForm() {
             setSelectedDepartmentName("");
             setSelectedCode("");
             setSelectedCategory("");
+            if(onIncidentChange) onIncidentChange();
         } catch (error) {
             console.error("Error al registrar incidencia:", error);
             alert("Error al registrar la incidencia.");
@@ -162,18 +162,18 @@ function IncidentForm() {
                                     <input type="date" id="fecha" className="form-control mb-3" value={incidentDate} onChange={(e) => setIncidentDate(e.target.value)} />
                                     <label className="fw-medium mb-1" htmlFor="area2">Tipo de incidencia</label>
                                     <select
-  id="area2"
-  className="form-select"
-  value={selectedCategory}
-  onChange={(e) => setSelectedCategory(e.target.value)}
->
-  <option value="">Seleccione</option>
-  {uniqueCategories.map((cat) => (
-    <option key={cat.id} value={cat.type}>
-      {cat.type}
-    </option>
-  ))}
-</select>
+                                        id="area2"
+                                        className="form-select"
+                                        value={selectedCategory}
+                                        onChange={(e) => setSelectedCategory(e.target.value)}
+                                    >
+                                        <option value="">Seleccione</option>
+                                        {uniqueCategories.map((cat) => (
+                                            <option key={cat.id} value={cat.type}>
+                                                {cat.type}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                             </div>
                         </div>

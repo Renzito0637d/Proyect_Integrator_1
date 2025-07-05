@@ -1,11 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './IncidentTable.css';
+import { useEffect } from 'react';
 
-function IncidentTable() {
+function IncidentTable({incidentList=[]}) {
+    useEffect(()=>{
+        let list=[...incidentList]
+    },[incidentList]);
     return (
         <>
-            <div class="tabla">
-                <table class="table tmn">
+            <div className="tabla">
+                <table className="table tmn">
                     <thead className='table-info'>
                         <tr>
                             <th scope="col">Id</th>
@@ -20,29 +24,25 @@ function IncidentTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Usuario 1</td>
-                            <td>2023-10-01 12:00</td>
-                            <td>Departamento A</td>
-                            <td>Área 1</td>
-                            <td>Descripción de la incidencia 1</td>
-                            <td>2023-10-02</td>
-                            <td>Tipo A</td>
-                            <td>Alta</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Usuario 2</td>
-                            <td>2023-10-01 13:00</td>
-                            <td>Departamento B</td>
-                            <td>Área 2</td>
-                            <td>Descripción de la incidencia 2</td>
-                            <td>2023-10-03</td>
-                            <td>Tipo B</td>
-                            <td>Baja</td>
-                        </tr>
-
+                        {incidentList.length === 0 ? (
+                            <tr>
+                                <td colSpan="9" className="text-center">No hay incidencias registradas.</td>
+                            </tr>
+                        ) : (
+                            incidentList.map((incident, index) => (
+                                <tr key={incident.id || index}>
+                                    <td>{incident.id}</td>
+                                    <td>{incident.registeredUser}</td>
+                                    <td>{incident.registeredDate?.substring(0, 16).replace("T", " ")}</td>
+                                    <td>{incident.deparment?.name}</td>
+                                    <td>{incident.area}</td>
+                                    <td>{incident.description}</td>
+                                    <td>{incident.incidenDate}</td>
+                                    <td>{incident.category?.type}</td>
+                                    <td>{incident.prioritylevel}</td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>
