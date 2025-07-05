@@ -3,6 +3,8 @@ package com.ucv.Entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,5 +30,6 @@ public class Category {
     private LocalDateTime registeredDate;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private List<Incident> incident;
 }

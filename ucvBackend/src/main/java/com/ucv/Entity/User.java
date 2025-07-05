@@ -7,6 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -53,9 +55,11 @@ public class User implements UserDetails{
     private String cargo;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Incident> incident;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<AssignStaff> assignStaff;
 
     // Este campo indica si el usuario ha confirmado su cuenta o no.

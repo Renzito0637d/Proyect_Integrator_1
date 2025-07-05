@@ -20,11 +20,12 @@ public class JwtService {
     // Esta clase es un servicio que se encarga de generar y validar tokens JWT (JSON Web Tokens).
     // Utiliza la biblioteca io.jsonwebtoken para manejar la creación y validación de los tokens.
 
-    // La clave secreta utilizada para firmar los tokens. Debe ser mantenida en secreto y no debe ser expuesta.
-    private static final String SECRET_KEY= "2e48f8da20ccb954e501ae0c078a76e1b727cd7895f3f514d8da394105117578";
+    // La clave secreta utilizada para firmar los tokens. Debe ser mantenida en
+    // secreto y no debe ser expuesta.
+    private static final String SECRET_KEY = "2e48f8da20ccb954e501ae0c078a76e1b727cd7895f3f514d8da394105117578";
 
     // Método que genera un token JWT a partir de los detalles del usuario.
-    public String generateToken (UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails) {
         // Si el usuario tiene nickname, lo agrega como claim extra
         Map<String, Object> extraClaims = new HashMap<>();
         try {
@@ -32,27 +33,43 @@ public class JwtService {
             Object maybeUser = userDetails;
             String nickname = null;
             String role = null;
+            Long userId = null;
+
             // Reflection para evitar cast directo
             try {
                 nickname = (String) maybeUser.getClass().getMethod("getNickname").invoke(maybeUser);
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
             try {
                 Object roleObj = maybeUser.getClass().getMethod("getRole").invoke(maybeUser);
                 if (roleObj != null) {
                     role = roleObj.toString();
                 }
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
+            // Obtener ID
+            try {
+                Object idObj = maybeUser.getClass().getMethod("getId").invoke(maybeUser);
+                if (idObj != null) {
+                    userId = Long.parseLong(idObj.toString());
+                }
+            } catch (Exception ignored) {
+            }
             if (nickname != null) {
                 extraClaims.put("nickname", nickname);
             }
             if (role != null) {
                 extraClaims.put("role", role);
             }
-        } catch (Exception ignored) {}
+            if (userId != null)
+                extraClaims.put("userId", userId);
+        } catch (Exception ignored) {
+        }
         return generateToken(extraClaims, userDetails);
     }
 
-    // Método que genera un token JWT a partir de los detalles del usuario y otros reclamos adicionales.
+    // Método que genera un token JWT a partir de los detalles del usuario y otros
+    // reclamos adicionales.
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder()
                 .setClaims(extraClaims)
@@ -65,7 +82,7 @@ public class JwtService {
 
     // Método que verifica si un token JWT es válido.
     public String getUsername(String token) {
-        return getClaim(token,Claims::getSubject);
+        return getClaim(token, Claims::getSubject);
     }
 
     // Método que obtiene un reclamo específico del token JWT.
@@ -90,7 +107,8 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // Método que valida un token JWT comparando el nombre de usuario y verificando si el token ha expirado.
+    // Método que valida un token JWT comparando el nombre de usuario y verificando
+    // si el token ha expirado.
     public boolean validateToken(String jwt, UserDetails userDetails) {
         final String username = getUsername(jwt);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(jwt));
@@ -105,5 +123,5 @@ public class JwtService {
     private Date getExpiration(String token) {
         return getClaim(token, Claims::getExpiration);
     }
-    
+
 }// Fin de la clase

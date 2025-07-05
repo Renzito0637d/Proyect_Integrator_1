@@ -478,7 +478,7 @@ const StaffForm = ({ onStaffAdded }) => {
                                 className="btn btn-warning" disabled={isUpdating} icon={FaFilePdf} title="Exportar a PDF" aria-label="Exportar a PDF"
                             >
                                 PDF
-                            </IconButton>                            
+                            </IconButton>
                         </div>
                     </div>
 
