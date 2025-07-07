@@ -1,4 +1,5 @@
 import React from 'react';
+import IconButton from '../../IconButton'
 
 function AssignStaffForm() {
   return (
@@ -33,16 +34,16 @@ function AssignStaffForm() {
 
       <div className="col-md-12 d-flex flex-wrap gap-3">
         <div className='col-md-10 d-flex gap-2 flex-wrap'>
-          <button className="btn btn-danger">Registrar</button>
-          <button className="btn btn-primary">Consultar</button>
-          <button className="btn btn-secondary">Actualizar</button>
-          <button className="btn btn-warning">Eliminar</button>
-          <button className="btn btn-success">Ver primero</button>
-          <button className="btn btn-warning">Ver último</button>
+          <IconButton className="btn btn-danger">Registrar</IconButton>
+          <IconButton className="btn btn-primary">Consultar</IconButton>
+          <IconButton className="btn btn-secondary">Actualizar</IconButton>
+          <IconButton className="btn btn-warning">Eliminar</IconButton>
+          <IconButton className="btn btn-success">Ver primero</IconButton>
+          <IconButton className="btn btn-warning">Ver último</IconButton>
         </div>
         <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
-          <button className="btn btn-success" type='button'>Excel</button>
-          <button className="btn btn-warning">Pdf</button>
+          <IconButton className="btn btn-success" type='button'>Excel</IconButton>
+          <IconButton className="btn btn-warning">PDF</IconButton>          
         </div>
       </div>
     </div>
