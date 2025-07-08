@@ -19,13 +19,14 @@ import com.ucv.Services.IncidentService;
 @RestController
 @RequestMapping("api/ucv")
 public class IncidentController {
-     @Autowired
+    @Autowired
     private IncidentService incidentService;
 
     // Obtener todas las incidencias
     @GetMapping("getAllIncidents")
-    public List<Incident> getAllIncidents() {
-        return incidentService.getAll();
+    public ResponseEntity<List<Incident>> getAllIncidents() {
+        List<Incident> incidents = incidentService.getAll();
+    return ResponseEntity.ok(incidents);
     }
 
     // Obtener incidencia por ID
@@ -61,7 +62,7 @@ public class IncidentController {
         actual.setIncidenDate(incident.getIncidenDate());
         actual.setPrioritylevel(incident.getPrioritylevel());
 
-        incidentService.update(incident);
+        incidentService.update(actual);
         return ResponseEntity.ok(actual);
     }
 
