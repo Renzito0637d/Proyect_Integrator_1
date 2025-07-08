@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ucv.DAO.StaffDAO;
+import com.ucv.Entity.Role;
 import com.ucv.Entity.User;
 
 import jakarta.transaction.Transactional;
@@ -26,6 +27,12 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public User getById(Long id) {
         return staffDAO.getById(id);
+    }
+
+    @Transactional
+    @Override
+    public List<User> findByRole(){
+        return staffDAO.findByRole();
     }
 
     @Transactional

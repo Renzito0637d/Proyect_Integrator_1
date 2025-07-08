@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ucv.Entity.Role;
 import com.ucv.Entity.User;
 import com.ucv.Repository.StaffRepository;
 
@@ -25,6 +26,11 @@ public class StaffDAOImpl implements StaffDAO {
         // Utiliza el repositorio para buscar un usuario por su ID.
         // El método findById() es proporcionado por JpaRepository, que es una interfaz extendida por StaffRepository.
         return staffRepository.findById(id).get();
+    }
+
+    @Override
+    public List<User>findByRole(){
+        return staffRepository.findByRole(Role.ADMIN);
     }
 
     @Override

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.ucv.Docs.StaffExcel;
+import com.ucv.Entity.Role;
 import com.ucv.Entity.User;
 import com.ucv.Services.StaffService;
 
@@ -43,6 +44,12 @@ public class StaffController {
         // Solo usuarios activos
         return staffService.getAll();
     }
+    
+    @GetMapping("/staffRole")
+    public ResponseEntity<List<User>> getStaffListAdmin() {
+        List<User> admins= staffService.findByRole();
+        return ResponseEntity.ok(admins);
+    }    
 
     @GetMapping("/staffUpdate")
     public String getMethodName(@RequestParam String param) {
