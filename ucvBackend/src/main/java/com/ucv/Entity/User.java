@@ -49,7 +49,7 @@ public class User implements UserDetails{
 
     // Este campo representa el rol del usuario en la aplicación.
     // Se utiliza un enumerador (enum) para definir los diferentes roles disponibles.
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Role role;
     
     private String cargo;
