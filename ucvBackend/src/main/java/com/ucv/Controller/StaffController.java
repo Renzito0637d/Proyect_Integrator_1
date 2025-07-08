@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.ucv.Docs.StaffExcel;
-import com.ucv.Entity.Role;
 import com.ucv.Entity.User;
 import com.ucv.Services.StaffService;
 
@@ -27,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RestController
@@ -77,6 +77,7 @@ public class StaffController {
                 .body(excelBytes);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/staffUpdate/{id}")
     public ResponseEntity<User> updateStaff(@PathVariable Long id, @RequestBody User user) {
         User actual = staffService.getById(id);

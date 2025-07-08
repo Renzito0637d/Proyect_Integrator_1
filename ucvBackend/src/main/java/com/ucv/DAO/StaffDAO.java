@@ -2,7 +2,6 @@ package com.ucv.DAO;
 
 import java.util.List;
 
-import com.ucv.Entity.Role;
 import com.ucv.Entity.User;
 
 public interface StaffDAO {
