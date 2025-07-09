@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { getAllAssign, saveReport, getReportId, updateReport, delateReport } from '../ProcessReport';
 import { toast } from 'sonner';
 
-function ReportFrom() {
+function ReportFrom({onReportChange}) {
 
     const [assign, setAssign] = useState([]);
 
@@ -90,7 +90,8 @@ function ReportFrom() {
             };
             clear();
             await saveReport(reportData);
-
+            toast.success("Reporte guardado exitoxamente.")
+            if(onReportChange)onReportChange();
         } catch (error) {
 
         }
@@ -141,8 +142,11 @@ function ReportFrom() {
                 user: { id: id },
                 descripcion: description
             };
-
+            clear();
             await updateReport(updateId, updateData);
+            toast.success("Report actualizado correctamente.")
+            if(onReportChange)onReportChange();
+            setIsUpdating(false);
         } catch (error) {
             console.log(error);
         }
@@ -158,8 +162,11 @@ function ReportFrom() {
             await delateReport(deleteId);
             setDeleteId("");
             setDeleteResult(null);
+            toast.success("Reporte eliminado.")
+            if(onReportChange)onReportChange();
         } catch (error) {
             console.error("Error al eliminar:", error);
+            toast.warning("Error al eliminar")
         }
     };
     return (
@@ -229,35 +236,35 @@ function ReportFrom() {
 
                     <div className='col-md-12 d-flex justify-content-between align-items-center mt-3'>
                         <div className='col-md-10 d-flex justify-content-start gap-4 flex-wrap'>
-                            <IconButton icon={MdAddCircle} className="btn btn-danger" type='submit' >Registrar</IconButton>
-                            <IconButton icon={FaSearch} className="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalConsult">Consultar</IconButton>
-                            <IconButton icon={FaRegEdit} className="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalUpdate">Actualizar</IconButton>
-                            <IconButton icon={FaTrash} className="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#modalDelete">Eliminar</IconButton>
+                            <IconButton icon={MdAddCircle} className="btn btn-danger" type='submit' disabled={isUpdating}>Registrar</IconButton>
+                            <IconButton icon={FaSearch} className="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalConsult" disabled={isUpdating}>Consultar</IconButton>
+                            <IconButton icon={FaRegEdit} className="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalUpdate" disabled={isUpdating}>Actualizar</IconButton>
+                            <IconButton icon={FaTrash} className="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#modalDelete" disabled={isUpdating}>Eliminar</IconButton>
                             {isUpdating && (
-                                            <>
-                                              <IconButton
-                                                className="btn btn-success ml-2"
-                                                type="submit"
-                                                icon={FaSave}
-                                              >
-                                                Guardar actualización
-                                              </IconButton>
-                                              <button
-                                                className="btn btn-secondary"
-                                                type="button"
-                                                onClick={() => {
-                                                  setIsUpdating(false);
-                            
-                                                }}
-                                              >
-                                                Cancelar
-                                              </button>
-                                            </>
-                                          )}
+                                <>
+                                    <IconButton
+                                        className="btn btn-success ml-2"
+                                        type="submit"
+                                        icon={FaSave}
+                                    >
+                                        Guardar actualización
+                                    </IconButton>
+                                    <button
+                                        className="btn btn-secondary"
+                                        type="button"
+                                        onClick={() => {
+                                            setIsUpdating(false);
+                                            clear();
+                                        }}
+                                    >
+                                        Cancelar
+                                    </button>
+                                </>
+                            )}
                         </div>
                         <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
-                            <IconButton icon={FaFileExcel} className="btn btn-success" type='button'>Excel</IconButton>
-                            <IconButton icon={FaFilePdf} className="btn btn-warning">PDF</IconButton>
+                            <IconButton icon={FaFileExcel} className="btn btn-success" type='button' disabled={isUpdating}>Excel</IconButton>
+                            <IconButton icon={FaFilePdf} className="btn btn-warning" disabled={isUpdating}>PDF</IconButton>
                         </div>
                     </div>
                 </form>

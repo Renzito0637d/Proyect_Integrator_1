@@ -2,6 +2,8 @@ package com.ucv.Controller;
 
 import java.util.List;
 
+import com.ucv.Entity.User;
+import com.ucv.Services.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +26,13 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
+    @Autowired
+    private StaffService staffService;
+
     @GetMapping("/getAllReport")
-    public List<Report> getAllReport() {
-        return reportService.getAll();
+    public ResponseEntity<List<Report>> getAllReport() {
+        List<Report> re= reportService.getAll();
+        return ResponseEntity.ok(re);
     }
 
     @PostMapping("/saveReport")
@@ -45,12 +51,16 @@ System.out.println("ID del usuario recibido: " + report.getUser().getId());
         if (actu == null) {
             return ResponseEntity.notFound().build();
         }
+        User fullUser = staffService.getById(report.getUser().getId());
+        if (fullUser == null) {
+            return ResponseEntity.badRequest().build(); // O manejar con throw
+        }
 
         actu.setAssignStaff(report.getAssignStaff());
         actu.setActions(report.getActions());
         actu.setStatus(report.getStatus());
         actu.setResolutionDate(report.getResolutionDate());
-        actu.setUser(report.getUser());
+        actu.setUser(fullUser);
         actu.setDescripcion(report.getDescripcion());
 
         reportService.save(actu);
