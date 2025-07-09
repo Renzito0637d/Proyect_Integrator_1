@@ -26,7 +26,6 @@ public class AssignStaff {
     private Long id;
 
     @ManyToOne
-    @JsonIgnore
     private Incident incident;
 
     private LocalDateTime registeredDate;
