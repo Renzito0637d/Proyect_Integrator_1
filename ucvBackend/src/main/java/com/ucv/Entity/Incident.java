@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,5 +43,6 @@ public class Incident {
     private User user;
 
     @OneToMany(mappedBy = "incident", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<AssignStaff> assignStaff;
 }

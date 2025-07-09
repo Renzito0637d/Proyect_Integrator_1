@@ -30,6 +30,12 @@ public class StaffServiceImpl implements StaffService {
 
     @Transactional
     @Override
+    public List<User> findByRole(){
+        return staffDAO.findByRole();
+    }
+
+    @Transactional
+    @Override
     public void delete(Long id) {
         staffDAO.delete(id);
     }

@@ -9,6 +9,8 @@ public interface StaffService {
 
     public User getById(Long id);
 
+    public List<User> findByRole();
+
     public void delete(Long id);
 
     public void update(User user);

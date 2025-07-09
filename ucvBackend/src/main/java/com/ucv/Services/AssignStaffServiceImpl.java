@@ -23,13 +23,13 @@ public class AssignStaffServiceImpl implements AssignStaffService{
     }
 
     @Override
-    public void save(AssignStaff employee) {
-        assignStaffDAO.save(employee);
+    public void save(AssignStaff assignStaff) {
+        assignStaffDAO.save(assignStaff);
     }
 
     @Override
-    public void update(AssignStaff employee) {
-        assignStaffDAO.save(employee);
+    public void update(AssignStaff assignStaff) {
+        assignStaffDAO.save(assignStaff);
     }
 
     @Override

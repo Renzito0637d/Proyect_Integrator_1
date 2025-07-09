@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RestController
@@ -43,6 +44,12 @@ public class StaffController {
         // Solo usuarios activos
         return staffService.getAll();
     }
+    
+    @GetMapping("/staffRole")
+    public ResponseEntity<List<User>> getStaffListAdmin() {
+        List<User> admins= staffService.findByRole();
+        return ResponseEntity.ok(admins);
+    }    
 
     @GetMapping("/staffUpdate")
     public String getMethodName(@RequestParam String param) {
@@ -70,6 +77,7 @@ public class StaffController {
                 .body(excelBytes);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/staffUpdate/{id}")
     public ResponseEntity<User> updateStaff(@PathVariable Long id, @RequestBody User user) {
         User actual = staffService.getById(id);
