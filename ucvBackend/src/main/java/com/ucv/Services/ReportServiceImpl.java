@@ -24,13 +24,13 @@ public class ReportServiceImpl implements ReportService{
     }
 
     @Override
-    public void save(Report employee) {
-        reportDAO.save(employee);
+    public void save(Report report) {
+        reportDAO.save(report);
     }
 
     @Override
-    public void update(Report employee) {
-        reportDAO.save(employee);
+    public void update(Report report) {
+        reportDAO.save(report);
     }
 
     @Override

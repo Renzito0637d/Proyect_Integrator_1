@@ -2,38 +2,13 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './ReportTable.css';
 
-function ReportTable() {
-  const [reports, setReports] = useState([
-    {
-      id: 1,
-      accionesTomadas: 'Se reinició el sistema',
-      estados: 'Terminado',
-      personal: 'María López',
-      descripcion: 'Problema de acceso',
-      fecha: '2025-06-04',
-    },
-    {
-      id: 2,
-      accionesTomadas: 'Se cambió contraseña',
-      estados: 'Derivado',
-      personal: 'Carlos Ruiz',
-      descripcion: 'Solicitud de usuario',
-      fecha: '2025-06-03',
-    },
-    {
-      id: 3,
-      accionesTomadas: 'Actualización de software',
-      estados: 'En proceso',
-      personal: 'Ana Martínez',
-      descripcion: 'Mejora de seguridad',
-      fecha: '2025-06-05',
-    },
-  ]);
-
+function ReportTable({ reports = [] }) {
   const [sortBy, setSortBy] = useState('ID');
-
+  console.log(reports)
   const handleSort = () => {
     let sortedReports = [...reports];
+
+
     switch (sortBy) {
       case 'ID':
         sortedReports.sort((a, b) => a.id - b.id);
@@ -53,7 +28,6 @@ function ReportTable() {
       default:
         break;
     }
-    setReports(sortedReports);
   };
 
   return (
@@ -67,6 +41,7 @@ function ReportTable() {
                 <tr>
                   <th>ID</th>
                   <th>Acciones Tomadas</th>
+                  <th>Id asignacion</th>
                   <th>Estados</th>
                   <th>Personal</th>
                   <th>Descripción</th>
@@ -74,16 +49,37 @@ function ReportTable() {
                 </tr>
               </thead>
               <tbody>
-                {reports.map(({ id, accionesTomadas, estados, personal, descripcion, fecha }) => (
-                  <tr key={id}>
-                    <td>{id}</td>
-                    <td>{accionesTomadas}</td>
-                    <td>{estados}</td>
-                    <td>{personal}</td>
-                    <td>{descripcion}</td>
-                    <td>{fecha}</td>
+                {reports.length === 0 ? (
+                  <tr>
+                    <td colSpan="7" className="text-center">Sin datos</td>
                   </tr>
-                ))}
+                ) : (
+                  reports.map((report) => {
+                    return (
+                      <tr key={report.id}>
+                        <td>{report.id}</td>
+                        <td>{report.actions}</td>
+                        <td>{report.assignStaff ? report.assignStaff.id : '-'}</td> {/* Verifica si assignStaff existe */}
+                        <td>{report.status}</td>
+                        <td>{report.user ? report.user.nickname : '-'}</td> {/* Verifica si user existe */}
+                        <td>{report.descripcion}</td>
+                        <td>
+                          {report.resolutionDate
+                            ? new Date(report.resolutionDate).toLocaleString('es-PE', {
+                              day: '2-digit',
+                              month: '2-digit',
+                              year: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit',
+                              hour12: true,
+                            })
+                            : "-"}
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+
               </tbody>
             </table>
           </div>

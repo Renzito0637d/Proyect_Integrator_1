@@ -30,8 +30,9 @@ public class AssignStaffController {
     private StaffService staffService;
 
     @GetMapping("assignStaffList")
-    public List<AssignStaff> assignStaffList() {
-        return assignStaffService.getAll();
+    public ResponseEntity<List<AssignStaff>> assignStaffList() {
+        List<AssignStaff> as= assignStaffService.getAll();
+        return ResponseEntity.ok(as);
     }
 
     @PostMapping("assignStaffSave")
