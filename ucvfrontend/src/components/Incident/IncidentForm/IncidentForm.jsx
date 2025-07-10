@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './IncidentForm.css'
-import { getAllDeparments, getAllCategories, registerIncident, deleteIncident, getIncidentById, updateIncident } from '../ProcessIncident';
+import { getAllDeparments, getAllCategories, registerIncident, deleteIncident, getIncidentById, updateIncident, excelDownload } from '../ProcessIncident';
 import IconButton from '../../IconButton';
 import { MdAddCircle } from 'react-icons/md';
 import { FaSearch, FaRegEdit, FaTrash, FaSave } from 'react-icons/fa';
@@ -211,6 +211,22 @@ function IncidentForm({ onIncidentChange }) {
         }
     };
 
+    const handleExcelDownload = async () => {
+        try {
+            const response = await excelDownload();        
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href =url;
+            link.setAttribute('download', 'incidencias.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            toast.success("Archivo Excel descargado exitosamente.");
+        } catch (error) {
+            console.error("Error al descargar el archivo Excel:", error);
+            toast.error("Error al descargar el archivo Excel.");
+        }
+    };
 
     return (
         <>
@@ -345,6 +361,7 @@ function IncidentForm({ onIncidentChange }) {
                         <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
                             <IconButton
                                 className="btn btn-success" type='button' icon={FaFileExcel} title="Exportar a Excel" aria-label="Exportar a Excel" disabled={isUpdating}
+                                onClick={handleExcelDownload}
                             >
                                 Excel
                             </IconButton>
