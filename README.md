@@ -110,11 +110,11 @@ To run the project, you need the following:
 | FR3 | The app allows registration of IT incident types and their corresponding management                  | :heavy_check_mark: |
 | FR4 | The app allows registration of employees and their corresponding management                          | :heavy_check_mark: |
 | FR5 | The app allows registration of departments and their corresponding management                        | :heavy_check_mark: |
-| FR6 | The app allows registration of IT incidents and their corresponding management                       | :hourglass_flowing_sand: |
-| FR7 | The app allows assigning a staff member to resolve an IT incident                                    | :hourglass_flowing_sand: |
-| FR8 | The app allows employees to register solution details and observations on resolved incidents         | :hourglass_flowing_sand: |
-| FR9 | The app allows tracking the status of an incident: In Progress, Resolved, Referred                   | :hourglass_flowing_sand: |
-| FR10| The app allows viewing the list of incidents filtered by date range                                  | :hourglass_flowing_sand: |
+| FR6 | The app allows registration of IT incidents and their corresponding management                       | :heavy_check_mark: |
+| FR7 | The app allows assigning a staff member to resolve an IT incident                                    | :heavy_check_mark: |
+| FR8 | The app allows employees to register solution details and observations on resolved incidents         | :heavy_check_mark: |
+| FR9 | The app allows tracking the status of an incident: In Progress, Resolved, Referred                   | :heavy_check_mark: |
+| FR10| The app allows viewing the list of incidents filtered by date range                                  | :heavy_check_mark: |
 
 *Legend:*
 - :heavy_check_mark: Completed  
