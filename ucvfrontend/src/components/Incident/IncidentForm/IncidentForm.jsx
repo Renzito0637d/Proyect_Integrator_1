@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './IncidentForm.css'
-import { getAllDeparments, getAllCategories, registerIncident, deleteIncident, getIncidentById, updateIncident, excelDownload } from '../ProcessIncident';
+import { getAllDeparments, getAllCategories, registerIncident, deleteIncident, getIncidentById, updateIncident, excelDownload, pdfDownload } from '../ProcessIncident';
 import IconButton from '../../IconButton';
 import { MdAddCircle } from 'react-icons/md';
 import { FaSearch, FaRegEdit, FaTrash, FaSave } from 'react-icons/fa';
@@ -228,6 +228,22 @@ function IncidentForm({ onIncidentChange }) {
         }
     };
 
+    const handlePdfDownload = async () => {
+        try {
+            const response = await pdfDownload();
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'incidencias.pdf');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            toast.success("Archivo PDF descargado exitosamente.");
+        } catch (error) {
+            console.error("Error al descargar el archivo PDF:", error);
+            toast.error("Error al descargar el archivo PDF.");
+        }
+    };
     return (
         <>
             <fieldset className="p-3 bg-light rounded border">
@@ -367,6 +383,7 @@ function IncidentForm({ onIncidentChange }) {
                             </IconButton>
                             <IconButton
                                 className="btn btn-warning" icon={FaFilePdf} title="Exportar a PDF" aria-label="Exportar a PDF" disabled={isUpdating}
+                                type='button' onClick={handlePdfDownload}
                             >
                                 PDF
                             </IconButton>

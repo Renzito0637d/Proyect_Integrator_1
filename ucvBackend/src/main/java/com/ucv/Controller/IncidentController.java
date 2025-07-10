@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.net.HttpHeaders;
 import com.ucv.Docs.IncidentExcel;
+import com.ucv.Docs.IncidentPDF;
 import com.ucv.Entity.Incident;
 import com.ucv.Services.IncidentService;
 
@@ -92,5 +93,20 @@ public class IncidentController {
                 .contentType(
                         MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(excelBytes);
+    }
+
+    @PostMapping("/incidentPDF")
+    public ResponseEntity<byte[]> downloadIncidentPDF() throws Exception {
+        List<Incident> incidentList = incidentService.getAll();
+        byte[] pdfBytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+             InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+            IncidentPDF.writeIncidentToPDF(incidentList, out, logo);
+            pdfBytes = out.toByteArray();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=incidents.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfBytes);
     }
 }
