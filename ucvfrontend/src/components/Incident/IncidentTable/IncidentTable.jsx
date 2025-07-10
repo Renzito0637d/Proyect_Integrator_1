@@ -1,11 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './IncidentTable.css';
-import { useEffect } from 'react';
 
 function IncidentTable({incidentList=[]}) {
-    useEffect(()=>{
-        let list=[...incidentList]
-    },[incidentList]);
     return (
         <>
             <div className="tabla">
