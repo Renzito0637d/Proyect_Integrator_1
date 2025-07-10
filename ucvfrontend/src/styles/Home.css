@@ -1,0 +1,15 @@
+.tabla {
+    overflow: auto;
+}
+
+.tabla-container {
+    padding: 30px;
+}
+
+.tabla-estilizada table {
+    margin-bottom: 0;
+}
+
+.tmn{
+    font-size: 0.8em;
+}
