@@ -11,27 +11,35 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString(onlyExplicitlyIncluded = true)
 public class Deparment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ToString.Include
     private Long id;
 
-    private String registeredUser;
+    @ToString.Include
     private String name;
+
+    private String registeredUser;
     private String tower;
-    private int floor;
+    private String floor;
     private String classroom;
     private LocalDateTime registeredDate;
     private String code;
 
     @OneToMany(mappedBy = "deparment")
+    @ToString.Exclude
     @JsonIgnore
-    private List<Incident> incident;
+    private List<Incident> incidents;
 }

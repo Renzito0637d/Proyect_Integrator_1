@@ -1,8 +1,12 @@
 package com.ucv.Controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.net.HttpHeaders;
+import com.ucv.Docs.IncidentExcel;
+import com.ucv.Docs.IncidentPDF;
 import com.ucv.Entity.Incident;
 import com.ucv.Services.IncidentService;
 
@@ -26,7 +33,7 @@ public class IncidentController {
     @GetMapping("getAllIncidents")
     public ResponseEntity<List<Incident>> getAllIncidents() {
         List<Incident> incidents = incidentService.getAll();
-    return ResponseEntity.ok(incidents);
+        return ResponseEntity.ok(incidents);
     }
 
     // Obtener incidencia por ID
@@ -49,8 +56,8 @@ public class IncidentController {
 
     // Actualizar una incidencia
     @PutMapping("incidentUpdate/{id}")
-    public ResponseEntity<Incident> updateIncident(@RequestBody Incident incident, @PathVariable Long id){
-        Incident actual= incidentService.getById(id);
+    public ResponseEntity<Incident> updateIncident(@RequestBody Incident incident, @PathVariable Long id) {
+        Incident actual = incidentService.getById(id);
         if (actual == null) {
             return ResponseEntity.notFound().build();
         }
@@ -70,5 +77,36 @@ public class IncidentController {
     @DeleteMapping("incidentDelete/{id}")
     public void deleteIncident(@PathVariable Long id) {
         incidentService.delete(id);
+    }
+
+    @PostMapping("/incidentExcel")
+    public ResponseEntity<byte[]> downloadIncidentExcel() throws Exception {
+        List<Incident> incidentList = incidentService.getAll();
+        byte[] excelBytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+                InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+            IncidentExcel.writeIncidentToExcel(incidentList, out, logo);
+            excelBytes = out.toByteArray();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=incidents.xlsx")
+                .contentType(
+                        MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(excelBytes);
+    }
+
+    @PostMapping("/incidentPDF")
+    public ResponseEntity<byte[]> downloadIncidentPDF() throws Exception {
+        List<Incident> incidentList = incidentService.getAll();
+        byte[] pdfBytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+             InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+            IncidentPDF.writeIncidentToPDF(incidentList, out, logo);
+            pdfBytes = out.toByteArray();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=incidents.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfBytes);
     }
 }

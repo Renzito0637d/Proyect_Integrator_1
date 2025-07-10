@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import IconButton from '../../IconButton'
-import { getAllIncidents, gettAllAdmins, registerAssign, getAssignId, updateAssign, deleteAssign } from '../ProcessAssignStaff';
+import { getAllIncidents, gettAllAdmins, registerAssign, getAssignId, updateAssign, deleteAssign, excelDownload, pdfDownload } from '../ProcessAssignStaff';
 import { MdAddCircle } from 'react-icons/md';
-import {FaSearch, FaRegEdit, FaTrash,FaSave} from 'react-icons/fa';
-import {FaFileExcel, FaFilePdf} from 'react-icons/fa6';
+import { FaSearch, FaRegEdit, FaTrash, FaSave } from 'react-icons/fa';
+import { FaFileExcel, FaFilePdf } from 'react-icons/fa6';
 import { toast } from 'sonner';
 
-function AssignStaffForm({ des, setDes,onAssignChange}) {
+function AssignStaffForm({ des, setDes, onAssignChange }) {
 
   const [incidents, setIncidents] = useState([]);
   const [admins, setAdmins] = useState([]);
@@ -96,7 +96,7 @@ function AssignStaffForm({ des, setDes,onAssignChange}) {
       clear();
       await registerAssign(AssignData);
       toast.success("Guardado correctamente");
-      if(onAssignChange)onAssignChange();
+      if (onAssignChange) onAssignChange();
     } catch (error) {
       console.log(error);
     }
@@ -153,7 +153,7 @@ function AssignStaffForm({ des, setDes,onAssignChange}) {
       console.log("Actualizando con datos:", updatedData);
 
       await updateAssign(updateId, updatedData);
-      if(onAssignChange)onAssignChange();
+      if (onAssignChange) onAssignChange();
       toast.success("Asignación actualizada correctamente.");
 
       // Limpiar
@@ -177,13 +177,45 @@ function AssignStaffForm({ des, setDes,onAssignChange}) {
       toast.success("Asignación eliminada.");
       setDeleteId("");
       setDeleteResult(null);
-      if(onAssignChange)onAssignChange();
+      if (onAssignChange) onAssignChange();
     } catch (error) {
       console.error("Error al eliminar:", error);
     }
   };
 
+  const handleExcelDownload = async () => {
+    try {
+      const response = await excelDownload();
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'assignStaff.xlsx');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success("Archivo Excel descargado exitosamente.");
+    } catch (error) {
+      console.error("Error al descargar el archivo Excel:", error);
+      toast.error("Error al descargar el archivo Excel.");
+    }
+  };
 
+  const handlePdfDownload = async () => {
+    try {
+      const response = await pdfDownload();
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'assignStaff.pdf');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success("Archivo PDF descargado exitosamente.");
+    } catch (error) {
+      console.error("Error al descargar el archivo PDF:", error);
+      toast.error("Error al descargar el archivo PDF.");
+    }
+  }
   return (
     <>
       <div className="bg-light p-3 rounded border mb-3">
@@ -278,8 +310,8 @@ function AssignStaffForm({ des, setDes,onAssignChange}) {
               <IconButton className="btn btn-warning" disabled={isUpdating}>Ver último</IconButton>
             </div>
             <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
-              <IconButton icon={FaFileExcel} className="btn btn-success" type='button' disabled={isUpdating}>Excel</IconButton>
-              <IconButton icon={FaFilePdf} className="btn btn-warning" disabled={isUpdating}>PDF</IconButton>
+              <IconButton icon={FaFileExcel} className="btn btn-success" type='button' disabled={isUpdating} onClick={handleExcelDownload}>Excel</IconButton>
+              <IconButton icon={FaFilePdf} className="btn btn-warning" type='button' onClick={handlePdfDownload} disabled={isUpdating}>PDF</IconButton>
             </div>
           </div>
         </form>

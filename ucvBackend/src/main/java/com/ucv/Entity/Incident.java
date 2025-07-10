@@ -11,29 +11,41 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString(onlyExplicitlyIncluded = true)
 public class Incident {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ToString.Include
     private Long id;
 
+    @ToString.Include
     private String registeredUser;
+
+    @ToString.Include
     private String description;
+
     private String area;
     private LocalDateTime registeredDate;
     private LocalDate incidenDate;
     private String prioritylevel;
 
     @ManyToOne
+    @JoinColumn(name = "deparment_id")
+    @ToString.Exclude
     private Deparment deparment;
 
     @ManyToOne

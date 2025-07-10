@@ -1,7 +1,7 @@
 package com.ucv.Docs;
 
 import com.google.common.io.ByteStreams;
-import com.ucv.Entity.Category;
+import com.ucv.Entity.Report;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFDrawing;
@@ -10,13 +10,14 @@ import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import java.io.OutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class CategoryExcel {
+public class ReportExcel {
 
-    public static void writeCategoryToExcel(List<Category> categoryList, OutputStream out, InputStream logo) throws IOException {
+    public static void writeReportToExcel(List<Report> reportList, OutputStream out, InputStream logo) throws IOException {
         Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Categories");
+        Sheet sheet = workbook.createSheet("Reports");
 
         // Insertar logo en la parte superior izquierda (A2)
         if (logo != null) {
@@ -47,7 +48,9 @@ public class CategoryExcel {
 
         // Crear fila del encabezado
         Row headerRow = sheet.createRow(4);
-        String[] headers = {"ID", "Tipo", "Nivel Prioridad", "Categoría", "Descripción"};
+        String[] headers = {
+            "ID", "Usuario", "Acciones", "Estado", "Fecha Resolución", "Id de asignación", "Descripción"
+        };
         for (int i = 0; i < headers.length; i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(headers[i]);
@@ -62,14 +65,17 @@ public class CategoryExcel {
         rowStyle.setBorderRight(BorderStyle.THIN);
 
         // Llenar datos
-        int rowNum = 5;        
-        for (Category cat : categoryList) {
+        int rowNum = 5;
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        for (Report rep : reportList) {
             Row row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(cat.getId());
-            row.createCell(1).setCellValue(cat.getType());
-            row.createCell(2).setCellValue(cat.getPrioritylevel());
-            row.createCell(3).setCellValue(cat.getCategory());
-            row.createCell(4).setCellValue(cat.getDescription());            
+            row.createCell(0).setCellValue(rep.getId());
+            row.createCell(1).setCellValue(rep.getUser() != null ? rep.getUser().getUsername() : "");
+            row.createCell(2).setCellValue(rep.getActions());
+            row.createCell(3).setCellValue(rep.getStatus());
+            row.createCell(4).setCellValue(rep.getResolutionDate() != null ? rep.getResolutionDate().format(dateFormatter) : "");
+            row.createCell(5).setCellValue(rep.getAssignStaff() != null ? rep.getAssignStaff().getId().toString() : "");
+            row.createCell(6).setCellValue(rep.getDescripcion());
 
             for (int i = 0; i < headers.length; i++) {
                 row.getCell(i).setCellStyle(rowStyle);

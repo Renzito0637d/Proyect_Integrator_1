@@ -61,7 +61,7 @@ function DeparmentFrom({ onDeparmentChanged }) {
   // Validar formulario
   const validateForm = () => {
     if (!name.trim() || !tower.trim() || !floor.toString().trim() || !classroom.trim()) {
-      toast.warning("Todos los campos son obligatorios.", { duration: 3000 });      
+      toast.warning("Todos los campos son obligatorios.", { duration: 3000 });
       return false;
     }
     return true;
@@ -108,10 +108,10 @@ function DeparmentFrom({ onDeparmentChanged }) {
         { headers: getAuthHeader() }
       );
       const dep = res.data.find(d => String(d.id) === String(consultId));
-      if (dep) {        
+      if (dep) {
         toast.success("Departamento encontrado.", { duration: 3000 });
       }
-      else {        
+      else {
         toast.error("Departamento no encontrado.", { duration: 3000 });
       }
     } catch {
@@ -183,7 +183,7 @@ function DeparmentFrom({ onDeparmentChanged }) {
 
   // Consultar para eliminar
   const handleDeleteConsult = async () => {
-    setDeleteResult(null);    
+    setDeleteResult(null);
     if (!deleteId) {
       toast.error("Debe ingresar un ID.", { duration: 3000 });
       return;
@@ -198,10 +198,10 @@ function DeparmentFrom({ onDeparmentChanged }) {
         setDeleteResult(dep);
         toast.success("Departamento encontrado.", { duration: 3000 });
       }
-      else {        
+      else {
         toast.error("Departamento no encontrado.", { duration: 3000 });
       }
-    } catch {      
+    } catch {
       toast.error("Error al consultar el departamento.", { duration: 3000 });
     }
   };
@@ -269,6 +269,35 @@ function DeparmentFrom({ onDeparmentChanged }) {
       toast.error('Error al descargar el archivo.', { duration: 3000 });
     }
   }
+
+  const handlePdfExport = async () => {
+    try {
+      axios.post(
+        'http://localhost:8080/api/ucv/deparmentPDF',
+        {},
+        {
+          responseType: 'blob',
+          headers: getAuthHeader(),
+        }
+      )
+        .then(response => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'deparment.pdf');
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          window.URL.revokeObjectURL(url);
+          toast.success("Archivo PDF descargado correctamente.", { duration: 3000 });
+        })
+        .catch(() => {
+          toast.error("Error al descargar el archivo.", { duration: 3000 });
+        })
+    } catch (error) {
+      toast.error('Error al descargar el archivo.', { duration: 3000 });
+    }
+  };
 
   return (
     <>
@@ -390,7 +419,7 @@ function DeparmentFrom({ onDeparmentChanged }) {
             </div>
             <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
               <button className="btn btn-success" type='button' onClick={handleExcelExport} disabled={isUpdating}>Excel</button>
-              <button className="btn btn-warning" disabled={isUpdating}>Pdf</button>
+              <button className="btn btn-warning" type='button'onClick={handlePdfExport} disabled={isUpdating}>Pdf</button>
             </div>
 
           </div>

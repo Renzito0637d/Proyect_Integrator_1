@@ -66,3 +66,27 @@ export const deleteIncident = async (id) => {
     headers: getAuthHeader(),
   });
 };
+
+export const excelDownload = async () => {
+  try {
+    const response = await axios.post("http://localhost:8080/api/ucv/incidentExcel", {},{
+      headers: getAuthHeader(),
+      responseType: 'blob',
+    });
+    return response;
+  } catch (error) {
+    console.error("Error al descargar el archivo Excel:", error);
+  }
+}
+
+export const pdfDownload = async () => {
+  try {
+    const response = await axios.post("http://localhost:8080/api/ucv/incidentPDF", {},{
+      headers: getAuthHeader(),
+      responseType: 'blob',
+    });
+    return response;
+  } catch (error) {
+    console.error("Error al descargar el archivo PDF:", error);
+  }
+}

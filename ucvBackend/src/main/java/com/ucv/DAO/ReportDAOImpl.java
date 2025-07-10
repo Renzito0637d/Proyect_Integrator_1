@@ -35,8 +35,20 @@ public class ReportDAOImpl implements ReportDAO{
 
     @Override
     public void delete(Long id) {
-        Report reportObj = reportRepository.findById(id).get();
-        reportRepository.delete(reportObj);
+        Report reportObj = reportRepository.findById(id).orElse(null);
+        if (reportObj == null) {
+            throw new IllegalArgumentException("Report not found with id: " + id);
+        }
+        // Rompe la relación con AssignStaff si existe
+        if (reportObj.getAssignStaff() != null) {
+            reportObj.getAssignStaff().setReport(null);
+            reportObj.setAssignStaff(null);
+        }
+        try {
+            reportRepository.delete(reportObj);
+        } catch (Exception e) {
+            throw new RuntimeException("No se pudo eliminar el reporte. Puede estar relacionado con otras entidades.", e);
+        }
     }
 
     @Override

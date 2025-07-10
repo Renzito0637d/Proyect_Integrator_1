@@ -1,7 +1,7 @@
 package com.ucv.Docs;
 
 import com.google.common.io.ByteStreams;
-import com.ucv.Entity.Category;
+import com.ucv.Entity.Incident;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFDrawing;
@@ -10,13 +10,14 @@ import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import java.io.OutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class CategoryExcel {
+public class IncidentExcel {
 
-    public static void writeCategoryToExcel(List<Category> categoryList, OutputStream out, InputStream logo) throws IOException {
+    public static void writeIncidentToExcel(List<Incident> incidentList, OutputStream out, InputStream logo) throws IOException {
         Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Categories");
+        Sheet sheet = workbook.createSheet("Incidents");
 
         // Insertar logo en la parte superior izquierda (A2)
         if (logo != null) {
@@ -47,7 +48,10 @@ public class CategoryExcel {
 
         // Crear fila del encabezado
         Row headerRow = sheet.createRow(4);
-        String[] headers = {"ID", "Tipo", "Nivel Prioridad", "Categoría", "Descripción"};
+        String[] headers = {
+            "ID", "Usuario Registrado", "Descripción", "Área", "Fecha Registro", "Fecha Incidente",
+            "Nivel Prioridad", "Departamento", "Categoría", "Usuario"
+        };
         for (int i = 0; i < headers.length; i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(headers[i]);
@@ -62,14 +66,21 @@ public class CategoryExcel {
         rowStyle.setBorderRight(BorderStyle.THIN);
 
         // Llenar datos
-        int rowNum = 5;        
-        for (Category cat : categoryList) {
+        int rowNum = 5;
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        for (Incident inc : incidentList) {
             Row row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(cat.getId());
-            row.createCell(1).setCellValue(cat.getType());
-            row.createCell(2).setCellValue(cat.getPrioritylevel());
-            row.createCell(3).setCellValue(cat.getCategory());
-            row.createCell(4).setCellValue(cat.getDescription());            
+            row.createCell(0).setCellValue(inc.getId());
+            row.createCell(1).setCellValue(inc.getRegisteredUser());
+            row.createCell(2).setCellValue(inc.getDescription());
+            row.createCell(3).setCellValue(inc.getArea());
+            row.createCell(4).setCellValue(inc.getRegisteredDate() != null ? inc.getRegisteredDate().format(dateTimeFormatter) : "");
+            row.createCell(5).setCellValue(inc.getIncidenDate() != null ? inc.getIncidenDate().format(dateFormatter) : "");
+            row.createCell(6).setCellValue(inc.getPrioritylevel());
+            row.createCell(7).setCellValue(inc.getDeparment() != null ? inc.getDeparment().getName() : "");
+            row.createCell(8).setCellValue(inc.getCategory() != null ? inc.getCategory().getCategory() : "");
+            row.createCell(9).setCellValue(inc.getUser() != null ? inc.getUser().getUsername() : "");
 
             for (int i = 0; i < headers.length; i++) {
                 row.getCell(i).setCellStyle(rowStyle);

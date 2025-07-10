@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ucv.Entity.Category;
 import com.ucv.Services.CategoryService;
 import com.ucv.Docs.CategoryExcel;
+import com.ucv.Docs.CategoryPDF;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import java.io.ByteArrayOutputStream;
@@ -79,6 +80,21 @@ public class CategoryController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=categories.xlsx")
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(excelBytes);
+    }
+
+    @PostMapping("/categoryPDF")
+    public ResponseEntity<byte[]> downloadCategoryPDF() throws Exception {
+        List<Category> categoryList = categoryService.getAll();
+        byte[] pdfBytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+             InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+            CategoryPDF.writeCategoryToPDF(categoryList, out, logo);
+            pdfBytes = out.toByteArray();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=categories.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfBytes);
     }
 }
 

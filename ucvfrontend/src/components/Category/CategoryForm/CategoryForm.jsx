@@ -177,11 +177,9 @@ function CategoryForm({ onCategoryChanged }) {
 
     const handleExcelExport = async () => {
         try {
-            axios.post('http://localhost:8080/api/ucv/categoryExcel', {
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...getAuthHeader()
-                }
+            axios.post('http://localhost:8080/api/ucv/categoryExcel', {}, {
+                headers: getAuthHeader(),
+                responseType: 'blob',
             }, {
                 responseType: 'blob'
             })
@@ -203,6 +201,27 @@ function CategoryForm({ onCategoryChanged }) {
             toast.error('Error al descargar el archivo.', { duration: 3000 });
         }
     }
+
+    const handlePdfExport = async () => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/ucv/categoryPDF', {}, {
+                headers: getAuthHeader(),
+                responseType: 'blob',
+            });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'category.pdf');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+            toast.success("Archivo PDF descargado correctamente.", { duration: 3000 });
+        } catch (error) {
+            toast.error('Error al descargar el archivo PDF.', { duration: 3000 });
+        }
+    }
+
     return (
         <>
             <form onSubmit={isUpdating ? handleUpdate : handleSave}>
@@ -256,65 +275,78 @@ function CategoryForm({ onCategoryChanged }) {
                             ></textarea>
                         </div>
                     </div>
-                    <div>
-                        <div className='col-md-12 d-flex justify-content-between align-items-center mt-3'>
-                            <div className='col-md-10 d-flex justify-content-start gap-4 flex-wrap'>
-                                <button type="submit" className="btn btn-danger" disabled={isUpdating}>Registrar</button>
-                                <button
-                                    className="btn btn-primary"
-                                    type="button"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalConsultCategory"
-                                    onClick={() => {
-                                        setConsultId("");
-                                        setConsultResult(null);
-                                    }}
-                                    disabled={isUpdating}
-                                >
-                                    Consultar
-                                </button>
-                                <button
-                                    className="btn btn-secondary"
-                                    type="button"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalUpdateCategory"
-                                    disabled={isUpdating}
-                                >
-                                    Actualizar
-                                </button>
-                                <button
-                                    className="btn btn-warning"
-                                    type="button"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalDeleteCategory"
-                                    disabled={isUpdating}
-                                >
-                                    Eliminar
-                                </button>
-                                {isUpdating && (
-                                    <>
-                                        <button className="btn btn-success ml-2" type="submit">
-                                            Guardar actualización
-                                        </button>
-                                        <button
-                                            className="btn btn-secondary"
-                                            type="button"
-                                            onClick={() => {
-                                                setIsUpdating(false);
-                                                clearFormFields();
-                                            }}
-                                        >
-                                            Cancelar
-                                        </button>
-                                    </>
-                                )}
-                            </div>
-                            <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
-                                <button className="btn btn-success" type='button' onClick={handleExcelExport} disabled={isUpdating}>Excel</button>
-                                <button className="btn btn-warning" disabled={isUpdating}>Pdf</button>
-                            </div>
 
+                    <div className='col-md-12 d-flex justify-content-between align-items-center mt-3'>
+                        <div className='col-md-10 d-flex justify-content-start gap-4 flex-wrap'>
+                            <button type="submit" className="btn btn-danger" disabled={isUpdating}>Registrar</button>
+                            <button
+                                className="btn btn-primary"
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalConsultCategory"
+                                onClick={() => {
+                                    setConsultId("");
+                                    setConsultResult(null);
+                                }}
+                                disabled={isUpdating}
+                            >
+                                Consultar
+                            </button>
+                            <button
+                                className="btn btn-secondary"
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalUpdateCategory"
+                                disabled={isUpdating}
+                            >
+                                Actualizar
+                            </button>
+                            <button
+                                className="btn btn-warning"
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalDeleteCategory"
+                                disabled={isUpdating}
+                            >
+                                Eliminar
+                            </button>
+                            {isUpdating && (
+                                <>
+                                    <button className="btn btn-success ml-2" type="submit">
+                                        Guardar actualización
+                                    </button>
+                                    <button
+                                        className="btn btn-secondary"
+                                        type="button"
+                                        onClick={() => {
+                                            setIsUpdating(false);
+                                            clearFormFields();
+                                        }}
+                                    >
+                                        Cancelar
+                                    </button>
+                                </>
+                            )}
                         </div>
+                        <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
+                            <button
+                                className="btn btn-success"
+                                type="button"
+                                onClick={handleExcelExport}
+                                disabled={isUpdating}
+                            >
+                                Excel
+                            </button>
+                            <button
+                                className="btn btn-warning"
+                                type="button"
+                                disabled={isUpdating}
+                                onClick={handlePdfExport}
+                            >
+                                Pdf
+                            </button>
+                        </div>
+
                     </div>
                 </fieldset>
             </form>

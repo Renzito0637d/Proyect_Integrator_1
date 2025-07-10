@@ -70,3 +70,28 @@ export const delateReport = async (id) => {
         console.log(error);
     }
 };
+
+export const excelDownload = async () => {
+  try {
+    console.log(getAuthHeader()); // Verifica el token aquí
+    const response = await axios.post("http://localhost:8080/api/ucv/reportExcel", {},{
+      headers: getAuthHeader(),
+      responseType: 'blob',
+    });
+    return response;
+  } catch (error) {
+    console.error("Error al descargar el archivo Excel:", error);
+  }
+}
+
+export const pdfDownload = async () => {
+  try {
+    const response = await axios.post("http://localhost:8080/api/ucv/reportPDF", {},{
+      headers: getAuthHeader(),
+      responseType: 'blob',
+    });
+    return response;
+  } catch (error) {
+    console.error("Error al descargar el archivo PDF:", error);
+  }
+}

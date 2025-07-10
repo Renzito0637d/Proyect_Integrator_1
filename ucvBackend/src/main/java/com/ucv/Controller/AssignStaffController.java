@@ -18,6 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import com.ucv.Docs.AssignStaffExcel;
+import com.ucv.Docs.AssignStaffPDF;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 @RestController
 @RequestMapping("api/ucv")
@@ -31,7 +38,7 @@ public class AssignStaffController {
 
     @GetMapping("assignStaffList")
     public ResponseEntity<List<AssignStaff>> assignStaffList() {
-        List<AssignStaff> as= assignStaffService.getAll();
+        List<AssignStaff> as = assignStaffService.getAll();
         return ResponseEntity.ok(as);
     }
 
@@ -60,7 +67,7 @@ public class AssignStaffController {
         actual.setDescription(assignStaff.getDescription());
 
         assignStaffService.save(actual);
-        
+
         return ResponseEntity.ok(actual);
     }
 
@@ -68,5 +75,36 @@ public class AssignStaffController {
     public void assignStaddDelete(@PathVariable Long id) {
         assignStaffService.delete(id);
 
+    }
+
+    @PostMapping("/assignStaffExcel")
+    public ResponseEntity<byte[]> downloadAssignStaffExcel() throws Exception {
+        List<AssignStaff> assignStaffList = assignStaffService.getAll();
+        byte[] excelBytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+                InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+            AssignStaffExcel.writeAssignStaffToExcel(assignStaffList, out, logo);
+            excelBytes = out.toByteArray();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=assignStaff.xlsx")
+                .contentType(
+                        MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(excelBytes);
+    }
+
+    @PostMapping("/assignStaffPDF")
+    public ResponseEntity<byte[]> downloadAssignStaffPDF() throws Exception {
+        List<AssignStaff> assignStaffList = assignStaffService.getAll();
+        byte[] pdfBytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+             InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+            AssignStaffPDF.writeAssignStaffToPDF(assignStaffList, out, logo);
+            pdfBytes = out.toByteArray();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=assignStaff.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfBytes);
     }
 }
