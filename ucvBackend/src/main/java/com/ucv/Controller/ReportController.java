@@ -1,14 +1,20 @@
 package com.ucv.Controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 
 import com.ucv.Entity.User;
 import com.ucv.Services.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.net.HttpHeaders;
+import com.ucv.Docs.ReportExcel;
 import com.ucv.Entity.Report;
 import com.ucv.Services.ReportService;
 
@@ -38,9 +44,6 @@ public class ReportController {
     @PostMapping("/saveReport")
     public ResponseEntity<Report> saveReport(@RequestBody Report report) {
         reportService.save(report);
-        System.out.println("Usuario recibido: " + report.getUser());
-System.out.println("ID del usuario recibido: " + report.getUser().getId());
-
         return ResponseEntity.ok(report);
     }
 
@@ -71,4 +74,20 @@ System.out.println("ID del usuario recibido: " + report.getUser().getId());
     public void delete(@PathVariable Long id) {
         reportService.delete(id);
     }
+    
+    @PostMapping("/reportExcel")
+    public ResponseEntity<byte[]> downloadReportExcel() throws Exception {
+        List<Report> reportList = reportService.getAll();
+        byte[] excelBytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+             InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+            ReportExcel.writeReportToExcel(reportList, out, logo);
+            excelBytes = out.toByteArray();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=reports.xlsx")
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(excelBytes);
+    }
+
 }
