@@ -14,7 +14,6 @@ import com.itextpdf.layout.borders.SolidBorder;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class CategoryPDF {
@@ -58,8 +57,7 @@ public class CategoryPDF {
             table.addHeaderCell(cell);
         }
 
-        // Filas de datos
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        // Filas de datos        
         for (Category cat : categoryList) {
             table.addCell(new Cell().add(new Paragraph(String.valueOf(cat.getId()))));
             table.addCell(new Cell().add(new Paragraph(cat.getType() != null ? cat.getType() : "")));
