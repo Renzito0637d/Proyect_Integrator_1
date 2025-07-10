@@ -37,9 +37,9 @@ export const registerAssign = async (AssignData) => {
     }
 };
 
-export const getAssignId = async (id)=>{
+export const getAssignId = async (id) => {
     try {
-        const response = await axios.get("http://localhost:8080/api/ucv/assignStaffList",{
+        const response = await axios.get("http://localhost:8080/api/ucv/assignStaffList", {
             headers: {
                 'Content-Type': 'application/json',
                 ...getAuthHeader()
@@ -47,13 +47,13 @@ export const getAssignId = async (id)=>{
         });
         return response.data.find(assignStaff => String(assignStaff.id) === String(id));
     } catch (error) {
-        
+
     }
 };
 
-export const updateAssign=async(id,data)=>{
+export const updateAssign = async (id, data) => {
     try {
-        const response= await axios.put(`http://localhost:8080/api/ucv/assignStaffUpdate/${id}`,data,{
+        const response = await axios.put(`http://localhost:8080/api/ucv/assignStaffUpdate/${id}`, data, {
             headers: {
                 'Content-Type': 'application/json',
                 ...getAuthHeader()
@@ -65,9 +65,9 @@ export const updateAssign=async(id,data)=>{
     }
 };
 
-export const deleteAssign =async(id)=>{
+export const deleteAssign = async (id) => {
     try {
-        const response=await axios.delete(`http://localhost:8080/api/ucv/assignStaddDelete/${id}`,{
+        const response = await axios.delete(`http://localhost:8080/api/ucv/assignStaddDelete/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 ...getAuthHeader()
@@ -76,5 +76,17 @@ export const deleteAssign =async(id)=>{
         return response.data;
     } catch (error) {
         console.log(error);
+    }
+}
+
+export const excelDownload = async () => {
+    try {
+        const response = await axios.post("http://localhost:8080/api/ucv/assignStaffExcel", {}, {
+            headers: getAuthHeader(),
+            responseType: 'blob',
+        });
+        return response;
+    } catch (error) {
+        console.error("Error al descargar el archivo Excel:", error);
     }
 }

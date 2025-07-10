@@ -18,6 +18,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import org.springframework.http.MediaType;
+import com.google.common.net.HttpHeaders;
+import com.ucv.Docs.AssignStaffExcel;
 
 @RestController
 @RequestMapping("api/ucv")
@@ -31,7 +37,7 @@ public class AssignStaffController {
 
     @GetMapping("assignStaffList")
     public ResponseEntity<List<AssignStaff>> assignStaffList() {
-        List<AssignStaff> as= assignStaffService.getAll();
+        List<AssignStaff> as = assignStaffService.getAll();
         return ResponseEntity.ok(as);
     }
 
@@ -60,7 +66,7 @@ public class AssignStaffController {
         actual.setDescription(assignStaff.getDescription());
 
         assignStaffService.save(actual);
-        
+
         return ResponseEntity.ok(actual);
     }
 
@@ -68,5 +74,21 @@ public class AssignStaffController {
     public void assignStaddDelete(@PathVariable Long id) {
         assignStaffService.delete(id);
 
+    }
+
+    @PostMapping("/assignStaffExcel")
+    public ResponseEntity<byte[]> downloadAssignStaffExcel() throws Exception {
+        List<AssignStaff> assignStaffList = assignStaffService.getAll();
+        byte[] excelBytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+                InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+            AssignStaffExcel.writeAssignStaffToExcel(assignStaffList, out, logo);
+            excelBytes = out.toByteArray();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=assignStaff.xlsx")
+                .contentType(
+                        MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(excelBytes);
     }
 }
