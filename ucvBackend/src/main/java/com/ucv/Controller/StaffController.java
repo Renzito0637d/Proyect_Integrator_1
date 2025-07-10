@@ -43,17 +43,26 @@ public class StaffController {
     @GetMapping("/staffList")
     public List<User> getStaffList() {
         // Solo usuarios activos
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         return staffService.getAll();
     }
-    
+
     @GetMapping("/staffRole")
     public ResponseEntity<List<User>> getStaffListAdmin() {
-        List<User> admins= staffService.findByRole();
+        List<User> admins = staffService.findByRole();
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         return ResponseEntity.ok(admins);
-    }    
+    }
 
     @GetMapping("/staffUpdate")
     public String getMethodName(@RequestParam String param) {
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         return new String();
     }
 
@@ -117,13 +126,13 @@ public class StaffController {
         logger.info("**************************");
         return ResponseEntity.noContent().build();
     }
-    
+
     @PostMapping("/staffPDF")
     public ResponseEntity<byte[]> downloadStaffPDF() throws Exception {
         List<User> staffList = staffService.getAll();
         byte[] pdfBytes;
         try (ByteArrayOutputStream out = new ByteArrayOutputStream();
-             InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+                InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
             StaffPDF.writeStaffToPDF(staffList, out, logo);
             pdfBytes = out.toByteArray();
         }

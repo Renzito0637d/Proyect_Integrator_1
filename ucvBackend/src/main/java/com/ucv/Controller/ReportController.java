@@ -7,6 +7,9 @@ import java.util.List;
 
 import com.ucv.Entity.User;
 import com.ucv.Services.StaffService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +33,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("api/ucv")
 public class ReportController {
 
+    private static final Logger logger = LoggerFactory.getLogger(StaffController.class);
+
     @Autowired
     private ReportService reportService;
 
@@ -39,12 +44,18 @@ public class ReportController {
     @GetMapping("/getAllReport")
     public ResponseEntity<List<Report>> getAllReport() {
         List<Report> re = reportService.getAll();
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         return ResponseEntity.ok(re);
     }
 
     @PostMapping("/saveReport")
     public ResponseEntity<Report> saveReport(@RequestBody Report report) {
         reportService.save(report);
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         return ResponseEntity.ok(report);
     }
 
@@ -68,11 +79,17 @@ public class ReportController {
         actu.setDescripcion(report.getDescripcion());
 
         reportService.save(actu);
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         return ResponseEntity.ok(actu);
     }
 
     @DeleteMapping("/deleteReport/{id}")
     public void delete(@PathVariable Long id) {
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         reportService.delete(id);
     }
 
@@ -84,6 +101,9 @@ public class ReportController {
                 InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
             ReportExcel.writeReportToExcel(reportList, out, logo);
             excelBytes = out.toByteArray();
+            logger.info("******************************************");
+            logger.info("Request accepted successfully.");
+            logger.info("******************************************");
         }
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=reports.xlsx")
@@ -100,6 +120,9 @@ public class ReportController {
                 InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
             ReportPDF.writeReportToPDF(reportList, out, logo);
             pdfBytes = out.toByteArray();
+            logger.info("******************************************");
+            logger.info("Request accepted successfully.");
+            logger.info("******************************************");
         }
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=reports.pdf")
