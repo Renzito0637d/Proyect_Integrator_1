@@ -177,11 +177,9 @@ function CategoryForm({ onCategoryChanged }) {
 
     const handleExcelExport = async () => {
         try {
-            axios.post('http://localhost:8080/api/ucv/categoryExcel', {
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...getAuthHeader()
-                }
+            axios.post('http://localhost:8080/api/ucv/categoryExcel', {},{
+                headers: getAuthHeader(),
+                responseType: 'blob',
             }, {
                 responseType: 'blob'
             })
