@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.net.HttpHeaders;
 import com.ucv.Docs.ReportExcel;
+import com.ucv.Docs.ReportPDF;
 import com.ucv.Entity.Report;
 import com.ucv.Services.ReportService;
 
@@ -37,7 +38,7 @@ public class ReportController {
 
     @GetMapping("/getAllReport")
     public ResponseEntity<List<Report>> getAllReport() {
-        List<Report> re= reportService.getAll();
+        List<Report> re = reportService.getAll();
         return ResponseEntity.ok(re);
     }
 
@@ -74,20 +75,36 @@ public class ReportController {
     public void delete(@PathVariable Long id) {
         reportService.delete(id);
     }
-    
+
     @PostMapping("/reportExcel")
     public ResponseEntity<byte[]> downloadReportExcel() throws Exception {
         List<Report> reportList = reportService.getAll();
         byte[] excelBytes;
         try (ByteArrayOutputStream out = new ByteArrayOutputStream();
-             InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+                InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
             ReportExcel.writeReportToExcel(reportList, out, logo);
             excelBytes = out.toByteArray();
         }
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=reports.xlsx")
-                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .contentType(
+                        MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(excelBytes);
+    }
+
+    @PostMapping("/reportPDF")
+    public ResponseEntity<byte[]> downloadReportPDF() throws Exception {
+        List<Report> reportList = reportService.getAll(); // Asegúrate que este método exista
+        byte[] pdfBytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+                InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+            ReportPDF.writeReportToPDF(reportList, out, logo);
+            pdfBytes = out.toByteArray();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=reports.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfBytes);
     }
 
 }

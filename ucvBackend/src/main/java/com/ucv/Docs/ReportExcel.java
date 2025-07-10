@@ -49,7 +49,7 @@ public class ReportExcel {
         // Crear fila del encabezado
         Row headerRow = sheet.createRow(4);
         String[] headers = {
-            "ID", "Usuario", "Acciones", "Estado", "Fecha Resolución", "Staff Asignado", "Descripción"
+            "ID", "Usuario", "Acciones", "Estado", "Fecha Resolución", "Id de asignación", "Descripción"
         };
         for (int i = 0; i < headers.length; i++) {
             Cell cell = headerRow.createCell(i);
@@ -74,7 +74,7 @@ public class ReportExcel {
             row.createCell(2).setCellValue(rep.getActions());
             row.createCell(3).setCellValue(rep.getStatus());
             row.createCell(4).setCellValue(rep.getResolutionDate() != null ? rep.getResolutionDate().format(dateFormatter) : "");
-            row.createCell(5).setCellValue(rep.getAssignStaff() != null ? rep.getAssignStaff().getUser().getNickname(): "");
+            row.createCell(5).setCellValue(rep.getAssignStaff() != null ? rep.getAssignStaff().getId().toString() : "");
             row.createCell(6).setCellValue(rep.getDescripcion());
 
             for (int i = 0; i < headers.length; i++) {
