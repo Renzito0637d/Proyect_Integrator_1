@@ -2,6 +2,8 @@ package com.ucv.Controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,17 +29,24 @@ import java.io.InputStream;
 @RestController
 @RequestMapping("api/ucv")
 public class DeparmentController {
+    private static final Logger logger = LoggerFactory.getLogger(StaffController.class);
     @Autowired
     private DeparmentService deparmentService;
 
     @GetMapping("deparmentList")
     public List<Deparment> getStaffList() {
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         return deparmentService.getAll();
     }
 
     @PostMapping("deparmentSave")
     public ResponseEntity<Deparment> deparmentSave(@RequestBody Deparment deparment) {
         deparmentService.save(deparment);
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         return ResponseEntity.ok(deparment);
     }
 
@@ -57,6 +66,9 @@ public class DeparmentController {
         actual.setCode(deparment.getCode());
 
         deparmentService.update(actual);
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         return ResponseEntity.ok(actual);
     }
 
@@ -67,6 +79,9 @@ public class DeparmentController {
             return ResponseEntity.notFound().build();
         }
         deparmentService.delete(id);
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         return ResponseEntity.noContent().build();
     }
 
@@ -78,6 +93,9 @@ public class DeparmentController {
                 InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
             DeparmentExcel.writeDeparmentToExcel(deparmentList, out, logo);
             excelBytes = out.toByteArray();
+            logger.info("******************************************");
+            logger.info("Request accepted successfully.");
+            logger.info("******************************************");
         }
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=deparments.xlsx")
@@ -94,6 +112,9 @@ public class DeparmentController {
                 InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
             DeparmentPDF.writeDeparmentToPDF(deparmentList, out, logo);
             pdfBytes = out.toByteArray();
+            logger.info("******************************************");
+            logger.info("Request accepted successfully.");
+            logger.info("******************************************");
         }
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=deparments.pdf")

@@ -1,5 +1,7 @@
 package com.ucv.Controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/ucv")
 @RequiredArgsConstructor
 public class AuthController {
-
+    private static final Logger logger = LoggerFactory.getLogger(StaffController.class);
     // Inyeccion de la clase AuthService
     @Autowired
     private AuthService authService;
@@ -29,6 +31,9 @@ public class AuthController {
     // y devuelve una respuesta con un objeto AuthResponse que contiene la información de autenticación.
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         return ResponseEntity.ok(authService.register(request));
     }
 
@@ -37,6 +42,9 @@ public class AuthController {
     // y devuelve una respuesta con un objeto AuthResponse que contiene el token o la información de la sesión.
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse>  authenticate(@RequestBody AuthenticationRequest request) {
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         return ResponseEntity.ok(authService.authenticate(request));
     }
 

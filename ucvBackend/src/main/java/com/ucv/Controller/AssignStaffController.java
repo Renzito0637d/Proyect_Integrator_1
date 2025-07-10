@@ -2,6 +2,8 @@ package com.ucv.Controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +31,7 @@ import java.io.InputStream;
 @RestController
 @RequestMapping("api/ucv")
 public class AssignStaffController {
-
+    private static final Logger logger = LoggerFactory.getLogger(StaffController.class);
     @Autowired
     private AssignStaffService assignStaffService;
 
@@ -39,11 +41,17 @@ public class AssignStaffController {
     @GetMapping("assignStaffList")
     public ResponseEntity<List<AssignStaff>> assignStaffList() {
         List<AssignStaff> as = assignStaffService.getAll();
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         return ResponseEntity.ok(as);
     }
 
     @PostMapping("assignStaffSave")
     public void assignStaffSave(@RequestBody AssignStaff assignStaff) {
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         assignStaffService.save(assignStaff);
     }
 
@@ -67,14 +75,18 @@ public class AssignStaffController {
         actual.setDescription(assignStaff.getDescription());
 
         assignStaffService.save(actual);
-
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
         return ResponseEntity.ok(actual);
     }
 
     @DeleteMapping("assignStaddDelete/{id}")
     public void assignStaddDelete(@PathVariable Long id) {
         assignStaffService.delete(id);
-
+        logger.info("******************************************");
+        logger.info("Request accepted successfully.");
+        logger.info("******************************************");
     }
 
     @PostMapping("/assignStaffExcel")
@@ -85,6 +97,9 @@ public class AssignStaffController {
                 InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
             AssignStaffExcel.writeAssignStaffToExcel(assignStaffList, out, logo);
             excelBytes = out.toByteArray();
+            logger.info("******************************************");
+            logger.info("Request accepted successfully.");
+            logger.info("******************************************");
         }
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=assignStaff.xlsx")
@@ -98,9 +113,12 @@ public class AssignStaffController {
         List<AssignStaff> assignStaffList = assignStaffService.getAll();
         byte[] pdfBytes;
         try (ByteArrayOutputStream out = new ByteArrayOutputStream();
-             InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+                InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
             AssignStaffPDF.writeAssignStaffToPDF(assignStaffList, out, logo);
             pdfBytes = out.toByteArray();
+            logger.info("******************************************");
+            logger.info("Request accepted successfully.");
+            logger.info("******************************************");
         }
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=assignStaff.pdf")
