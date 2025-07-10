@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.ucv.Docs.StaffExcel;
+import com.ucv.Docs.StaffPDF;
 import com.ucv.Entity.User;
 import com.ucv.Services.StaffService;
 
@@ -115,6 +116,21 @@ public class StaffController {
         logger.info("Staff deactivated: " + staff);
         logger.info("**************************");
         return ResponseEntity.noContent().build();
+    }
+    
+    @PostMapping("/staffPDF")
+    public ResponseEntity<byte[]> downloadStaffPDF() throws Exception {
+        List<User> staffList = staffService.getAll();
+        byte[] pdfBytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+             InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+            StaffPDF.writeStaffToPDF(staffList, out, logo);
+            pdfBytes = out.toByteArray();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=staff.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfBytes);
     }
 
 }

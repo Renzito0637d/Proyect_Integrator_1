@@ -8,8 +8,8 @@ import { toast } from 'sonner'
 import { getAuthHeader } from '../../../Utils/Auth';
 import IconButton from '../../IconButton';
 import { MdAddCircle } from 'react-icons/md';
-import {FaSearch, FaRegEdit, FaTrash,FaSave} from 'react-icons/fa';
-import {FaFileExcel, FaFilePdf} from 'react-icons/fa6';
+import { FaSearch, FaRegEdit, FaTrash, FaSave } from 'react-icons/fa';
+import { FaFileExcel, FaFilePdf } from 'react-icons/fa6';
 
 const StaffForm = ({ onStaffAdded }) => {
 
@@ -303,6 +303,30 @@ const StaffForm = ({ onStaffAdded }) => {
         }
     }
 
+    const handlePdfExport = async () => {
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/ucv/staffPDF',
+                {}, // cuerpo vacío
+                {
+                    responseType: 'blob',
+                    headers: getAuthHeader(),
+                }
+            );
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'staff.pdf');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            toast.error("Error al descargar el archivo.", {
+                duration: 3000,
+            });
+        }
+    };
     return (
         <>
             <form onSubmit={isUpdating ? handleUpdate : handleSave}>
@@ -403,7 +427,7 @@ const StaffForm = ({ onStaffAdded }) => {
                         </div>
                     </div>
                     <div className='col-md-12 d-flex justify-content-between align-items-center mt-3'>
-                        <div className='col-md-10 d-flex justify-content-start gap-4 flex-wrap'>                            
+                        <div className='col-md-10 d-flex justify-content-start gap-4 flex-wrap'>
                             <IconButton
                                 type="submit"
                                 className="btn btn-danger"
@@ -411,7 +435,7 @@ const StaffForm = ({ onStaffAdded }) => {
                                 icon={MdAddCircle}
                             >
                                 Registrar
-                            </IconButton>                                                        
+                            </IconButton>
                             <IconButton
                                 className="btn btn-primary"
                                 type="button"
@@ -445,7 +469,7 @@ const StaffForm = ({ onStaffAdded }) => {
                                 icon={FaTrash}
                             >
                                 Eliminar
-                            </IconButton>                            
+                            </IconButton>
                             {isUpdating && (
                                 <>
                                     <IconButton
@@ -454,7 +478,7 @@ const StaffForm = ({ onStaffAdded }) => {
                                         icon={FaSave}
                                     >
                                         Guardar actualización
-                                    </IconButton>                                    
+                                    </IconButton>
                                     <button
                                         className="btn btn-secondary"
                                         type="button"
@@ -476,6 +500,7 @@ const StaffForm = ({ onStaffAdded }) => {
                             </IconButton>
                             <IconButton
                                 className="btn btn-warning" disabled={isUpdating} icon={FaFilePdf} title="Exportar a PDF" aria-label="Exportar a PDF"
+                                type='button' onClick={handlePdfExport}
                             >
                                 PDF
                             </IconButton>
