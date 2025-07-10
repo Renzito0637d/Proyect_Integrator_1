@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.ucv.Docs.DeparmentExcel;
+import com.ucv.Docs.DeparmentPDF;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import java.io.ByteArrayOutputStream;
@@ -39,7 +40,7 @@ public class DeparmentController {
         deparmentService.save(deparment);
         return ResponseEntity.ok(deparment);
     }
-    
+
     @PutMapping("/deparmentUpdate/{id}")
     public ResponseEntity<Deparment> updateStaff(@PathVariable Long id, @RequestBody Deparment deparment) {
         Deparment actual = deparmentService.getById(id);
@@ -74,13 +75,29 @@ public class DeparmentController {
         List<Deparment> deparmentList = deparmentService.getAll();
         byte[] excelBytes;
         try (ByteArrayOutputStream out = new ByteArrayOutputStream();
-             InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+                InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
             DeparmentExcel.writeDeparmentToExcel(deparmentList, out, logo);
             excelBytes = out.toByteArray();
         }
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=deparments.xlsx")
-                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .contentType(
+                        MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(excelBytes);
+    }
+
+    @PostMapping("/deparmentPDF")
+    public ResponseEntity<byte[]> downloadDeparmentPDF() throws Exception {
+        List<Deparment> deparmentList = deparmentService.getAll();
+        byte[] pdfBytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+                InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+            DeparmentPDF.writeDeparmentToPDF(deparmentList, out, logo);
+            pdfBytes = out.toByteArray();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=deparments.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfBytes);
     }
 }
