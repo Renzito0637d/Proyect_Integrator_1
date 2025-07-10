@@ -48,7 +48,7 @@ public class CategoryExcel {
 
         // Crear fila del encabezado
         Row headerRow = sheet.createRow(4);
-        String[] headers = {"ID", "Tipo", "Nivel Prioridad", "Categoría", "Descripción", "Fecha Registro"};
+        String[] headers = {"ID", "Tipo", "Nivel Prioridad", "Categoría", "Descripción"};
         for (int i = 0; i < headers.length; i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(headers[i]);
@@ -63,16 +63,14 @@ public class CategoryExcel {
         rowStyle.setBorderRight(BorderStyle.THIN);
 
         // Llenar datos
-        int rowNum = 5;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        int rowNum = 5;        
         for (Category cat : categoryList) {
             Row row = sheet.createRow(rowNum++);
             row.createCell(0).setCellValue(cat.getId());
             row.createCell(1).setCellValue(cat.getType());
             row.createCell(2).setCellValue(cat.getPrioritylevel());
             row.createCell(3).setCellValue(cat.getCategory());
-            row.createCell(4).setCellValue(cat.getDescription());
-            row.createCell(5).setCellValue(cat.getRegisteredDate() != null ? cat.getRegisteredDate().format(formatter) : "");
+            row.createCell(4).setCellValue(cat.getDescription());            
 
             for (int i = 0; i < headers.length; i++) {
                 row.getCell(i).setCellStyle(rowStyle);
