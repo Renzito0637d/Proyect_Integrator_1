@@ -90,3 +90,15 @@ export const excelDownload = async () => {
         console.error("Error al descargar el archivo Excel:", error);
     }
 }
+
+export const pdfDownload = async () => {
+    try {
+        const response = await axios.post("http://localhost:8080/api/ucv/assignStaffPDF", {}, {
+            headers: getAuthHeader(),
+            responseType: 'blob',
+        });
+        return response;
+    } catch (error) {
+        console.error("Error al descargar el archivo PDF:", error);
+    }
+}

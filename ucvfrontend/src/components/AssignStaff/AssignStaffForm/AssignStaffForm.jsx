@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import IconButton from '../../IconButton'
-import { getAllIncidents, gettAllAdmins, registerAssign, getAssignId, updateAssign, deleteAssign, excelDownload } from '../ProcessAssignStaff';
+import { getAllIncidents, gettAllAdmins, registerAssign, getAssignId, updateAssign, deleteAssign, excelDownload, pdfDownload } from '../ProcessAssignStaff';
 import { MdAddCircle } from 'react-icons/md';
 import { FaSearch, FaRegEdit, FaTrash, FaSave } from 'react-icons/fa';
 import { FaFileExcel, FaFilePdf } from 'react-icons/fa6';
@@ -199,6 +199,23 @@ function AssignStaffForm({ des, setDes, onAssignChange }) {
       toast.error("Error al descargar el archivo Excel.");
     }
   };
+
+  const handlePdfDownload = async () => {
+    try {
+      const response = await pdfDownload();
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'assignStaff.pdf');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success("Archivo PDF descargado exitosamente.");
+    } catch (error) {
+      console.error("Error al descargar el archivo PDF:", error);
+      toast.error("Error al descargar el archivo PDF.");
+    }
+  }
   return (
     <>
       <div className="bg-light p-3 rounded border mb-3">
@@ -294,7 +311,7 @@ function AssignStaffForm({ des, setDes, onAssignChange }) {
             </div>
             <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
               <IconButton icon={FaFileExcel} className="btn btn-success" type='button' disabled={isUpdating} onClick={handleExcelDownload}>Excel</IconButton>
-              <IconButton icon={FaFilePdf} className="btn btn-warning" disabled={isUpdating}>PDF</IconButton>
+              <IconButton icon={FaFilePdf} className="btn btn-warning" type='button' onClick={handlePdfDownload} disabled={isUpdating}>PDF</IconButton>
             </div>
           </div>
         </form>

@@ -18,12 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import com.ucv.Docs.AssignStaffExcel;
+import com.ucv.Docs.AssignStaffPDF;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import org.springframework.http.MediaType;
-import com.google.common.net.HttpHeaders;
-import com.ucv.Docs.AssignStaffExcel;
 
 @RestController
 @RequestMapping("api/ucv")
@@ -90,5 +91,20 @@ public class AssignStaffController {
                 .contentType(
                         MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(excelBytes);
+    }
+
+    @PostMapping("/assignStaffPDF")
+    public ResponseEntity<byte[]> downloadAssignStaffPDF() throws Exception {
+        List<AssignStaff> assignStaffList = assignStaffService.getAll();
+        byte[] pdfBytes;
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+             InputStream logo = new FileInputStream("src/main/java/com/ucv/assets/logoCom.jpg")) {
+            AssignStaffPDF.writeAssignStaffToPDF(assignStaffList, out, logo);
+            pdfBytes = out.toByteArray();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=assignStaff.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfBytes);
     }
 }
