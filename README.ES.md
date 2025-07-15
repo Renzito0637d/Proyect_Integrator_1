@@ -112,11 +112,11 @@ Para poder ejecutar los proyectos, se necesitan los siguientes requisitos:
 | RF3 | El aplicativo permite el registro de tipos de incidencias informáticas y realizar el mantenimiento correspondiente | :heavy_check_mark: |
 | RF4 | El aplicativo permite el registro de los empleados de la empresa y realizar el mantenimiento correspondiente | :heavy_check_mark: |
 | RF5 | El aplicativo permite el registro de áreas y realizar el mantenimiento correspondiente                   | :heavy_check_mark:     |
-| RF6 | El aplicativo permite el registro de una incidencia informática y realizar el mantenimiento correspondiente | :hourglass_flowing_sand:     |
-| RF7 | El aplicativo permite asignar a un personal para la solución de la incidencia informática                 | :hourglass_flowing_sand:   |
-| RF8 | El aplicativo permite al empleado registrar los detalles de la solución y observaciones de la incidencia solucionada | :hourglass_flowing_sand:|
-| RF9 | El aplicativo permite realizar el seguimiento de la incidencia visualizando su estado: En proceso, Atendido, Derivado | :hourglass_flowing_sand:        |
-| RF10| El aplicativo permite visualizar la lista de incidencias por rango de fechas                             | :hourglass_flowing_sand:         |
+| RF6 | El aplicativo permite el registro de una incidencia informática y realizar el mantenimiento correspondiente | :heavy_check_mark:     |
+| RF7 | El aplicativo permite asignar a un personal para la solución de la incidencia informática                 | :heavy_check_mark:   |
+| RF8 | El aplicativo permite al empleado registrar los detalles de la solución y observaciones de la incidencia solucionada | :heavy_check_mark:|
+| RF9 | El aplicativo permite realizar el seguimiento de la incidencia visualizando su estado: En proceso, Atendido, Derivado | :heavy_check_mark:        |
+| RF10| El aplicativo permite visualizar la lista de incidencias por rango de fechas                             | :heavy_check_mark:         |
 
 *Leyenda:*
 - :heavy_check_mark: Completado
