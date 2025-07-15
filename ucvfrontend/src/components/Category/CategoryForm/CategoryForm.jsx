@@ -4,6 +4,10 @@ import { useState } from 'react';
 import axios from 'axios';
 import { getAuthHeader } from '../../../Utils/Auth';
 import { toast } from 'sonner';
+import { MdAddCircle } from 'react-icons/md';
+import { FaSearch, FaRegEdit, FaTrash, FaSave } from 'react-icons/fa';
+import { FaFileExcel, FaFilePdf } from 'react-icons/fa6';
+import IconButton from '../../IconButton';
 
 function CategoryForm({ onCategoryChanged }) {
     // Estados para el formulario principal
@@ -278,10 +282,16 @@ function CategoryForm({ onCategoryChanged }) {
 
                     <div className='col-md-12 d-flex justify-content-between align-items-center mt-3'>
                         <div className='col-md-10 d-flex justify-content-start gap-4 flex-wrap'>
-                            <button type="submit" className="btn btn-danger" disabled={isUpdating}>Registrar</button>
-                            <button
+                            <IconButton
+                                type="submit"
+                                className="btn btn-danger"
+                                icon={MdAddCircle}
+                                disabled={isUpdating}
+                            >Registrar</IconButton>
+                            <IconButton
                                 className="btn btn-primary"
                                 type="button"
+                                icon={FaSearch}
                                 data-bs-toggle="modal"
                                 data-bs-target="#modalConsultCategory"
                                 onClick={() => {
@@ -291,31 +301,33 @@ function CategoryForm({ onCategoryChanged }) {
                                 disabled={isUpdating}
                             >
                                 Consultar
-                            </button>
-                            <button
+                            </IconButton>
+                            <IconButton
                                 className="btn btn-secondary"
                                 type="button"
                                 data-bs-toggle="modal"
                                 data-bs-target="#modalUpdateCategory"
                                 disabled={isUpdating}
+                                icon={FaRegEdit}
                             >
                                 Actualizar
-                            </button>
-                            <button
+                            </IconButton>
+                            <IconButton
                                 className="btn btn-warning"
                                 type="button"
                                 data-bs-toggle="modal"
                                 data-bs-target="#modalDeleteCategory"
                                 disabled={isUpdating}
+                                icon={FaTrash}
                             >
                                 Eliminar
-                            </button>
+                            </IconButton>
                             {isUpdating && (
                                 <>
-                                    <button className="btn btn-success ml-2" type="submit">
+                                    <IconButton className="btn btn-success ml-2" type="submit" icon={FaSave}>
                                         Guardar actualización
-                                    </button>
-                                    <button
+                                    </IconButton>
+                                    <IconButton
                                         className="btn btn-secondary"
                                         type="button"
                                         onClick={() => {
@@ -324,27 +336,29 @@ function CategoryForm({ onCategoryChanged }) {
                                         }}
                                     >
                                         Cancelar
-                                    </button>
+                                    </IconButton>
                                 </>
                             )}
                         </div>
                         <div className='col-md-2 d-flex justify-content-end gap-4 flex-wrap'>
-                            <button
+                            <IconButton
                                 className="btn btn-success"
                                 type="button"
                                 onClick={handleExcelExport}
                                 disabled={isUpdating}
+                                icon={FaFileExcel}
                             >
                                 Excel
-                            </button>
-                            <button
+                            </IconButton>
+                            <IconButton
                                 className="btn btn-warning"
                                 type="button"
                                 disabled={isUpdating}
                                 onClick={handlePdfExport}
+                                icon={FaFilePdf}
                             >
                                 Pdf
-                            </button>
+                            </IconButton>
                         </div>
 
                     </div>
